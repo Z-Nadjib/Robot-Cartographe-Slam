@@ -1,0 +1,7 @@
+venv/
+__pycache__/
+*.pyc
+.DS_Store
+mesures/*.csv
+calib.npz
+pc/**/marker_*.png

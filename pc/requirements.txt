@@ -1,0 +1,4 @@
+numpy
+matplotlib
+opencv-contrib-python>=4.7
+pyserial
