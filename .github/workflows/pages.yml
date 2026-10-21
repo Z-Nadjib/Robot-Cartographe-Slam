@@ -4,7 +4,7 @@ name: Manuel en ligne
 on:
   push:
     branches: [main]
-    paths: [index.html, .github/workflows/pages.yml]
+    paths: [index.html, docs/assets/materiel/**, .github/workflows/pages.yml]
   workflow_dispatch:
 
 permissions:
@@ -27,8 +27,9 @@ jobs:
 
       - name: Préparer le site
         run: |
-          mkdir _site
+          mkdir -p _site/docs/assets
           cp index.html _site/
+          cp -r docs/assets/materiel _site/docs/assets/
 
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

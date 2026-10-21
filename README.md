@@ -20,7 +20,12 @@
 </p>
 
 <p>
+  <a href="https://z-nadjib.github.io/Robot-Cartographe-Slam/"><b>▶ Ouvrir le manuel en ligne</b></a>
+</p>
+
+<p>
   <a href="#le-manuel"><b>Manuel</b></a> &nbsp;·&nbsp;
+  <a href="#le-code--des-squelettes-à-compléter"><b>Code</b></a> &nbsp;·&nbsp;
   <a href="#installation"><b>Installation</b></a> &nbsp;·&nbsp;
   <a href="#utilisation"><b>Utilisation</b></a> &nbsp;·&nbsp;
   <a href="#le-parcours-en-14-tps"><b>TPs</b></a> &nbsp;·&nbsp;
@@ -37,7 +42,7 @@
 
 Le robot balaye la pièce avec un laser monté sur un servomoteur, et le PC en tire une **grille d'occupation**. Une caméra lit des **marqueurs ArUco** collés aux murs pour corriger la dérive de l'odométrie. On clique ensuite des points sur la carte, et le robot s'y rend seul grâce à **A\***.
 
-Le dépôt contient le manuel des 14 TPs, le firmware de l'ESP32 et l'application Python du PC.
+Le dépôt contient le manuel des 14 TPs et le **squelette** de tout le code : le firmware de l'ESP32 et l'application Python du PC sont à écrire en suivant la description placée en tête de chaque fichier.
 
 <p align="center">
   <img src="docs/assets/features.svg" width="100%" alt="Un manuel en un seul fichier, 14 TPs guidés, deux phases (table puis voiture), firmware ESP32 temps réel, SLAM léger en Python, navigation multi-points"/>
@@ -55,14 +60,20 @@ Le robot répète quatre étapes. Il s'arrête pour balayer, le PC ajoute ce bal
 
 ## Le manuel
 
-Tout le manuel tient dans un seul fichier : **[`index.html`](index.html)**. Il suffit de cloner le dépôt, ou de le télécharger en ZIP, puis d'ouvrir ce fichier dans Chrome, Firefox ou Edge.
+Le manuel est en ligne : **https://z-nadjib.github.io/Robot-Cartographe-Slam/**. Il tient aussi dans un seul fichier, **[`index.html`](index.html)**, qu'on peut ouvrir hors ligne dans Chrome, Firefox ou Edge après avoir cloné le dépôt.
 
-Le manuel n'a besoin d'aucun serveur. Seules les polices et la coloration du code viennent d'internet. Les cases cochées dans les checklists restent mémorisées dans le navigateur d'une séance à l'autre.
+Ce qu'il apporte en plus d'un simple document :
+
+- **Avancement mémorisé** : checklists, étapes marquées faites d'un clic sur leur numéro, progression de chaque TP dans la barre latérale et bouton « Reprendre » sur l'accueil.
+- **Six simulations interactives** : filtre médian (TP2), radar (TP3), décodeur de messages (Protocole), réglage du PI (TP7), grille d'occupation (TP10) et A* (TP12).
+- **Recherche** dans tout le manuel avec <kbd>Ctrl</kbd>+<kbd>K</kbd>, sommaire de page, raccourcis clavier, thèmes clair et sombre, version téléphone.
+- **Fiches composants** avec photo, rôle dans le robot et points à connaître.
+
+Le site est publié automatiquement sur GitHub Pages à chaque modification de `index.html` (workflow [`.github/workflows/pages.yml`](.github/workflows/pages.yml)).
 
 <p align="center">
-  <img src="docs/captures/accueil.png" alt="Page d'accueil du manuel" height="380"/>
-  &nbsp;
-  <img src="docs/captures/mobile.png" alt="Le manuel sur téléphone" height="380"/>
+  <img src="docs/captures/accueil.png" alt="Page d'accueil du manuel" width="49%"/>
+  <img src="docs/captures/tp7.png" alt="Page d'un TP" width="49%"/>
 </p>
 
 | Chapitre | Contenu |
@@ -72,7 +83,32 @@ Le manuel n'a besoin d'aucun serveur. Seules les polices et la coloration du cod
 | Architecture | Vue d'ensemble, entrées et sorties de chaque bloc, brochage, alimentation, budget de courant |
 | Modules | Circulation des données, modules du firmware et du PC, ce qui est codé à la main |
 | Protocole | Réseau, messages, caméra HTTP, choix techniques à justifier dans le rapport |
-| TP 0 à TP 13 | Objectif, matériel, câblage, étapes, code complet, critères de validation chiffrés, pièges fréquents, checklist |
+| TP 0 à TP 13 | Objectif, matériel, câblage, étapes, squelettes de code à compléter, critères de validation chiffrés, pièges fréquents, checklist |
+
+<br/>
+
+## Le code : des squelettes à compléter
+
+Le dépôt ne donne pas les solutions. Chaque fichier de [`firmware/`](firmware/) et de [`pc/`](pc/) contient :
+
+1. **une description en tête de fichier** : son rôle dans le robot, ce qu'il doit faire étape par étape, les formules, les registres ou les fonctions de bibliothèque utiles, et la façon de le valider ;
+2. **les signatures à remplir** : noms de fonctions, paramètres et constantes d'interface (broches, ports, formats de messages) sont fixés pour que les modules s'emboîtent d'un TP à l'autre. Les corps sont marqués « À compléter ».
+
+```cpp
+// speed_pi.h (extrait)
+struct SpeedPI {
+  float integ = 0;
+  float update(float consigne, float mesure, float dt) {
+    // À compléter.
+    return 0;
+  }
+  void reset() { integ = 0; }
+};
+```
+
+Les squelettes C++ compilent tels quels, et les modules Python s'importent : on peut avancer fonction par fonction. Une fonction Python pas encore écrite lève `NotImplementedError`. Seuls [`config.h`](firmware/robot_fw/config.h) (broches, géométrie, gains) et [`markers.json`](pc/robot/markers.json) (position des marqueurs) sont complets : ce sont des réglages, pas des exercices.
+
+Le manuel affiche les mêmes squelettes, avec un badge « à compléter » sur chaque bloc concerné.
 
 <br/>
 
@@ -103,7 +139,7 @@ Cela installe `numpy`, `matplotlib`, `opencv-contrib-python` (4.7 ou plus, pour 
 
 ## Utilisation
 
-Les scripts se lancent depuis `pc/robot/`, où ils trouvent `markers.json` et `calib.npz`. L'adresse IP du robot s'affiche sur le moniteur série au démarrage de l'ESP32.
+Les scripts se lancent depuis `pc/robot/`, où ils trouvent `markers.json` et `calib.npz`. L'adresse IP du robot s'affiche sur le moniteur série au démarrage de l'ESP32. Chaque commande ci-dessous fonctionne une fois le fichier correspondant complété.
 
 ### Un script par étape
 
@@ -227,14 +263,18 @@ Chaque message est une ligne de texte envoyée dans un seul datagramme UDP. Les 
     <td align="center" width="25%"><img src="docs/assets/materiel/mpu6050.jpg" alt="MPU6050 GY-521" width="100%"/><br/><b>MPU6050 (GY‑521)</b><br/><sub>Gyroscope, mesure du cap</sub></td>
   </tr>
   <tr>
+    <td align="center"><img src="docs/assets/materiel/vl53l1x.svg" alt="Illustration du VL53L1X" width="100%"/><br/><b>VL53L1X</b><br/><sub>Laser : distance jusqu'à 4 m</sub></td>
+    <td align="center"><img src="docs/assets/materiel/motoreducteur.svg" alt="Illustration d'un motoréducteur à encodeur" width="100%"/><br/><b>Motoréducteur à encodeur</b><br/><sub>Propulsion et odométrie</sub></td>
     <td align="center"><img src="docs/assets/materiel/tb6612.jpg" alt="TB6612FNG" width="100%"/><br/><b>TB6612FNG</b><br/><sub>Pont en H double</sub></td>
     <td align="center"><img src="docs/assets/materiel/accu18650.jpg" alt="Accu 18650" width="100%"/><br/><b>2 accus 18650</b><br/><sub>Alimentation 2S, 7,4 V</sub></td>
+  </tr>
+  <tr>
     <td align="center"><img src="docs/assets/materiel/abaisseur.jpg" alt="Abaisseur DC-DC" width="100%"/><br/><b>Abaisseur DC‑DC</b><br/><sub>5 V / 3 A pour l'électronique</sub></td>
     <td align="center"><img src="docs/assets/materiel/chassis.jpg" alt="Châssis de voiture robot" width="100%"/><br/><b>Châssis 2 roues</b><br/><sub>Base mobile et roue folle</sub></td>
   </tr>
 </table>
 
-<sub>Photos d'illustration issues de Wikimedia Commons, sous licences CC BY-SA et CC0. Auteurs et licences : [`docs/assets/materiel/CREDITS.md`](docs/assets/materiel/CREDITS.md).</sub>
+<sub>Photos issues de Wikimedia Commons, sous licences CC BY-SA et CC0 ; le VL53L1X et le motoréducteur sont des illustrations. Auteurs et licences : [`docs/assets/materiel/CREDITS.md`](docs/assets/materiel/CREDITS.md). Le manuel détaille le rôle de chaque composant dans sa page *Matériel détaillé*.</sub>
 
 | Composant | Quantité | Rôle |
 |---|:---:|---|
@@ -259,17 +299,17 @@ Le budget est d'**environ 100 €**, ESP32 de secours et accessoires compris. Le
 ```
 Robot-Cartographe-Slam
 |-- index.html              le manuel complet, à ouvrir dans un navigateur
-|-- firmware
+|-- firmware                squelettes à compléter
 |   |-- tests               un croquis Arduino par TP de la phase A
 |   `-- robot_fw            firmware final du robot (TP9 à TP13)
-|-- pc
+|-- pc                      squelettes à compléter
 |   |-- requirements.txt
 |   |-- tools               tracés, calibration, marqueurs, analyse de l'échelon
 |   `-- robot               odométrie, carte, EKF, A*, application
 |-- mesures                 courbes, CSV et photos pour le rapport
 `-- docs
     |-- captures            captures d'écran du manuel
-    `-- assets              figures et photos de cette page
+    `-- assets              figures de cette page, photos du matériel
 ```
 
 Les figures de cette page sont générées par [`docs/assets/make_figures.py`](docs/assets/make_figures.py).
@@ -279,14 +319,16 @@ Les figures de cette page sont générées par [`docs/assets/make_figures.py`](d
 ## État du projet
 
 - [x] Manuel complet : matériel, schémas, modules, protocole, 14 TPs
-- [x] Code ESP32 et Python de tous les TPs
+- [x] Squelettes du code ESP32 et Python de tous les TPs
+- [x] Manuel interactif publié sur GitHub Pages
+- [ ] Code complété
 - [ ] Phase A validée sur table
 - [ ] Robot assemblé (phase B)
 - [ ] Carte, fusion et navigation validées
 - [ ] Rapport et soutenance
 
 > [!NOTE]
-> Le code est une base de départ. La syntaxe du firmware a été vérifiée et les modules Python ont été testés sur des données simulées, mais rien n'a encore tourné sur le vrai matériel. Des ajustements sont à prévoir pendant les TPs : c'est le rôle des étapes de validation.
+> Le code est fourni sous forme de squelettes : les descriptions disent quoi écrire, les critères de validation de chaque TP disent quand c'est réussi. Rien n'a encore tourné sur le vrai matériel ; des ajustements (calibrations, gains, sens des moteurs) sont à prévoir pendant les TPs.
 
 ## Auteur
 

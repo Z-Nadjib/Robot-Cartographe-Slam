@@ -290,7 +290,7 @@ details.code-fold > summary::-webkit-details-marker { display: none; }
 details.code-fold > summary::before { content: ""; width: 8px; height: 8px; border-right: 2px solid var(--ink-3); border-bottom: 2px solid var(--ink-3); transform: rotate(-45deg); transition: transform .2s; margin: 0 4px; }
 details.code-fold[open] > summary::before { transform: rotate(45deg); }
 details.code-fold > .code { margin: 2px 0 14px; }
-.hljs-comment, .hljs-quote { color: #6c8a93; font-style: italic; }
+.hljs-comment, .hljs-quote { color: #9fb7bf; }
 .hljs-keyword, .hljs-selector-tag, .hljs-meta .hljs-keyword, .hljs-built_in { color: #f6a06b; }
 .hljs-string, .hljs-attr, .hljs-template-tag { color: #a5e3a1; }
 .hljs-number, .hljs-literal { color: #fcd34d; }
@@ -424,6 +424,24 @@ svg text { font-family: var(--font-body); }
 .gantt .gb.b { background: var(--teal-soft); color: var(--teal); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--teal) 35%, transparent); }
 .gantt .gb.m { background: var(--ink); color: var(--bg); text-align: center; }
 
+/* ---------- Composants ---------- */
+.comp-filter { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 18px; }
+.comp-filter button { font-size: 13px; padding: 6px 13px; border-radius: 999px; border: 1px solid var(--line-2); background: var(--bg-2); color: var(--ink-2); cursor: pointer; transition: all .15s; }
+.comp-filter button:hover { color: var(--ink); border-color: var(--teal); }
+.comp-filter button.on { background: var(--teal); border-color: var(--teal); color: var(--bg); font-weight: 600; }
+.comps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 0 0 14px; }
+.comp { display: flex; flex-direction: column; background: var(--bg-2); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; box-shadow: var(--shadow); transition: transform .2s, border-color .2s; min-width: 0; }
+.comp:hover { transform: translateY(-3px); border-color: var(--line-2); }
+.comp img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: var(--bg-3); border-bottom: 1px solid var(--line); }
+.comp-body { padding: 16px 18px 18px; }
+.comp-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+.comp-top h3 { margin: 0; font-size: 17.5px; }
+.comp-role { font-size: 14.5px; background: color-mix(in srgb, var(--teal) 8%, var(--bg-3)); border-left: 3px solid var(--teal); border-radius: 0 10px 10px 0; padding: 10px 12px; margin-bottom: 12px; }
+.comp-role b { color: var(--teal); }
+.comp ul { padding-left: 18px; margin: 0; }
+.comp[hidden] { display: none !important; }
+.todo { font-family: var(--font-mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: #fbbf24; border: 1px solid rgba(251, 191, 36, .45); background: rgba(251, 191, 36, .1); border-radius: 5px; padding: 1px 6px; white-space: nowrap; }
+
 /* ---------- Simulations ---------- */
 .widget { margin: 18px 0 26px; border-radius: 18px; border: 1px solid var(--line); background: var(--bg-2); box-shadow: var(--shadow); overflow: hidden; }
 .wg-head { display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-bottom: 1px solid var(--line); background: linear-gradient(90deg, color-mix(in srgb, var(--ph) 9%, transparent), transparent); }
@@ -538,7 +556,7 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border-radius: 
 }
 @media (max-width: 640px) {
   body { font-size: 15.5px; }
-  .grid-2, .grid-3, .route, .final-list { grid-template-columns: minmax(0, 1fr); }
+  .grid-2, .grid-3, .route, .final-list, .comps { grid-template-columns: minmax(0, 1fr); }
   h2 { font-size: 22px; margin-top: 44px; }
   .tp-hero { padding: 22px 20px; }
   .tp-ring { position: relative; right: auto; top: auto; width: auto; height: 56px; margin-top: 18px; display: flex; align-items: center; gap: 12px; }
@@ -714,6 +732,8 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border-radius: 
     </div>
   </div>
 
+  <div class="callout info"><h4>Les codes sont des squelettes à compléter</h4><p>Chaque bloc de code donne le rôle du fichier, ce qu'il doit faire étape par étape, les formules et les fonctions utiles, puis les signatures à remplir (repérées par « À compléter »). Les mêmes fichiers se trouvent dans <code>firmware/</code> et <code>pc/</code> du dépôt.</p></div>
+
   <h2>Lien avec les modules du semestre</h2>
   <div class="tbl"><table>
     <thead><tr><th>Module</th><th>Ce qu'on réalise</th><th>TPs principaux</th></tr></thead>
@@ -774,49 +794,153 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border-radius: 
     </tfoot>
   </table></div>
 
-  <h2>Fiche technique des composants clés</h2>
-  <div class="grid-2">
-    <div class="card"><h4>ESP32 DevKit V1</h4><ul class="small">
-      <li>Double cœur 240 MHz, 520 Ko de RAM, Wi‑Fi 2,4 GHz</li>
-      <li>Logique en <strong>3,3 V</strong> : aucune broche ne tolère 5 V</li>
-      <li>Alimentation par USB ou par la broche <span class="sig">VIN</span> (5 V)</li>
-      <li><span class="pin">GPIO34</span> à <span class="pin">GPIO39</span> : entrées seules, sans résistance de tirage interne</li>
-      <li>ADC2 inutilisable quand le Wi‑Fi est actif : on mesure sur l'ADC1 (<span class="pin">GPIO32</span>‑<span class="pin">39</span>)</li>
-    </ul></div>
-    <div class="card"><h4>VL53L1X (temps de vol)</h4><ul class="small">
-      <li>Mesure le temps d'aller-retour d'une impulsion infrarouge (940 nm)</li>
-      <li>Portée jusqu'à 4 m en mode long, résolution 1 mm</li>
-      <li>Champ de vision ≈ 27° : un mur vu de biais s'étale sur plusieurs angles</li>
-      <li>Bus I2C, adresse <span class="sig">0x29</span>, jusqu'à 50 mesures/s</li>
-      <li>Moins fiable sur le noir mat, le verre et en plein soleil</li>
-    </ul></div>
-    <div class="card"><h4>TB6612FNG (pont en H)</h4><ul class="small">
-      <li>Deux ponts en H MOSFET : bien moins de pertes qu'un L298N</li>
-      <li><span class="sig">VM</span> 4,5 à 13,5 V (moteurs), <span class="sig">VCC</span> 2,7 à 5,5 V (logique)</li>
-      <li>Par voie : <span class="sig">IN1</span>, <span class="sig">IN2</span> (sens) et <span class="sig">PWM</span> (vitesse, jusqu'à 100 kHz)</li>
-      <li><span class="sig">STBY</span> à 0 : tout est coupé (sécurité au démarrage)</li>
-    </ul></div>
-    <div class="card"><h4>Encodeur à effet Hall</h4><ul class="small">
-      <li>Deux signaux carrés <span class="sig">A</span> et <span class="sig">B</span> décalés de 90° (quadrature)</li>
-      <li>Le décalage donne le sens de rotation, la fréquence donne la vitesse</li>
-      <li>Ticks par tour de roue = impulsions par tour moteur × rapport de réduction × 4</li>
-      <li>Exemple : 11 × 34 × 4 = 1496 ticks, soit 0,14 mm par tick avec une roue de 65 mm</li>
-    </ul></div>
-    <div class="card"><h4>MPU6050</h4><ul class="small">
-      <li>Gyroscope 3 axes (±250 à ±2000 °/s) + accéléromètre 3 axes</li>
-      <li>On utilise surtout le gyroscope Z : la vitesse de rotation du robot</li>
-      <li>I2C, adresse <span class="sig">0x68</span> (broche AD0 à la masse)</li>
-      <li>Biais à mesurer au repos, sinon le cap dérive</li>
-    </ul></div>
-    <div class="card"><h4>ESP32‑CAM AI‑Thinker</h4><ul class="small">
-      <li>ESP32 + caméra OV2640 (2 Mpx) + lecteur microSD, sans port USB</li>
-      <li>Alimentation 5 V stable : les pics de courant du Wi‑Fi la font redémarrer</li>
-      <li>Sert d'appareil photo Wi‑Fi : <code>/capture</code> (image JPEG) ou <code>:81/stream</code> (vidéo)</li>
-      <li>Le traitement d'image se fait sur le PC, pas sur la caméra</li>
-    </ul></div>
+  <h2>Les composants un par un</h2>
+  <p>Pour chaque pièce : à quoi elle sert dans le robot, puis ce qu'il faut savoir pour bien l'utiliser. Filtrez par famille pour retrouver une pièce rapidement.</p>
+  <div class="comp-filter" role="group" aria-label="Filtrer les composants">
+    <button type="button" class="on" data-f="tous">Tous</button>
+    <button type="button" data-f="calcul">Calcul et communication</button>
+    <button type="button" data-f="capteur">Capteurs</button>
+    <button type="button" data-f="actionneur">Actionneurs</button>
+    <button type="button" data-f="energie">Énergie et mécanique</button>
   </div>
+  <div class="comps">
+    <article class="comp" data-cat="calcul">
+      <img src="docs/assets/materiel/esp32.jpg" alt="Carte ESP32 DevKit sur une plaque d'essai" loading="lazy">
+      <div class="comp-body">
+        <div class="comp-top"><h3>ESP32 DevKit V1</h3><span class="tag a">TP0</span></div>
+        <p class="comp-role"><b>Son rôle :</b> c'est le cerveau temps réel du robot. Il lit les capteurs, régule la vitesse des roues 50 fois par seconde, fait tourner le balayage et échange avec le PC par Wi‑Fi. Tout ce qui demande du calcul lourd (carte, vision, Kalman, A*) part sur le PC.</p>
+        <ul class="small">
+          <li>Double cœur 240 MHz, 520 Ko de RAM, Wi‑Fi 2,4 GHz</li>
+          <li>Logique en <strong>3,3 V</strong> : aucune broche ne tolère 5 V</li>
+          <li>Alimentation par USB ou par la broche <span class="sig">VIN</span> (5 V)</li>
+          <li><span class="pin">GPIO34</span> à <span class="pin">GPIO39</span> : entrées seules, sans résistance de tirage interne</li>
+          <li>ADC2 inutilisable quand le Wi‑Fi est actif : on mesure sur l'ADC1 (<span class="pin">GPIO32</span>‑<span class="pin">39</span>)</li>
+        </ul>
+      </div>
+    </article>
+    <article class="comp" data-cat="capteur">
+      <img src="docs/assets/materiel/vl53l1x.svg" alt="Illustration du module laser VL53L1X" loading="lazy">
+      <div class="comp-body">
+        <div class="comp-top"><h3>Capteur laser VL53L1X</h3><span class="tag a">TP2</span></div>
+        <p class="comp-role"><b>Son rôle :</b> c'est l'œil du radar. Il mesure la distance jusqu'au premier obstacle dans la direction où il regarde. Monté sur le servo, il donne 61 distances par balayage, avec lesquelles le PC dessine les murs.</p>
+        <ul class="small">
+          <li>Mesure le temps d'aller-retour d'une impulsion infrarouge (940 nm)</li>
+          <li>Portée jusqu'à 4 m en mode long, résolution 1 mm</li>
+          <li>Champ de vision ≈ 27° : un mur vu de biais s'étale sur plusieurs angles</li>
+          <li>Bus I2C, adresse <span class="sig">0x29</span>, jusqu'à 50 mesures/s</li>
+          <li>Moins fiable sur le noir mat, le verre et en plein soleil</li>
+        </ul>
+      </div>
+    </article>
+    <article class="comp" data-cat="actionneur">
+      <img src="docs/assets/materiel/sg90.jpg" alt="Servomoteur SG90" loading="lazy">
+      <div class="comp-body">
+        <div class="comp-top"><h3>Servomoteur SG90</h3><span class="tag a">TP3</span></div>
+        <p class="comp-role"><b>Son rôle :</b> faire pivoter le capteur laser de 0 à 180°, angle par angle, pour transformer une mesure de distance unique en un balayage complet de ce qui entoure le robot.</p>
+        <ul class="small">
+          <li>Commande : une impulsion toutes les 20 ms (50 Hz) ; sa largeur, de 0,5 à 2,4 ms, donne l'angle</li>
+          <li>Alimentation 5 V par l'abaisseur, jamais par l'USB : ses pics de courant font redémarrer l'ESP32</li>
+          <li>Course de 180° seulement : le robot fait demi-tour pour couvrir 360°</li>
+          <li>Le MG90S (pignons métal) a moins de jeu : la carte est plus nette</li>
+        </ul>
+      </div>
+    </article>
+    <article class="comp" data-cat="capteur">
+      <img src="docs/assets/materiel/esp32cam.jpg" alt="Module ESP32-CAM avec sa caméra OV2640" loading="lazy">
+      <div class="comp-body">
+        <div class="comp-top"><h3>ESP32‑CAM AI‑Thinker</h3><span class="tag a">TP5</span></div>
+        <p class="comp-role"><b>Son rôle :</b> c'est l'appareil photo Wi‑Fi du robot. Il prend des images que le PC analyse pour repérer les marqueurs ArUco collés aux murs ; leur position connue permet de corriger la dérive de l'odométrie.</p>
+        <ul class="small">
+          <li>ESP32 + caméra OV2640 (2 Mpx) + lecteur microSD, sans port USB</li>
+          <li>Alimentation 5 V stable : les pics de courant du Wi‑Fi la font redémarrer</li>
+          <li>Sert d'appareil photo Wi‑Fi : <code>/capture</code> (image JPEG) ou <code>:81/stream</code> (vidéo)</li>
+          <li>Le traitement d'image se fait sur le PC, pas sur la caméra</li>
+        </ul>
+      </div>
+    </article>
+    <article class="comp" data-cat="capteur">
+      <img src="docs/assets/materiel/mpu6050.jpg" alt="Module GY-521 avec le MPU6050" loading="lazy">
+      <div class="comp-body">
+        <div class="comp-top"><h3>MPU6050 (GY‑521)</h3><span class="tag a">TP6</span></div>
+        <p class="comp-role"><b>Son rôle :</b> mesurer à quelle vitesse le robot tourne sur lui-même. En intégrant cette vitesse, on obtient le cap (l'orientation), bien plus fiable que celui déduit des roues, qui glissent dans les virages.</p>
+        <ul class="small">
+          <li>Gyroscope 3 axes (±250 à ±2000 °/s) + accéléromètre 3 axes</li>
+          <li>On utilise surtout le gyroscope Z : la vitesse de rotation du robot</li>
+          <li>I2C, adresse <span class="sig">0x68</span> (broche AD0 à la masse)</li>
+          <li>Biais à mesurer au repos, sinon le cap dérive</li>
+        </ul>
+      </div>
+    </article>
+    <article class="comp" data-cat="actionneur">
+      <img src="docs/assets/materiel/tb6612.jpg" alt="Module pont en H TB6612FNG" loading="lazy">
+      <div class="comp-body">
+        <div class="comp-top"><h3>Pont en H TB6612FNG</h3><span class="tag a">TP7</span></div>
+        <p class="comp-role"><b>Son rôle :</b> faire le lien entre l'ESP32 et les moteurs. L'ESP32 ne fournit que quelques milliampères en 3,3 V ; le pont en H commute le courant de la batterie vers chaque moteur, dans un sens ou dans l'autre, avec une vitesse réglée par la PWM.</p>
+        <ul class="small">
+          <li>Deux ponts en H MOSFET : bien moins de pertes qu'un L298N</li>
+          <li><span class="sig">VM</span> 4,5 à 13,5 V (moteurs), <span class="sig">VCC</span> 2,7 à 5,5 V (logique)</li>
+          <li>Par voie : <span class="sig">IN1</span>, <span class="sig">IN2</span> (sens) et <span class="sig">PWM</span> (vitesse, jusqu'à 100 kHz)</li>
+          <li><span class="sig">STBY</span> à 0 : tout est coupé (sécurité au démarrage)</li>
+        </ul>
+      </div>
+    </article>
+    <article class="comp" data-cat="actionneur">
+      <img src="docs/assets/materiel/motoreducteur.svg" alt="Illustration d'un motoréducteur avec encodeur" loading="lazy">
+      <div class="comp-body">
+        <div class="comp-top"><h3>Motoréducteur à encodeur</h3><span class="tag a">TP7</span></div>
+        <p class="comp-role"><b>Son rôle :</b> faire avancer et tourner le robot, et compter précisément les tours de chaque roue. Ce comptage (l'odométrie) dit au PC de combien le robot s'est déplacé entre deux mesures.</p>
+        <ul class="small">
+          <li>Le réducteur divise la vitesse du moteur et multiplie son couple</li>
+          <li>Encodeur à effet Hall : deux signaux carrés <span class="sig">A</span> et <span class="sig">B</span> décalés de 90° (quadrature)</li>
+          <li>Le décalage donne le sens de rotation, la fréquence donne la vitesse</li>
+          <li>Ticks par tour de roue = impulsions par tour moteur × rapport de réduction × 4</li>
+          <li>Exemple : 11 × 34 × 4 = 1496 ticks, soit 0,14 mm par tick avec une roue de 65 mm</li>
+        </ul>
+      </div>
+    </article>
+    <article class="comp" data-cat="energie">
+      <img src="docs/assets/materiel/accu18650.jpg" alt="Accu lithium-ion 18650" loading="lazy">
+      <div class="comp-body">
+        <div class="comp-top"><h3>2 accus Li‑ion 18650</h3><span class="tag b">TP8</span></div>
+        <p class="comp-role"><b>Son rôle :</b> la réserve d'énergie du robot. Deux accus en série (2S) alimentent directement les moteurs et, à travers l'abaisseur, toute l'électronique.</p>
+        <ul class="small">
+          <li>3,7 V nominal par accu : 7,4 V en série, 8,4 V chargés, 6,0 V à vide</li>
+          <li>Prendre des accus <strong>protégés</strong> et un chargeur Li‑ion dédié</li>
+          <li>La tension est surveillée par l'ADC à travers un pont diviseur 100 kΩ / 33 kΩ</li>
+          <li>Jamais de court-circuit, jamais en charge sans surveillance</li>
+        </ul>
+      </div>
+    </article>
+    <article class="comp" data-cat="energie">
+      <img src="docs/assets/materiel/abaisseur.jpg" alt="Modules abaisseurs de tension DC-DC" loading="lazy">
+      <div class="comp-body">
+        <div class="comp-top"><h3>Abaisseur DC‑DC 5 V</h3><span class="tag a">TP3</span></div>
+        <p class="comp-role"><b>Son rôle :</b> transformer les 6 à 8,4 V de la batterie en un 5 V stable pour l'ESP32, le servo et la caméra, quelle que soit la charge de la batterie.</p>
+        <ul class="small">
+          <li>Convertisseur à découpage : rendement ≈ 90 %, contre ≈ 60 % pour un régulateur linéaire</li>
+          <li>Courant ≥ 3 A : le servo et le Wi‑Fi de la caméra tirent des pics</li>
+          <li>Régler la sortie à 5,0 V au multimètre <em>avant</em> de brancher quoi que ce soit</li>
+          <li>Condensateurs de 470 µF près du servo et de la caméra pour lisser les pics</li>
+        </ul>
+      </div>
+    </article>
+    <article class="comp" data-cat="energie">
+      <img src="docs/assets/materiel/chassis.jpg" alt="Exemple de voiture robot sur châssis" loading="lazy">
+      <div class="comp-body">
+        <div class="comp-top"><h3>Châssis 2 roues + roue folle</h3><span class="tag b">TP8</span></div>
+        <p class="comp-role"><b>Son rôle :</b> porter tout le reste. Deux roues motrices indépendantes et une roue folle donnent une conduite différentielle : le robot avance quand les roues tournent ensemble, et tourne sur place quand elles tournent en sens inverse.</p>
+        <ul class="small">
+          <li>Plaque d'environ 15 × 20 cm pour la batterie, la tour laser et la caméra</li>
+          <li>L'entraxe (distance entre les roues) se mesure et va dans <code>config.h</code> : il fixe le calcul des virages</li>
+          <li>Batterie au plus bas et au centre : le robot reste stable</li>
+          <li>Photo d'exemple : toute base à deux roues motrices convient</li>
+        </ul>
+      </div>
+    </article>
+  </div>
+  <p class="small muted">Photos : Wikimedia Commons, licences CC BY‑SA et CC0 (auteurs dans <code>docs/assets/materiel/CREDITS.md</code>). Le laser et le motoréducteur sont des illustrations.</p>
 
-  <h2>Outillage</h2>
+<h2>Outillage</h2>
   <div class="tbl"><table>
     <thead><tr><th>Outil</th><th>Pourquoi</th><th>Indispensable ?</th></tr></thead>
     <tbody>
@@ -1257,26 +1381,39 @@ X                                           PC → robot : arrêt immédiat</cod
     <div class="card"><h4>Matériel</h4><ul><li>1 ESP32 DevKit</li><li>1 câble USB de données</li><li>Le PC (Windows, Linux ou macOS)</li></ul></div>
   </div>
 
+  <div class="callout info"><h4>Les codes sont des squelettes à compléter</h4><p>Chaque bloc de code donne le rôle du fichier, ce qu'il doit faire étape par étape, les formules et les fonctions utiles, puis les signatures à remplir (repérées par « À compléter »). Les mêmes fichiers se trouvent dans <code>firmware/</code> et <code>pc/</code> du dépôt.</p></div>
+
   <h2>Étapes</h2>
   <ol class="steps">
     <li><div><p><strong>Installer l'Arduino IDE 2</strong> depuis le site officiel d'Arduino.</p></div></li>
     <li><div><p><strong>Ajouter les cartes ESP32.</strong> Fichier → Préférences → « URL de gestionnaire de cartes supplémentaires », coller :</p><div class="code"><div class="code-head"><span class="code-name">URL du gestionnaire de cartes</span><button class="copy" type="button">Copier</button></div><pre><code class="language-plaintext">https://espressif.github.io/arduino-esp32/package_esp32_index.json</code></pre></div><p>Puis Outils → Carte → Gestionnaire de cartes, chercher « esp32 » (par Espressif Systems) et installer une version <strong>3.x</strong>.</p></div></li>
     <li><div><p><strong>Brancher l'ESP32.</strong> Si aucun port n'apparaît dans Outils → Port, installer le pilote de la puce USB écrite sur la carte : <strong>CP210x</strong> (Silicon Labs) ou <strong>CH340</strong>.</p></div></li>
-    <li><div><p><strong>Choisir la carte</strong> « ESP32 Dev Module » et le port (COM3, /dev/ttyUSB0…). Téléverser le programme ci-dessous, puis ouvrir le moniteur série à <strong>115200 bauds</strong>.</p><div class="code"><div class="code-head"><span class="code-name">tp0_blink.ino</span><button class="copy" type="button">Copier</button></div><pre><code class="language-cpp">// TP0 — Premier programme : LED + moniteur série
+    <li><div><p><strong>Choisir la carte</strong> « ESP32 Dev Module » et le port (COM3, /dev/ttyUSB0…). Téléverser le programme ci-dessous, puis ouvrir le moniteur série à <strong>115200 bauds</strong>.</p><div class="code"><div class="code-head"><span class="code-name">tp0_blink.ino</span><button class="copy" type="button">Copier</button></div><pre><code class="language-cpp">/*
+ * TP0 — Premier programme : LED + moniteur série
+ *
+ * But : vérifier que toute la chaîne fonctionne (IDE, pilote USB, carte,
+ * téléversement, moniteur série) avant d'écrire du vrai code.
+ *
+ * Ce que le programme doit faire :
+ *   - au démarrage, ouvrir le port série à 115200 bauds et afficher un message
+ *     de bienvenue ;
+ *   - faire clignoter la LED intégrée (GPIO 2) : 500 ms allumée, 500 ms éteinte ;
+ *   - à chaque clignotement, afficher le temps écoulé depuis le démarrage (millis()).
+ *
+ * Fonctions utiles : Serial.begin, Serial.println, Serial.printf, pinMode,
+ * digitalWrite, delay, millis.
+ *
+ * Validation : la LED clignote à 1 Hz et le moniteur série (115200 bauds)
+ * affiche un temps qui augmente d'environ 1000 ms à chaque ligne.
+ */
 const int LED = 2;          // LED bleue intégrée à la carte DevKit
 
 void setup() {
-  Serial.begin(115200);
-  pinMode(LED, OUTPUT);
-  Serial.println("Bonjour, ESP32 pret !");
+  // À compléter : ouvrir le port série, configurer la LED en sortie, saluer.
 }
 
 void loop() {
-  digitalWrite(LED, HIGH);
-  delay(500);
-  digitalWrite(LED, LOW);
-  delay(500);
-  Serial.printf("Temps ecoule : %lu ms\n", millis());
+  // À compléter : allumer, attendre, éteindre, attendre, afficher millis().
 }</code></pre></div></div></li>
     <li><div><p><strong>Installer la bibliothèque du laser</strong> : Croquis → Inclure une bibliothèque → Gérer les bibliothèques → « VL53L1X » par <strong>Pololu</strong>.</p></div></li>
     <li><div><p><strong>Installer Python 3.10 ou plus</strong> (sous Windows, cocher « Add python.exe to PATH »), puis l'environnement du projet :</p><div class="code"><div class="code-head"><span class="code-name">terminal</span><button class="copy" type="button">Copier</button></div><pre><code class="language-bash"># 1. Créer un environnement Python isolé dans le dossier du projet
@@ -1339,36 +1476,47 @@ python -c "import cv2, numpy; print('OpenCV', cv2.__version__, '- numpy', numpy.
 
   <h2>Étapes</h2>
   <ol class="steps">
-    <li><div><p>Téléverser le programme et observer la LED qui s'allume et s'éteint progressivement.</p><div class="code"><div class="code-head"><span class="code-name">tp1_pwm.ino</span><button class="copy" type="button">Copier</button></div><pre><code class="language-cpp">// TP1 — PWM matériel (LEDC), interruption et tâches non bloquantes
+    <li><div><p>Téléverser le programme et observer la LED qui s'allume et s'éteint progressivement.</p><div class="code"><div class="code-head"><span class="code-name">tp1_pwm.ino</span><button class="copy" type="button">Copier</button></div><pre><code class="language-cpp">/*
+ * TP1 — PWM matériel (LEDC), interruption et tâches non bloquantes
+ *
+ * But : faire « respirer » la LED avec une PWM matérielle, compter les appuis
+ * sur le bouton BOOT par interruption, et faire tourner deux tâches à des
+ * rythmes différents SANS jamais appeler delay().
+ *
+ * Ce que le programme doit faire :
+ *   1. PWM : attacher la LED à un canal LEDC (5 kHz, 8 bits, donc 0..255) avec
+ *      ledcAttachChannel(broche, fréquence, résolution, canal), puis régler le
+ *      rapport cyclique avec ledcWrite(broche, valeur).
+ *   2. Interruption : le bouton BOOT (GPIO 0) est actif à l'état bas. Le
+ *      configurer en INPUT_PULLUP et lui attacher une ISR sur front descendant.
+ *      L'ISR (IRAM_ATTR) ne fait qu'incrémenter un compteur « volatile » :
+ *      jamais de Serial ni de delay dans une ISR.
+ *   3. Ordonnancement non bloquant dans loop() :
+ *        - toutes les 20 ms : faire varier le rapport cyclique de ±5 et
+ *          inverser le sens aux bornes 0 et 255 ;
+ *        - toutes les 1000 ms : afficher le rapport cyclique et le nombre d'appuis.
+ *      Méthode : mémoriser l'instant du dernier passage (millis()) et ne faire
+ *      la tâche que si « maintenant - dernier &gt;= période ».
+ *
+ * Validation : la LED s'allume et s'éteint progressivement (~2 s par cycle),
+ * chaque appui sur BOOT incrémente le compteur, même pendant la variation.
+ */
 const int LED    = 2;
 const int BOUTON = 0;              // bouton BOOT de la carte (actif à l'état bas)
 const int LED_CH = 4;              // canal LEDC n°4 (timer 2)
 
 volatile uint32_t appuis = 0;
-void IRAM_ATTR onBouton() { appuis++; }   // ISR : très courte, jamais de Serial ici
+
+void IRAM_ATTR onBouton() {
+  // À compléter : une seule ligne.
+}
 
 void setup() {
-  Serial.begin(115200);
-  pinMode(BOUTON, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(BOUTON), onBouton, FALLING);
-  ledcAttachChannel(LED, 5000, 8, LED_CH);   // 5 kHz, résolution 8 bits (0..255)
+  // À compléter : port série, bouton + interruption, canal PWM de la LED.
 }
 
 void loop() {
-  static uint32_t tPwm = 0, tLog = 0;
-  static int duty = 0, pas = 5;
-  uint32_t now = millis();
-
-  if (now - tPwm &gt;= 20) {          // tâche 1 : toutes les 20 ms
-    tPwm = now;
-    duty += pas;
-    if (duty &lt;= 0 || duty &gt;= 255) pas = -pas;
-    ledcWrite(LED, constrain(duty, 0, 255));
-  }
-  if (now - tLog &gt;= 1000) {        // tâche 2 : toutes les secondes
-    tLog = now;
-    Serial.printf("duty=%d  appuis=%lu\n", duty, appuis);
-  }
+  // À compléter : les deux tâches périodiques décrites plus haut.
 }</code></pre></div></div></li>
     <li><div><p><strong>Oscilloscope sur <span class="pin">GPIO2</span></strong> : mesurer la période (attendu 200 µs, soit 5 kHz) et vérifier que le rapport cyclique vaut <code>duty / 255</code>.</p></div></li>
     <li><div><p>Appuyer sur BOOT et regarder le compteur. Un seul appui compte parfois 2 ou 3 fois : ce sont les <strong>rebonds</strong> mécaniques. Ajouter un anti-rebond dans l'ISR : ignorer un front arrivé moins de 50 ms après le précédent.</p></div></li>
@@ -1417,62 +1565,87 @@ void loop() {
 
   <h2>Étapes</h2>
   <ol class="steps">
-    <li><div><p>Câbler puis lancer le scanner I2C : l'adresse <code>0x29</code> doit apparaître.</p><div class="code"><div class="code-head"><span class="code-name">tp2_scan_i2c.ino</span><button class="copy" type="button">Copier</button></div><pre><code class="language-cpp">// TP2 — Scanner du bus I2C : affiche l'adresse de chaque capteur branché
+    <li><div><p>Câbler puis lancer le scanner I2C : l'adresse <code>0x29</code> doit apparaître.</p><div class="code"><div class="code-head"><span class="code-name">tp2_scan_i2c.ino</span><button class="copy" type="button">Copier</button></div><pre><code class="language-cpp">/*
+ * TP2 — Scanner du bus I2C
+ *
+ * But : vérifier le câblage d'un capteur I2C en listant les adresses qui
+ * répondent sur le bus.
+ *
+ * Ce que le programme doit faire (une seule fois, dans setup) :
+ *   - démarrer le bus avec Wire.begin(SDA = 21, SCL = 22) ;
+ *   - pour chaque adresse de 1 à 126 : Wire.beginTransmission(adresse), puis
+ *     Wire.endTransmission() ; un retour égal à 0 signifie qu'un périphérique
+ *     a acquitté : afficher son adresse en hexadécimal (format 0x%02X) ;
+ *   - afficher « Fin du scan. ».
+ *
+ * Résultat attendu : 0x29 pour le VL53L1X ; plus tard 0x68 pour le MPU6050.
+ * Rien trouvé ? Vérifier SDA/SCL inversés, l'alimentation 3,3 V et la masse.
+ */
 #include &lt;Wire.h&gt;
 
 void setup() {
-  Serial.begin(115200);
-  Wire.begin(21, 22);               // SDA, SCL
-  delay(200);
-  Serial.println("Scan du bus I2C...");
-  for (uint8_t a = 1; a &lt; 127; a++) {
-    Wire.beginTransmission(a);
-    if (Wire.endTransmission() == 0) Serial.printf("  peripherique trouve en 0x%02X\n", a);
-  }
-  Serial.println("Fin du scan.");   // attendu : 0x29 (VL53L1X), plus tard 0x68 (MPU6050)
+  // À compléter.
 }
 
 void loop() {}</code></pre></div></div></li>
-    <li><div><p>Téléverser le programme de mesure. Le moniteur série affiche une ligne CSV par mesure : temps, brut, filtré, validité.</p><div class="code"><div class="code-head"><span class="code-name">tp2_laser.ino</span><button class="copy" type="button">Copier</button></div><pre><code class="language-cpp">// TP2 — VL53L1X : mesure brute + filtre médian (fenêtre de 5)
+    <li><div><p>Téléverser le programme de mesure. Le moniteur série affiche une ligne CSV par mesure : temps, brut, filtré, validité.</p><div class="code"><div class="code-head"><span class="code-name">tp2_laser.ino</span><button class="copy" type="button">Copier</button></div><pre><code class="language-cpp">/*
+ * TP2 — Capteur laser VL53L1X : mesure brute + filtre médian (fenêtre de 5)
+ *
+ * But : lire les distances en continu et supprimer les valeurs aberrantes
+ * isolées avec une médiane glissante.
+ *
+ * Ce que le programme doit faire :
+ *   - setup : bus I2C sur 21/22 à 400 kHz ; tof.setTimeout(500) ; tof.init()
+ *     (arrêter avec un message si le capteur ne répond pas) ; mode de distance
+ *     Long (jusqu'à ~4 m) ; budget de mesure 50 ms ; startContinuous(50).
+ *   - loop : lire une distance (tof.read()), détecter un timeout, savoir si la
+ *     mesure est valide (tof.ranging_data.range_status == VL53L1X::RangeValid),
+ *     la ranger dans un tampon circulaire de N = 5 valeurs, puis envoyer une
+ *     ligne CSV :  temps_ms,brut_mm,filtre_mm,valide
+ *     (c'est le format que lit pc/tools/plot_serial.py).
+ *
+ * mediane(v, n) : copier les n valeurs dans un tableau local, les trier (un tri
+ * par insertion suffit pour 5 valeurs) et renvoyer l'élément du milieu.
+ * Ne pas trier le tampon lui-même : il perdrait l'ordre d'arrivée.
+ */
 #include &lt;Wire.h&gt;
 #include &lt;VL53L1X.h&gt;      // bibliothèque « VL53L1X » de Pololu
 
 VL53L1X tof;
 const int N = 5;
-uint16_t fenetre[N];
-int idx = 0;
+uint16_t fenetre[N];       // tampon circulaire des N dernières mesures
+int idx = 0;               // prochaine case à écrire
 
 uint16_t mediane(const uint16_t* v, int n) {
-  uint16_t t[N];
-  memcpy(t, v, n * sizeof(uint16_t));
-  for (int i = 1; i &lt; n; i++) {           // tri par insertion
-    uint16_t x = t[i]; int j = i - 1;
-    while (j &gt;= 0 &amp;&amp; t[j] &gt; x) { t[j + 1] = t[j]; j--; }
-    t[j + 1] = x;
-  }
-  return t[n / 2];
+  // À compléter : copie, tri, élément central.
+  return 0;
 }
 
 void setup() {
-  Serial.begin(115200);
-  Wire.begin(21, 22);
-  Wire.setClock(400000);
-  tof.setTimeout(500);
-  if (!tof.init()) { Serial.println("VL53L1X introuvable !"); while (true) delay(100); }
-  tof.setDistanceMode(VL53L1X::Long);          // jusqu'à ~4 m
-  tof.setMeasurementTimingBudget(50000);       // 50 ms par mesure
-  tof.startContinuous(50);
+  // À compléter : port série, I2C, initialisation et réglages du capteur.
 }
 
 void loop() {
-  uint16_t d = tof.read();                     // attend la mesure suivante
-  if (tof.timeoutOccurred()) { Serial.println("timeout"); return; }
-  bool valide = (tof.ranging_data.range_status == VL53L1X::RangeValid);
-  fenetre[idx] = d; idx = (idx + 1) % N;
-  // format CSV : temps_ms,brut_mm,filtre_mm,valide
-  Serial.printf("%lu,%u,%u,%d\n", millis(), d, mediane(fenetre, N), valide);
+  // À compléter : mesure, validité, tampon circulaire, ligne CSV.
 }</code></pre></div></div></li>
-    <li><div><p><strong>Fermer le moniteur série</strong> (le port ne peut être ouvert que par un programme à la fois), poser la plaque face à un mur blanc à 50 cm, et lancer :</p><div class="code"><div class="code-head"><span class="code-name">pc/tools/plot_serial.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python"># Lit le port série (format t_ms,brut,filtre,valide), trace et enregistre un CSV
+    <li><div><p><strong>Fermer le moniteur série</strong> (le port ne peut être ouvert que par un programme à la fois), poser la plaque face à un mur blanc à 50 cm, et lancer :</p><div class="code"><div class="code-head"><span class="code-name">pc/tools/plot_serial.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python">"""TP2 — Lit les mesures du laser sur le port série, les trace et les enregistre.
+
+Usage : python plot_serial.py COM3        (Linux : /dev/ttyUSB0)
+
+Le croquis tp2_laser.ino envoie une ligne CSV par mesure :
+    temps_ms,brut_mm,filtre_mm,valide
+
+Ce que le script doit faire :
+  1. ouvrir le port série à 115200 bauds (pyserial), attendre 2 s (l'ESP32
+     redémarre à l'ouverture du port) puis vider le tampon d'entrée ;
+  2. lire N = 400 lignes valides : découper sur les virgules, ignorer les lignes
+     qui n'ont pas 4 champs ou qui ne se convertissent pas en entiers ;
+  3. enregistrer t, brut, filtré dans mesures/tp2_laser.csv (avec un en-tête) ;
+  4. afficher la moyenne et l'écart-type des mesures brutes et filtrées : le
+     filtre doit réduire l'écart-type sans déplacer la moyenne ;
+  5. tracer les deux courbes en fonction du temps en secondes (matplotlib),
+     enregistrer la figure dans mesures/tp2_laser.png et l'afficher.
+"""
 import csv, sys, time
 import numpy as np
 import matplotlib.pyplot as plt
@@ -1480,32 +1653,20 @@ import serial
 
 PORT = sys.argv[1] if len(sys.argv) &gt; 1 else "COM3"   # Linux : /dev/ttyUSB0
 N = 400                                                # nombre de mesures
-ser = serial.Serial(PORT, 115200, timeout=1)
-time.sleep(2)
-ser.reset_input_buffer()
 
-t, brut, filt = [], [], []
-while len(t) &lt; N:
-    champs = ser.readline().decode(errors="ignore").strip().split(",")
-    if len(champs) != 4:
-        continue
-    try:
-        t.append(int(champs[0])); brut.append(int(champs[1])); filt.append(int(champs[2]))
-    except ValueError:
-        continue
-ser.close()
 
-with open("mesures/tp2_laser.csv", "w", newline="") as f:
-    csv.writer(f).writerows([("t_ms", "brut_mm", "filtre_mm"), *zip(t, brut, filt)])
+def lire_mesures(ser, n):
+    """Renvoie trois listes (t_ms, brut_mm, filtre_mm) de n mesures valides."""
+    raise NotImplementedError("À compléter : étape 2")
 
-b, m = np.array(brut), np.array(filt)
-print(f"brut   : moyenne {b.mean():.1f} mm, écart-type {b.std():.1f} mm")
-print(f"filtré : moyenne {m.mean():.1f} mm, écart-type {m.std():.1f} mm")
-plt.plot((np.array(t) - t[0]) / 1000, b, color="0.6", lw=1, label="brut")
-plt.plot((np.array(t) - t[0]) / 1000, m, lw=2, label="médiane sur 5")
-plt.xlabel("temps (s)"); plt.ylabel("distance (mm)"); plt.legend(); plt.grid(alpha=0.3)
-plt.savefig("mesures/tp2_laser.png", dpi=150)
-plt.show()</code></pre></div></div></li>
+
+def main():
+    """Étapes 1 à 5 décrites en tête de fichier."""
+    raise NotImplementedError("À compléter")
+
+
+if __name__ == "__main__":
+    main()</code></pre></div></div></li>
     <li><div><p>Répéter à 100, 150 et 200 cm, puis à 100 cm sur un carton noir et sur une vitre. Remplir le tableau de caractérisation.</p></div></li>
     <li><div><p>Passer la main rapidement devant le capteur. Observer que la médiane ignore un pic de 1 ou 2 mesures, mais retarde le signal de 2 échantillons (100 ms). C'est le compromis à discuter.</p></div></li>
     <li><div><p>Exercice : coder une <strong>moyenne glissante</strong> sur 5 valeurs et comparer. La moyenne étale un pic au lieu de le supprimer : le médian est un filtre non linéaire adapté aux valeurs aberrantes.</p></div></li>
@@ -1570,7 +1731,31 @@ plt.show()</code></pre></div></div></li>
 
   <h2>Étapes</h2>
   <ol class="steps">
-    <li><div><p>Dans un nouveau dossier <code>tp3_radar</code>, créer l'onglet <code>scanner.h</code> (flèche à droite des onglets → « Nouvel onglet ») :</p><div class="code"><div class="code-head"><span class="code-name">scanner.h</span><button class="copy" type="button">Copier</button></div><pre><code class="language-cpp">// scanner.h — balayage servo + laser, NON bloquant (réutilisé jusqu'au TP12)
+    <li><div><p>Dans un nouveau dossier <code>tp3_radar</code>, créer l'onglet <code>scanner.h</code> (flèche à droite des onglets → « Nouvel onglet ») :</p><div class="code"><div class="code-head"><span class="code-name">scanner.h</span><button class="copy" type="button">Copier</button></div><pre><code class="language-cpp">/*
+ * scanner.h — balayage servo + laser, NON bloquant (réutilisé jusqu'au TP12)
+ *
+ * Rôle : faire tourner le servo de SCAN_MIN à SCAN_MAX par pas de SCAN_STEP et
+ * prendre une distance à chaque angle, sans jamais bloquer loop(). Hors
+ * balayage, le servo reste à 90° et frontMm donne la distance devant le robot
+ * (utilisée pour l'arrêt d'urgence).
+ *
+ * Servo : PWM 50 Hz (période 20 ms) en 14 bits, donc 20 ms = 16384 pas.
+ * La largeur d'impulsion va de SERVO_US_MIN (0°) à SERVO_US_MAX (180°) :
+ *   us    = SERVO_US_MIN + (SERVO_US_MAX - SERVO_US_MIN) * deg / 180
+ *   duty  = us * 16383 / 20000
+ *
+ * Machine d'états (une vérification rapide par appel de scanUpdate) :
+ *   SC_IDLE    servo au centre : si une mesure est prête, la lire dans frontMm
+ *              (0 si la mesure n'est pas valide) ;
+ *   SC_SETTLE  attendre que le servo soit arrivé : SETTLE_MS (400 ms pour le
+ *              premier angle, qui part de 90°) -&gt; SC_FLUSH ;
+ *   SC_FLUSH   jeter la mesure commencée pendant le mouvement -&gt; SC_MEASURE ;
+ *   SC_MEASURE lire la mesure (0 si invalide) dans scanDist[scIndex] ; si c'était
+ *              le dernier angle : servo à 90°, SC_IDLE, scanReady = true ;
+ *              sinon : angle suivant, noter l'instant, SC_SETTLE.
+ * Pour savoir si une mesure est prête sans attendre : tof.dataReady(), puis
+ * tof.read(false) ; validité : tof.ranging_data.range_status == VL53L1X::RangeValid.
+ */
 #pragma once
 #include &lt;Wire.h&gt;
 #include &lt;VL53L1X.h&gt;
@@ -1591,90 +1776,83 @@ bool     scanReady = false;             // vrai quand un balayage complet est di
 uint16_t frontMm = 0;                   // hors balayage : distance devant le robot (servo à 90°)
 
 enum { SC_IDLE, SC_SETTLE, SC_FLUSH, SC_MEASURE } scState = SC_IDLE;
-int scIndex = 0;
-uint32_t scT0 = 0;
+int scIndex = 0;                        // indice de l'angle en cours
+uint32_t scT0 = 0;                      // instant de la dernière commande du servo
 
-void servoWriteDeg(float deg) {         // PWM 50 Hz, 14 bits : 20 ms = 16384 pas
-  deg = constrain(deg, 0, 180);
-  float us = SERVO_US_MIN + (SERVO_US_MAX - SERVO_US_MIN) * deg / 180.0f;
-  ledcWrite(PIN_SERVO, (uint32_t)(us * 16383.0f / 20000.0f));
+// Place le servo à « deg » degrés (borné entre 0 et 180).
+void servoWriteDeg(float deg) {
+  // À compléter : formule de la largeur d'impulsion, puis ledcWrite.
 }
 
+// Configure la PWM du servo (ledcAttachChannel, 50 Hz, 14 bits, SERVO_CH), le
+// met au centre, puis initialise le capteur : timeout 500 ms, mode Long,
+// budget 33 ms, mesures continues toutes les 33 ms. Renvoie false si le
+// capteur ne répond pas.
 bool scannerBegin() {
-  ledcAttachChannel(PIN_SERVO, 50, 14, SERVO_CH);
-  servoWriteDeg(90);
-  tof.setTimeout(500);
-  if (!tof.init()) return false;
-  tof.setDistanceMode(VL53L1X::Long);
-  tof.setMeasurementTimingBudget(33000);   // 33 ms : compromis vitesse / bruit
-  tof.startContinuous(33);
-  return true;
+  // À compléter.
+  return false;
 }
 
+// Démarre un balayage : remet scanReady à faux et l'indice à 0, envoie le servo
+// au premier angle, note l'instant et passe en SC_SETTLE.
 void scanStart() {
-  scanReady = false;
-  scIndex = 0;
-  servoWriteDeg(SCAN_MIN);
-  scT0 = millis();
-  scState = SC_SETTLE;
+  // À compléter.
 }
 
 bool scanBusy() { return scState != SC_IDLE; }
 
-void scanUpdate() {                     // à appeler à chaque tour de loop()
-  switch (scState) {
-    case SC_IDLE:                       // servo au centre : on surveille l'avant
-      if (tof.dataReady()) {
-        uint16_t d = tof.read(false);
-        frontMm = (tof.ranging_data.range_status == VL53L1X::RangeValid) ? d : 0;
-      }
-      break;
-    case SC_SETTLE:                     // attendre que le servo soit arrivé
-      if (millis() - scT0 &gt;= (scIndex == 0 ? 400 : SETTLE_MS)) scState = SC_FLUSH;
-      break;
-    case SC_FLUSH:                      // jeter la mesure commencée pendant le mouvement
-      if (tof.dataReady()) { tof.read(false); scState = SC_MEASURE; }
-      break;
-    case SC_MEASURE:
-      if (tof.dataReady()) {
-        uint16_t d = tof.read(false);
-        scanDist[scIndex] = (tof.ranging_data.range_status == VL53L1X::RangeValid) ? d : 0;
-        if (++scIndex &gt;= SCAN_N) {      // fin du balayage
-          servoWriteDeg(90);
-          scState = SC_IDLE;
-          scanReady = true;
-        } else {
-          servoWriteDeg(SCAN_MIN + scIndex * SCAN_STEP);
-          scT0 = millis();
-          scState = SC_SETTLE;
-        }
-      }
-      break;
-  }
+// À appeler à chaque tour de loop() : fait avancer la machine d'états.
+void scanUpdate() {
+  // À compléter : un « case » par état, comme décrit en tête de fichier.
 }</code></pre></div></div></li>
     <li><div><p><strong>Calibrer le servo.</strong> Dans <code>setup()</code>, appeler successivement <code>servoWriteDeg(0)</code>, <code>(90)</code>, <code>(180)</code> et vérifier au rapporteur. Ajuster <code>SERVO_US_MIN</code> et <code>SERVO_US_MAX</code>. Si le servo force ou grésille en butée, réduire la plage.</p></div></li>
-    <li><div><p>Téléverser le programme principal :</p><div class="code"><div class="code-head"><span class="code-name">tp3_radar.ino</span><button class="copy" type="button">Copier</button></div><pre><code class="language-cpp">// TP3 — Radar 2D sur table : un balayage de 180° envoyé sur le port série
+    <li><div><p>Téléverser le programme principal :</p><div class="code"><div class="code-head"><span class="code-name">tp3_radar.ino</span><button class="copy" type="button">Copier</button></div><pre><code class="language-cpp">/*
+ * TP3 — Radar 2D sur table : un balayage de 180° envoyé sur le port série
+ *
+ * But : utiliser scanner.h (machine d'états non bloquante) pour obtenir des
+ * balayages complets et les envoyer au PC.
+ *
+ * Ce que le programme doit faire :
+ *   - setup : port série 115200, bus I2C (21/22, 400 kHz), scannerBegin()
+ *     (s'arrêter avec un message s'il échoue), puis lancer un premier balayage
+ *     avec scanStart().
+ *   - loop : appeler scanUpdate() à CHAQUE tour (elle ne bloque jamais). Quand
+ *     scanReady passe à vrai : le remettre à faux, envoyer une ligne
+ *        S,d0,d1,...,d60
+ *     (les SCAN_N distances de scanDist[], en mm) puis relancer scanStart().
+ *
+ * Le format est celui que lit pc/tools/radar_serial.py.
+ * Preuve que rien ne bloque : ajouter un clignotement de LED toutes les 100 ms
+ * dans loop() ; il doit rester régulier pendant le balayage.
+ */
 #include "scanner.h"
 
 void setup() {
-  Serial.begin(115200);
-  Wire.begin(21, 22);
-  Wire.setClock(400000);
-  if (!scannerBegin()) { Serial.println("VL53L1X introuvable"); while (true) delay(100); }
-  scanStart();
+  // À compléter.
 }
 
 void loop() {
-  scanUpdate();                       // ne bloque jamais : la loop reste libre
-  if (scanReady) {
-    scanReady = false;
-    Serial.print("S");                // une ligne par balayage : S,d0,d1,...,d60
-    for (int i = 0; i &lt; SCAN_N; i++) { Serial.print(','); Serial.print(scanDist[i]); }
-    Serial.println();
-    scanStart();
-  }
+  // À compléter.
 }</code></pre></div></div></li>
-    <li><div><p>Lancer l'affichage polaire sur le PC et placer des boîtes autour du capteur :</p><div class="code"><div class="code-head"><span class="code-name">pc/tools/radar_serial.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python"># Affiche en direct le radar reçu sur le port série (lignes "S,d0,d1,...")
+    <li><div><p>Lancer l'affichage polaire sur le PC et placer des boîtes autour du capteur :</p><div class="code"><div class="code-head"><span class="code-name">pc/tools/radar_serial.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python">"""TP3 — Affiche en direct le radar reçu sur le port série (lignes « S,d0,d1,... »).
+
+Usage : python radar_serial.py COM3        (Linux : /dev/ttyUSB0)
+
+Ce que le script doit faire :
+  - ouvrir le port série (115200 bauds) ;
+  - créer une figure polaire limitée au demi-cercle 0°..180° avec deux tracés :
+    les points bruts (gris) et la courbe filtrée par une médiane angulaire ;
+  - en boucle, tant que la fenêtre est ouverte : lire une ligne ; si elle
+    commence par « S, », convertir les distances en tableau numpy, remplacer
+    les 0 (mesures invalides) par NaN, vérifier qu'il y a bien 61 valeurs, puis
+    mettre à jour les deux tracés et l'échelle radiale ; plt.pause(0.01) laisse
+    la fenêtre se redessiner.
+
+mediane_angulaire(d, k) : pour chaque angle, la médiane des k distances voisines
+(prolonger les bords en répétant la première et la dernière valeur, np.pad
+mode « edge » ; np.nanmedian ignore les NaN). Elle supprime les points isolés
+aberrants (reflets, bords d'objets).
+"""
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
@@ -1683,32 +1861,19 @@ import serial
 PORT = sys.argv[1] if len(sys.argv) &gt; 1 else "COM3"
 ANGLES = np.radians(np.arange(0, 181, 3))       # 61 angles : 0°, 3°, …, 180°
 
+
 def mediane_angulaire(d, k=3):
     """Filtre médian le long de l'angle : supprime les points isolés aberrants."""
-    p = np.pad(d, k // 2, mode="edge")
-    return np.array([np.nanmedian(p[i:i + k]) for i in range(len(d))])
+    raise NotImplementedError("À compléter")
 
-ser = serial.Serial(PORT, 115200, timeout=1)
-plt.ion()
-fig = plt.figure()
-ax = fig.add_subplot(projection="polar")
-ax.set_thetamin(0); ax.set_thetamax(180)
-brut, = ax.plot([], [], "o", ms=3, color="0.6", label="brut")
-filtre, = ax.plot([], [], "-", lw=2, label="médiane")
-ax.legend(loc="lower left")
 
-while plt.fignum_exists(fig.number):
-    ligne = ser.readline().decode(errors="ignore").strip()
-    if not ligne.startswith("S,"):
-        plt.pause(0.01); continue
-    d = np.array(ligne.split(",")[1:], float)
-    if len(d) != len(ANGLES):
-        continue
-    d[d == 0] = np.nan                            # 0 = mesure invalide
-    brut.set_data(ANGLES, d)
-    filtre.set_data(ANGLES, mediane_angulaire(d))
-    ax.set_rmax(np.nanmax(d) * 1.1 if np.any(d &gt; 0) else 2000)
-    plt.pause(0.01)</code></pre></div></div></li>
+def main():
+    """Ouvre le port, crée la figure polaire et la met à jour à chaque balayage."""
+    raise NotImplementedError("À compléter")
+
+
+if __name__ == "__main__":
+    main()</code></pre></div></div></li>
     <li><div><p><strong>Fixer la convention d'angle.</strong> 90° = droit devant. Poser une boîte à gauche : si elle apparaît du côté des angles supérieurs à 90°, garder <code>SERVO_SENS = +1</code> dans <code>grid_map.py</code> (TP10), sinon mettre −1. Noter le résultat.</p></div></li>
     <li><div><p><strong>Compromis vitesse / qualité.</strong> Mesurer la durée d'un balayage pour <code>SETTLE_MS</code> = 15, 25 et 40 ms et un budget de mesure de 20, 33 et 50 ms. Garder le réglage qui donne un radar propre en moins de 6 s.</p></div></li>
   </ol>
@@ -1747,7 +1912,26 @@ while plt.fignum_exists(fig.number):
   <h2>Étapes</h2>
   <ol class="steps">
     <li><div><p><strong>Créer le réseau.</strong> Activer le partage de connexion du téléphone en <strong>2,4 GHz</strong> (Android : « Bande du point d'accès : 2,4 GHz » ; iPhone : activer « Maximiser la compatibilité »). Connecter le PC à ce réseau.</p></div></li>
-    <li><div><p>Relever l'adresse IP du PC (<code>ipconfig</code> sous Windows, <code>ip a</code> sous Linux) et la reporter dans <code>pcIP</code>. Renseigner aussi le nom et le mot de passe du réseau :</p><div class="code"><div class="code-head"><span class="code-name">comms.h</span><button class="copy" type="button">Copier</button></div><pre><code class="language-cpp">// comms.h — Wi-Fi + UDP en texte (robot → PC : port 5005, PC → robot : port 5006)
+    <li><div><p>Relever l'adresse IP du PC (<code>ipconfig</code> sous Windows, <code>ip a</code> sous Linux) et la reporter dans <code>pcIP</code>. Renseigner aussi le nom et le mot de passe du réseau :</p><div class="code"><div class="code-head"><span class="code-name">comms.h</span><button class="copy" type="button">Copier</button></div><pre><code class="language-cpp">/*
+ * comms.h — Wi-Fi + UDP en texte (robot -&gt; PC : port 5005, PC -&gt; robot : port 5006)
+ *
+ * Rôle : connecter l'ESP32 au réseau Wi-Fi (partage de connexion d'un téléphone
+ * en 2,4 GHz) et échanger des lignes de texte avec le PC, une ligne par datagramme.
+ *
+ * À implémenter :
+ *   wifiBegin()   mode station, économie d'énergie DÉSACTIVÉE (latence plus
+ *                 faible), connexion avec WIFI_SSID / WIFI_PASS, attente de la
+ *                 connexion en affichant des points, affichage de l'IP obtenue
+ *                 (le PC en a besoin), puis écoute UDP sur PORT_RX.
+ *   sendLine(s)   envoyer la chaîne s dans un datagramme vers pcIP:PORT_TX.
+ *   readCommand() si un datagramme est arrivé : retenir l'adresse de l'expéditeur
+ *                 dans pcIP (on répond à l'ordinateur qui nous parle), copier le
+ *                 texte dans buf en le terminant par '\0', noter l'instant dans
+ *                 lastCmdMs (chien de garde) et renvoyer true ; sinon false.
+ *
+ * Classes utiles : WiFi (mode, setSleep, begin, status, localIP) et WiFiUDP
+ * (begin, beginPacket, print, endPacket, parsePacket, read, remoteIP).
+ */
 #pragma once
 #include &lt;WiFi.h&gt;
 #include &lt;WiFiUdp.h&gt;
@@ -1762,97 +1946,95 @@ uint32_t txSeq = 0;                          // numéro de message : détecte le
 uint32_t lastCmdMs = 0;                      // instant de la dernière commande reçue
 
 void wifiBegin() {
-  WiFi.mode(WIFI_STA);
-  WiFi.setSleep(false);                      // pas d'économie d'énergie : latence plus faible
-  WiFi.begin(WIFI_SSID, WIFI_PASS);
-  Serial.print("Connexion Wi-Fi");
-  while (WiFi.status() != WL_CONNECTED) { delay(300); Serial.print('.'); }
-  Serial.printf("\nConnecte. IP du robot : %s\n", WiFi.localIP().toString().c_str());
-  udp.begin(PORT_RX);
+  // À compléter.
 }
 
 void sendLine(const String&amp; s) {
-  udp.beginPacket(pcIP, PORT_TX);
-  udp.print(s);
-  udp.endPacket();
+  // À compléter.
 }
 
 // Renvoie true et remplit buf si une commande est arrivée
 bool readCommand(char* buf, size_t len) {
-  int n = udp.parsePacket();
-  if (n &lt;= 0) return false;
-  pcIP = udp.remoteIP();                     // on répond à l'ordinateur qui nous parle
-  int r = udp.read(buf, len - 1);
-  buf[r &gt; 0 ? r : 0] = '\0';
-  lastCmdMs = millis();
-  return true;
+  // À compléter.
+  return false;
 }</code></pre></div></div></li>
-    <li><div><p>Dans le dossier <code>tp4_radar_wifi</code>, mettre <code>scanner.h</code>, <code>comms.h</code> et le programme principal. Téléverser, puis relever l'IP du robot sur le moniteur série.</p><div class="code"><div class="code-head"><span class="code-name">tp4_radar_wifi.ino</span><button class="copy" type="button">Copier</button></div><pre><code class="language-cpp">// TP4 — Radar sans fil : balayages envoyés au PC en UDP + écho pour mesurer la latence
+    <li><div><p>Dans le dossier <code>tp4_radar_wifi</code>, mettre <code>scanner.h</code>, <code>comms.h</code> et le programme principal. Téléverser, puis relever l'IP du robot sur le moniteur série.</p><div class="code"><div class="code-head"><span class="code-name">tp4_radar_wifi.ino</span><button class="copy" type="button">Copier</button></div><pre><code class="language-cpp">/*
+ * TP4 — Radar sans fil : balayages envoyés au PC en UDP + écho pour la latence
+ *
+ * But : remplacer le câble USB par le Wi-Fi. Même balayage qu'au TP3, mais
+ * chaque balayage part en UDP vers le PC (port 5005) et l'ESP32 répond aux
+ * pings du PC pour mesurer l'aller-retour.
+ *
+ * Ce que le programme doit faire :
+ *   - sendScan() : construire la ligne
+ *        S,seq,angle0,pas,d0,...,d60
+ *     avec seq = txSeq++ (numéro qui permet au PC de compter les pertes),
+ *     angle0 = SCAN_MIN, pas = SCAN_STEP, puis les SCAN_N distances ;
+ *     l'envoyer avec sendLine().
+ *   - setup : port série, I2C (21/22, 400 kHz), wifiBegin(), scannerBegin(),
+ *     premier scanStart().
+ *   - loop :
+ *       1. lire toutes les commandes arrivées (while readCommand(...)) ; si une
+ *          commande commence par 'P', la renvoyer telle quelle (écho) ;
+ *       2. scanUpdate() ;
+ *       3. si scanReady : le remettre à faux, sendScan(), scanStart().
+ *
+ * Côté PC : pc/tools/udp_radar.py affiche le radar, les pertes et la latence.
+ */
 #include "scanner.h"
 #include "comms.h"
 
 void sendScan() {
-  String s = "S," + String(txSeq++) + "," + String(SCAN_MIN) + "," + String(SCAN_STEP);
-  for (int i = 0; i &lt; SCAN_N; i++) s += "," + String(scanDist[i]);
-  sendLine(s);
+  // À compléter.
 }
 
 void setup() {
-  Serial.begin(115200);
-  Wire.begin(21, 22);
-  Wire.setClock(400000);
-  wifiBegin();
-  if (!scannerBegin()) { Serial.println("VL53L1X introuvable"); while (true) delay(100); }
-  scanStart();
+  // À compléter.
 }
 
 void loop() {
-  char cmd[64];
-  while (readCommand(cmd, sizeof cmd)) {
-    if (cmd[0] == 'P') sendLine(String(cmd));   // ping : renvoyé tel quel au PC
-  }
-  scanUpdate();
-  if (scanReady) { scanReady = false; sendScan(); scanStart(); }
+  // À compléter.
 }</code></pre></div></div></li>
-    <li><div><p>Lancer le récepteur sur le PC. Sous Windows, accepter la demande du pare-feu pour Python (réseaux privés).</p><div class="code"><div class="code-head"><span class="code-name">pc/tools/udp_radar.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python"># TP4 — Reçoit les balayages en UDP, affiche le radar, compte les pertes, mesure la latence
+    <li><div><p>Lancer le récepteur sur le PC. Sous Windows, accepter la demande du pare-feu pour Python (réseaux privés).</p><div class="code"><div class="code-head"><span class="code-name">pc/tools/udp_radar.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python">"""TP4 — Reçoit les balayages en UDP, affiche le radar, compte les pertes, mesure la latence.
+
+Usage : python udp_radar.py IP_ROBOT     (IP affichée par l'ESP32 sur le moniteur série)
+
+Réseau : le robot envoie vers le port 5005 du PC ; le PC envoie vers le port 5006
+du robot. Messages reçus :
+    S,seq,angle0,pas,d0,...,d60     un balayage
+    P,&lt;horodatage&gt;                  écho d'un ping envoyé par ce script
+
+Ce que le script doit faire :
+  1. socket UDP liée à ("0.0.0.0", 5005), non bloquante ;
+  2. figure polaire 0°..180° (comme radar_serial.py) ;
+  3. en boucle, tant que la fenêtre est ouverte :
+     - une fois par seconde, envoyer « P,&lt;time.perf_counter()&gt; » au robot ;
+     - lire un datagramme s'il y en a un (BlockingIOError : rien à lire ; sous
+       Windows, ConnectionResetError peut aussi arriver tant que le robot
+       n'écoute pas) ;
+     - écho P : latence aller-retour = maintenant - horodatage, en ms ; afficher
+       la dernière et la moyenne ;
+     - balayage S : les angles valent angle0 + pas * k ; compter les pertes avec
+       le numéro seq (un saut de seq = des paquets perdus) ; mettre à jour le
+       tracé et un titre « balayage n°… · perdus : …/… ».
+
+Valeurs typiques sur un partage de connexion : 5 à 30 ms d'aller-retour, moins
+de 1 % de pertes à 2 m du téléphone.
+"""
 import socket, sys, time
 import numpy as np
 import matplotlib.pyplot as plt
 
-ROBOT_IP = sys.argv[1]                         # IP affichée par l'ESP32 sur le moniteur série
-sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-sock.bind(("0.0.0.0", 5005))
-sock.setblocking(False)
+PORT_PC, PORT_ROBOT = 5005, 5006
 
-plt.ion()
-fig = plt.figure()
-ax = fig.add_subplot(projection="polar")
-ax.set_thetamin(0); ax.set_thetamax(180)
-pts, = ax.plot([], [], "o", ms=4)
-dernier, perdus, recus, rtts, t_ping = None, 0, 0, [], 0.0
 
-while plt.fignum_exists(fig.number):
-    if time.time() - t_ping &gt; 1:               # un ping par seconde
-        t_ping = time.time()
-        sock.sendto(f"P,{time.perf_counter()}".encode(), (ROBOT_IP, 5006))
-    try:
-        data, _ = sock.recvfrom(2048)
-    except (BlockingIOError, ConnectionResetError):
-        plt.pause(0.02); continue
-    f = data.decode(errors="ignore").strip().split(",")
-    if f[0] == "P":
-        rtts.append((time.perf_counter() - float(f[1])) * 1000)
-        print(f"aller-retour : {rtts[-1]:.1f} ms (moyenne {np.mean(rtts):.1f} ms)")
-    elif f[0] == "S":
-        seq, a0, pas = int(f[1]), int(f[2]), int(f[3])
-        d = np.array(f[4:], float); d[d == 0] = np.nan
-        if dernier is not None and seq &gt; dernier + 1:
-            perdus += seq - dernier - 1
-        dernier, recus = seq, recus + 1
-        pts.set_data(np.radians(a0 + pas * np.arange(len(d))), d)
-        ax.set_rmax(np.nanmax(d) * 1.1 if np.any(d &gt; 0) else 2000)
-        ax.set_title(f"balayage n°{seq} · perdus : {perdus}/{recus + perdus}")
-        plt.pause(0.01)</code></pre></div></div></li>
+def main(robot_ip):
+    """Étapes 1 à 3 décrites en tête de fichier."""
+    raise NotImplementedError("À compléter")
+
+
+if __name__ == "__main__":
+    main(sys.argv[1])</code></pre></div></div></li>
     <li><div><p><strong>Débrancher l'USB</strong> et alimenter l'ESP32 par une batterie externe : le radar doit continuer à s'afficher.</p></div></li>
     <li><div><p><strong>Wireshark</strong> : capturer sur l'interface Wi‑Fi avec le filtre <code>udp.port == 5005 || udp.port == 5006</code>. Relever pour un message <code>S</code> : adresses IP, ports, longueur UDP, TTL, et le texte en clair dans les données.</p></div></li>
     <li><div><p>Laisser tourner 5 minutes près du téléphone, puis à 10 m derrière un mur. Noter le temps aller-retour moyen et le taux de pertes dans chaque cas.</p></div></li>
@@ -1908,18 +2090,56 @@ while plt.fignum_exists(fig.number):
 
   <h2>Partie A · avec la webcam du PC</h2>
   <ol class="steps">
-    <li><div><p>Générer et imprimer les marqueurs <strong>à 100 %</strong>, sans « ajuster à la page ». Mesurer le carré noir : il doit faire 10,0 cm. Coller sur du carton en gardant la marge blanche.</p><div class="code"><div class="code-head"><span class="code-name">pc/tools/generate_markers.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python"># Génère 8 marqueurs ArUco (dictionnaire 4x4_50) à imprimer
+    <li><div><p>Générer et imprimer les marqueurs <strong>à 100 %</strong>, sans « ajuster à la page ». Mesurer le carré noir : il doit faire 10,0 cm. Coller sur du carton en gardant la marge blanche.</p><div class="code"><div class="code-head"><span class="code-name">pc/tools/generate_markers.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python">"""TP5 — Génère 8 marqueurs ArUco (dictionnaire 4x4_50) à imprimer.
+
+Ce que le script doit faire, pour chaque identifiant de 0 à 7 :
+  - générer l'image du marqueur avec cv2.aruco.generateImageMarker
+    (dictionnaire cv2.aruco.DICT_4X4_50, carré de 600 px) ;
+  - ajouter une marge blanche d'environ 120 px tout autour (cv2.copyMakeBorder) :
+    le détecteur a besoin d'un bord blanc pour trouver le carré noir ;
+  - écrire « ID i » dans la marge, pour ne pas confondre les marqueurs collés au mur ;
+  - enregistrer marker_i.png.
+Terminer en rappelant d'imprimer à 100 % et de vérifier au réglet que le carré
+noir mesure exactement 10 cm (c'est la taille TAILLE utilisée dans aruco_cam.py).
+"""
 import cv2
 
-d = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_4X4_50)
-for i in range(8):
-    m = cv2.aruco.generateImageMarker(d, i, 600)          # carré noir de 600 px
-    m = cv2.copyMakeBorder(m, 120, 120, 120, 120, cv2.BORDER_CONSTANT, value=255)
-    cv2.putText(m, f"ID {i}", (20, 80), cv2.FONT_HERSHEY_SIMPLEX, 2, 0, 3)
-    cv2.imwrite(f"marker_{i}.png", m)
-print("Imprimer à 100 % puis mesurer : le carré noir doit faire exactement 10 cm.")</code></pre></div></div></li>
+DICTIONNAIRE = cv2.aruco.DICT_4X4_50
+NB_MARQUEURS = 8
+
+
+def main():
+    """Génère et enregistre les marqueurs (voir la description ci-dessus)."""
+    raise NotImplementedError("À compléter")
+
+
+if __name__ == "__main__":
+    main()</code></pre></div></div></li>
     <li><div><p>Imprimer un damier de 10 × 7 cases (9 × 6 coins intérieurs), le coller sur une surface bien plane et mesurer le côté d'une case.</p></div></li>
-    <li><div><p><strong>Calibrer la webcam</strong> : 15 à 25 images du damier, sous des angles et à des distances variés, en couvrant tous les coins de l'image.</p><div class="code"><div class="code-head"><span class="code-name">pc/tools/calibrate.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python"># Calibration de la caméra avec un damier de 9 x 6 coins intérieurs
+    <li><div><p><strong>Calibrer la webcam</strong> : 15 à 25 images du damier, sous des angles et à des distances variés, en couvrant tous les coins de l'image.</p><div class="code"><div class="code-head"><span class="code-name">pc/tools/calibrate.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python">"""TP5 — Calibration de la caméra avec un damier de 9 x 6 coins intérieurs.
+
+Usage : python calibrate.py 0                        (webcam du PC)
+        python calibrate.py http://IP_CAM/capture    (ESP32-CAM)
+
+But : obtenir la matrice K (focales, centre optique) et les coefficients de
+distorsion de la caméra, indispensables pour mesurer une distance avec ArUco.
+Le résultat est enregistré dans calib.npz (K, dist), lu par aruco_cam.py.
+
+Ce que le script doit faire :
+  1. lire_image() : depuis l'URL (urllib, puis cv2.imdecode) ou depuis la
+     webcam (cv2.VideoCapture) ;
+  2. préparer les points 3D du damier : une grille 9 x 6 dont le pas vaut la
+     taille réelle d'une case EN MÈTRES (à mesurer sur l'impression), z = 0 ;
+  3. en boucle : chercher les coins (cv2.findChessboardCorners), les dessiner,
+     afficher le nombre d'images retenues ;
+       ESPACE -&gt; si le damier est vu, affiner les coins (cv2.cornerSubPix) et
+                 garder le couple (points 3D, points image) ;
+       Q      -&gt; terminer s'il y a au moins 10 images ;
+  4. cv2.calibrateCamera, puis enregistrer calib.npz et afficher l'erreur de
+     reprojection (bonne si &lt; 0,5 px, acceptable si &lt; 1 px).
+
+Conseil : 15 à 25 images, damier incliné, près, loin, dans les coins de l'image.
+"""
 import sys, urllib.request
 import cv2
 import numpy as np
@@ -1927,114 +2147,114 @@ import numpy as np
 SRC = sys.argv[1] if len(sys.argv) &gt; 1 else "0"   # "0" = webcam, ou http://IP_CAM/capture
 COINS, CARRE = (9, 6), 0.025                       # côté d'une case en mètres : MESUREZ-LE
 
+
 def lire_image(cap):
-    if SRC.startswith("http"):
-        data = urllib.request.urlopen(SRC, timeout=3).read()
-        return cv2.imdecode(np.frombuffer(data, np.uint8), cv2.IMREAD_COLOR)
-    ok, img = cap.read()
-    return img if ok else None
+    """Renvoie une image BGR (ou None) depuis l'URL SRC ou la webcam cap."""
+    raise NotImplementedError("À compléter")
 
-cap = None if SRC.startswith("http") else cv2.VideoCapture(int(SRC))
-objp = np.zeros((COINS[0] * COINS[1], 3), np.float32)
-objp[:, :2] = np.mgrid[0:COINS[0], 0:COINS[1]].T.reshape(-1, 2) * CARRE
-obj_pts, img_pts, gris = [], [], None
-print("ESPACE = garder l'image, Q = calculer (15 à 25 images, angles et distances variés)")
 
-while True:
-    img = lire_image(cap)
-    if img is None:
-        continue
-    gris = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    ok, coins = cv2.findChessboardCorners(gris, COINS)
-    vue = img.copy()
-    if ok:
-        cv2.drawChessboardCorners(vue, COINS, coins, ok)
-    cv2.putText(vue, f"images : {len(obj_pts)}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
-    cv2.imshow("calibration", vue)
-    k = cv2.waitKey(30) &amp; 0xFF
-    if k == ord(" ") and ok:
-        coins = cv2.cornerSubPix(gris, coins, (11, 11), (-1, -1),
-                                 (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001))
-        obj_pts.append(objp); img_pts.append(coins)
-    elif k == ord("q") and len(obj_pts) &gt;= 10:
-        break
+def points_damier():
+    """Renvoie le tableau (54, 3) float32 des coins du damier dans son repère, en mètres."""
+    raise NotImplementedError("À compléter")
 
-err, K, dist, _, _ = cv2.calibrateCamera(obj_pts, img_pts, gris.shape[::-1], None, None)
-np.savez("calib.npz", K=K, dist=dist)
-print(f"Erreur de reprojection : {err:.3f} px (bon si &lt; 0,5 ; acceptable si &lt; 1)")
-print("Matrice K :\n", K)</code></pre></div></div></li>
-    <li><div><p><strong>Détecter et mesurer.</strong> Placer un marqueur à 50, 100 et 150 cm, de face puis décalé de 20° : comparer aux mesures au mètre et au rapporteur.</p><div class="code"><div class="code-head"><span class="code-name">pc/robot/aruco_cam.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python"># Détection des marqueurs ArUco et estimation de la distance et de l'angle
+
+def main():
+    """Boucle de capture puis calibration (étapes 3 et 4)."""
+    raise NotImplementedError("À compléter")
+
+
+if __name__ == "__main__":
+    main()</code></pre></div></div></li>
+    <li><div><p><strong>Détecter et mesurer.</strong> Placer un marqueur à 50, 100 et 150 cm, de face puis décalé de 20° : comparer aux mesures au mètre et au rapporteur.</p><div class="code"><div class="code-head"><span class="code-name">pc/robot/aruco_cam.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python">"""aruco_cam.py — détection des marqueurs ArUco et estimation de la distance et de l'angle (TP5).
+
+Usage autonome : python aruco_cam.py 0                         (webcam)
+                 python aruco_cam.py http://IP_CAM/capture     (ESP32-CAM)
+
+Rôle : pour chaque marqueur visible, donner son identifiant, sa distance (m) et
+son angle (rad, positif = à gauche de l'axe optique). Utilisé par fusion_test.py
+et app.py pour corriger la position du robot.
+
+À implémenter :
+  charger_calibration()
+      Lire calib.npz (produit par pc/tools/calibrate.py) : matrice K et
+      coefficients de distorsion.
+  detecter(img)
+      - niveaux de gris, puis cv2.aruco.ArucoDetector (dictionnaire DICT_4X4_50)
+        .detectMarkers ;
+      - pour chaque marqueur : cv2.solvePnP entre les 4 coins du marqueur dans son
+        propre repère (carré de côté TAILLE centré en 0, z = 0, dans l'ordre
+        renvoyé par OpenCV : haut-gauche, haut-droit, bas-droit, bas-gauche) et
+        les 4 coins détectés dans l'image ; le drapeau SOLVEPNP_IPPE_SQUARE est
+        fait pour ce cas ;
+      - tvec = position du marqueur dans le repère caméra (x à droite, y en bas,
+        z devant) : distance horizontale = √(x² + z²), angle = -atan2(x, z) ;
+      - dessiner les axes et les contours sur l'image (aide au réglage).
+  lire_image(src, cap)
+      Depuis l'URL /capture de l'ESP32-CAM (urllib + cv2.imdecode) ou depuis la
+      webcam cap.
+
+Validation : marqueur à 1 m en face -&gt; 1,00 m ± 3 cm et 0° ± 2°.
+"""
 import math, sys, urllib.request
 import cv2
 import numpy as np
 
 TAILLE = 0.10                                   # côté du carré noir imprimé (m)
-calib = np.load("calib.npz")
-K, DIST = calib["K"], calib["dist"]
-# Coins du marqueur dans son propre repère, dans l'ordre renvoyé par OpenCV
-OBJ = np.array([[-TAILLE / 2,  TAILLE / 2, 0], [TAILLE / 2,  TAILLE / 2, 0],
-                [ TAILLE / 2, -TAILLE / 2, 0], [-TAILLE / 2, -TAILLE / 2, 0]], np.float32)
-DETECTEUR = cv2.aruco.ArucoDetector(cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_4X4_50),
-                                    cv2.aruco.DetectorParameters())
+
+
+def charger_calibration(fichier="calib.npz"):
+    """Renvoie (K, dist) lus dans le fichier de calibration."""
+    raise NotImplementedError("À compléter")
+
 
 def detecter(img):
     """Renvoie [(id, distance_m, angle_rad)] ; angle &gt; 0 = marqueur à gauche de l'axe optique."""
-    gris = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    coins, ids, _ = DETECTEUR.detectMarkers(gris)
-    res = []
-    if ids is None:
-        return res
-    for c, i in zip(coins, ids.flatten()):
-        ok, rvec, tvec = cv2.solvePnP(OBJ, c[0], K, DIST, flags=cv2.SOLVEPNP_IPPE_SQUARE)
-        if not ok:
-            continue
-        tx, ty, tz = tvec.flatten()             # repère caméra : x à droite, y en bas, z devant
-        res.append((int(i), math.hypot(tx, tz), -math.atan2(tx, tz)))
-        cv2.drawFrameAxes(img, K, DIST, rvec, tvec, TAILLE / 2)
-    cv2.aruco.drawDetectedMarkers(img, coins, ids)
-    return res
+    raise NotImplementedError("À compléter")
+
 
 def lire_image(src, cap=None):
     """src = URL /capture de l'ESP32-CAM (image la plus récente) ou numéro de webcam."""
-    if src.startswith("http"):
-        data = urllib.request.urlopen(src, timeout=3).read()
-        return cv2.imdecode(np.frombuffer(data, np.uint8), cv2.IMREAD_COLOR)
-    ok, img = cap.read()
-    return img if ok else None
+    raise NotImplementedError("À compléter")
+
 
 if __name__ == "__main__":
-    SRC = sys.argv[1] if len(sys.argv) &gt; 1 else "0"
-    cap = None if SRC.startswith("http") else cv2.VideoCapture(int(SRC))
-    while True:
-        img = lire_image(SRC, cap)
-        if img is None:
-            continue
-        for i, r, a in detecter(img):
-            print(f"marqueur {i} : {r * 100:.1f} cm, {math.degrees(a):+.1f}°")
-        cv2.imshow("ArUco", img)
-        if cv2.waitKey(1) &amp; 0xFF == ord("q"):
-            break</code></pre></div></div></li>
-    <li><div><p><strong>Version maison</strong> des étapes 1 et 2 : afficher l'image seuillée et les quadrilatères trouvés, et comparer avec l'étape 3 du détecteur OpenCV.</p><div class="code"><div class="code-head"><span class="code-name">pc/tools/detection_maison.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python"># Étapes 2 et 3 de la détection, codées à la main (à comparer avec OpenCV)
+    # À compléter : ouvrir la source donnée en argument, puis en boucle lire une
+    # image, détecter, afficher « marqueur i : x cm, y° » et l'image ; Q pour quitter.
+    raise NotImplementedError("À compléter")</code></pre></div></div></li>
+    <li><div><p><strong>Version maison</strong> des étapes 1 et 2 : afficher l'image seuillée et les quadrilatères trouvés, et comparer avec l'étape 3 du détecteur OpenCV.</p><div class="code"><div class="code-head"><span class="code-name">pc/tools/detection_maison.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python">"""TP5 — Étapes 2 et 3 de la détection ArUco, codées à la main (à comparer avec OpenCV).
+
+Une détection ArUco se fait en quatre étapes : (1) niveaux de gris,
+(2) seuillage, (3) recherche des quadrilatères, (4) lecture des bits du code.
+Ce fichier code les étapes 2 et 3 pour comprendre ce que fait OpenCV.
+
+seuillage_adaptatif(gris, taille, c)
+    Un pixel devient noir (255 dans l'image binaire) s'il est plus sombre que la
+    moyenne de son voisinage taille x taille, moins c. Comparer à une moyenne
+    LOCALE rend le seuil robuste aux ombres et aux éclairages inégaux.
+    La moyenne locale est un filtre passe-bas 2D : cv2.blur sur l'image en float32.
+
+quadrilateres(binaire, aire_min)
+    Trouver les contours (cv2.findContours), approcher chacun par un polygone
+    (cv2.approxPolyDP, tolérance ≈ 4 % du périmètre), et ne garder que ceux qui
+    ont 4 sommets, sont convexes et ont une aire suffisante. Renvoyer la liste
+    des quadrilatères sous forme de tableaux (4, 2).
+
+Pour aller plus loin : remplacer cv2.blur par votre propre convolution (image
+intégrale), puis redresser chaque quadrilatère (cv2.getPerspectiveTransform) et
+lire la grille 4 x 4 de bits.
+"""
 import cv2
 import numpy as np
 
+
 def seuillage_adaptatif(gris, taille=23, c=7):
     """Pixel noir si plus sombre que la moyenne de son voisinage : robuste aux ombres."""
-    moyenne = cv2.blur(gris.astype(np.float32), (taille, taille))   # filtre passe-bas 2D
-    return ((gris &lt; moyenne - c) * 255).astype(np.uint8)
+    raise NotImplementedError("À compléter")
+
 
 def quadrilateres(binaire, aire_min=800):
     """Garde les contours qui ressemblent à un carré vu en perspective."""
-    contours, _ = cv2.findContours(binaire, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
-    quads = []
-    for c in contours:
-        a = cv2.approxPolyDP(c, 0.04 * cv2.arcLength(c, True), True)
-        if len(a) == 4 and cv2.isContourConvex(a) and cv2.contourArea(a) &gt; aire_min:
-            quads.append(a.reshape(4, 2))
-    return quads
-
-# Pour aller plus loin : remplacer cv2.blur par votre propre convolution (image intégrale),
-# puis redresser chaque quadrilatère (cv2.getPerspectiveTransform) et lire la grille 4 x 4 de bits.</code></pre></div></div></li>
+    raise NotImplementedError("À compléter")</code></pre></div></div></li>
   </ol>
 
   <h2>Partie B · avec l'ESP32‑CAM</h2>
@@ -2099,7 +2319,31 @@ const char *password = "motdepasse";</code></pre></div></div></li>
   <h2>Étapes</h2>
   <ol class="steps">
     <li><div><p>Relancer le scanner I2C : <code>0x29</code> et <code>0x68</code> doivent apparaître tous les deux.</p></div></li>
-    <li><div><p>Créer <code>imu.h</code> : la lecture se fait registre par registre, sans bibliothèque.</p><div class="code"><div class="code-head"><span class="code-name">imu.h</span><button class="copy" type="button">Copier</button></div><pre><code class="language-cpp">// imu.h — MPU6050 sans bibliothèque : vitesse de rotation autour de l'axe vertical Z
+    <li><div><p>Créer <code>imu.h</code> : la lecture se fait registre par registre, sans bibliothèque.</p><div class="code"><div class="code-head"><span class="code-name">imu.h</span><button class="copy" type="button">Copier</button></div><pre><code class="language-cpp">/*
+ * imu.h — MPU6050 sans bibliothèque : vitesse de rotation autour de l'axe vertical Z
+ *
+ * Rôle : dialoguer directement avec les registres du MPU6050 en I2C (adresse
+ * 0x68) pour lire le gyroscope Z en °/s, corrigé de son biais.
+ *
+ * Registres utiles (fiche « MPU-6000 Register Map ») :
+ *   0x6B PWR_MGMT_1   écrire 0x00 pour sortir du mode veille
+ *   0x1A CONFIG       0x03 : filtre passe-bas numérique ≈ 44 Hz
+ *   0x1B GYRO_CONFIG  0x00 : pleine échelle ±250 °/s, soit 131 LSB par °/s
+ *   0x47 / 0x48       GYRO_ZOUT_H / GYRO_ZOUT_L (entier signé 16 bits)
+ *
+ * À implémenter :
+ *   mpuWrite(reg, val)  beginTransmission, write(reg), write(val), endTransmission.
+ *   mpuRead16(reg)      écrire le numéro de registre, endTransmission(false)
+ *                       (« repeated start »), requestFrom 2 octets, lire l'octet
+ *                       haut puis l'octet bas (deux lectures séparées : l'ordre
+ *                       d'évaluation d'une expression n'est pas garanti en C++),
+ *                       et les assembler en int16_t.
+ *   gyroZraw()          valeur brute convertie en °/s.
+ *   imuBegin()          vérifier que le capteur acquitte, puis écrire les trois
+ *                       registres de configuration ; false si absent.
+ *   imuCalibrate(n)     robot IMMOBILE : moyenne de n lectures (≈ 1 s) -&gt; gzBias.
+ *   gyroZ()             gyroZraw() - gzBias.
+ */
 #pragma once
 #include &lt;Wire.h&gt;
 
@@ -2107,72 +2351,64 @@ const uint8_t MPU = 0x68;      // AD0 relié à GND
 float gzBias = 0;              // biais du gyroscope (°/s), mesuré au repos
 
 void mpuWrite(uint8_t reg, uint8_t val) {
-  Wire.beginTransmission(MPU);
-  Wire.write(reg);
-  Wire.write(val);
-  Wire.endTransmission();
+  // À compléter.
 }
 
 int16_t mpuRead16(uint8_t reg) {
-  Wire.beginTransmission(MPU);
-  Wire.write(reg);
-  Wire.endTransmission(false);             // « repeated start »
-  Wire.requestFrom(MPU, (uint8_t)2);
-  uint8_t hi = Wire.read();                // deux lectures séparées : l'ordre est garanti
-  uint8_t lo = Wire.read();
-  return (int16_t)((hi &lt;&lt; 8) | lo);
+  // À compléter.
+  return 0;
 }
 
-float gyroZraw() { return mpuRead16(0x47) / 131.0f; }   // ±250 °/s → 131 LSB par °/s
+float gyroZraw() {
+  // À compléter.
+  return 0;
+}
 
 bool imuBegin() {
-  Wire.beginTransmission(MPU);
-  if (Wire.endTransmission() != 0) return false;
-  mpuWrite(0x6B, 0x00);        // PWR_MGMT_1 : sortie du mode veille
-  mpuWrite(0x1A, 0x03);        // CONFIG : filtre passe-bas numérique ≈ 44 Hz
-  mpuWrite(0x1B, 0x00);        // GYRO_CONFIG : ±250 °/s
-  delay(100);
-  return true;
+  // À compléter.
+  return false;
 }
 
 void imuCalibrate(int n = 500) {           // le capteur doit être IMMOBILE (~1 s)
-  double s = 0;
-  for (int i = 0; i &lt; n; i++) { s += gyroZraw(); delay(2); }
-  gzBias = s / n;
+  // À compléter.
 }
 
 // °/s ; positif = rotation vers la gauche vue de dessus (module à plat, composants en haut)
-float gyroZ() { return gyroZraw() - gzBias; }</code></pre></div></div></li>
-    <li><div><p>Téléverser le programme de cap (plaque immobile au démarrage pendant la calibration).</p><div class="code"><div class="code-head"><span class="code-name">tp6_cap.ino</span><button class="copy" type="button">Copier</button></div><pre><code class="language-cpp">// TP6 — Cap du robot par intégration du gyroscope
+float gyroZ() {
+  // À compléter.
+  return 0;
+}</code></pre></div></div></li>
+    <li><div><p>Téléverser le programme de cap (plaque immobile au démarrage pendant la calibration).</p><div class="code"><div class="code-head"><span class="code-name">tp6_cap.ino</span><button class="copy" type="button">Copier</button></div><pre><code class="language-cpp">/*
+ * TP6 — Cap du robot par intégration du gyroscope
+ *
+ * But : obtenir l'angle de rotation du robot (le cap, en degrés) en intégrant
+ * la vitesse de rotation donnée par le gyroscope Z du MPU6050 (imu.h).
+ *
+ * Ce que le programme doit faire :
+ *   - setup : port série, I2C (21/22, 400 kHz), imuBegin() (s'arrêter si le
+ *     capteur manque), demander de ne pas bouger, imuCalibrate(), afficher le
+ *     biais mesuré (gzBias), mémoriser l'instant de départ avec micros().
+ *   - loop :
+ *       1. dt = temps écoulé depuis le tour précédent, en secondes (micros()) ;
+ *       2. gz = gyroZ() en °/s ;
+ *       3. cap += gz * dt   (intégration par la méthode des rectangles) ;
+ *       4. toutes les 50 ms, envoyer une ligne CSV  temps_ms,vitesse_deg_s,cap_deg
+ *       5. une petite pause de quelques ms pour ne pas saturer le bus.
+ *
+ * Validation : immobile, le cap dérive de moins de 1° par minute ; un quart de
+ * tour à la main donne 90° à ±2° près.
+ */
 #include "imu.h"
 
 float cap = 0;                  // degrés
-uint32_t tPrev;
+uint32_t tPrev;                 // instant du tour précédent (µs)
 
 void setup() {
-  Serial.begin(115200);
-  Wire.begin(21, 22);
-  Wire.setClock(400000);
-  if (!imuBegin()) { Serial.println("MPU6050 introuvable"); while (true) delay(100); }
-  Serial.println("Ne pas bouger : calibration...");
-  imuCalibrate();
-  Serial.printf("biais = %.3f deg/s\n", gzBias);
-  tPrev = micros();
+  // À compléter.
 }
 
 void loop() {
-  uint32_t now = micros();
-  float dt = (now - tPrev) * 1e-6f;
-  tPrev = now;
-  float gz = gyroZ();
-  cap += gz * dt;               // intégration (méthode des rectangles)
-
-  static uint32_t tLog = 0;
-  if (millis() - tLog &gt;= 50) {  // CSV : temps_ms,vitesse_deg_s,cap_deg
-    tLog = millis();
-    Serial.printf("%lu,%.2f,%.2f\n", millis(), gz, cap);
-  }
-  delay(5);
+  // À compléter.
 }</code></pre></div></div></li>
     <li><div><p>Tourner la plaque de 90° quatre fois en suivant un bord de table ou un rapporteur. Puis faire 5 tours complets et comparer à 1800°.</p></div></li>
     <li><div><p><strong>Dérive</strong> : laisser la plaque immobile 2 minutes et enregistrer le cap (<code>log_serial.py</code> du TP7 peut servir). Refaire en mettant <code>gzBias = 0</code> : comparer les deux pentes en °/min.</p></div></li>
@@ -2254,7 +2490,27 @@ const float MM_PER_TICK   = PI * WHEEL_D_MM / TICKS_PER_REV;
 const float    KP = 1.0, KI = 10.0;   // valeurs de départ, calculées au TP7
 const uint32_t CTRL_MS = 20;          // période de la boucle de vitesse (50 Hz)
 const uint16_t STOP_MM = 150;         // arrêt d'urgence si obstacle plus proche</code></pre></div></details>
-  <details class="code-fold"><summary>motors.h : commande du pont en H</summary><div class="code"><div class="code-head"><span class="code-name">motors.h</span><button class="copy" type="button">Copier</button></div><pre><code class="language-cpp">// motors.h — pont en H TB6612FNG : commande signée de -255 à +255 par roue
+  <details class="code-fold"><summary>motors.h : commande du pont en H</summary><div class="code"><div class="code-head"><span class="code-name">motors.h</span><button class="copy" type="button">Copier</button></div><pre><code class="language-cpp">/*
+ * motors.h — pont en H TB6612FNG : commande signée de -255 à +255 par roue
+ *
+ * Rôle : traduire une commande signée par roue en signaux pour le TB6612.
+ *
+ * Table de vérité d'une voie du TB6612 :
+ *   IN1 = 1, IN2 = 0 : un sens      IN1 = 0, IN2 = 1 : l'autre sens
+ *   IN1 = 0, IN2 = 0 : roue libre   PWM : rapport cyclique = vitesse
+ *   STBY = 0 : tout le pont est coupé (état sûr au démarrage)
+ *
+ * À implémenter :
+ *   motorsBegin()       broches IN1/IN2/STBY en sortie et à 0 ; PWMA sur le canal
+ *                       LEDC 0 et PWMB sur le canal 1 (même timer), à PWM_FREQ
+ *                       et PWM_BITS (ledcAttachChannel).
+ *   driveOne(...)       borner la commande à ±255, fixer IN1/IN2 selon le signe,
+ *                       écrire |commande| sur la PWM.
+ *   setMotors(g, d)     sortir du mode veille (STBY à 1) et piloter les deux voies
+ *                       en appliquant MOTOR_L_SIGN / MOTOR_R_SIGN (config.h) pour
+ *                       qu'une commande positive fasse toujours avancer la roue.
+ *   motorsOff()         commandes à zéro puis STBY à 0.
+ */
 #pragma once
 #include "config.h"
 
@@ -2262,73 +2518,114 @@ const uint32_t PWM_FREQ = 20000;   // 20 kHz : au-dessus de l'audible
 const uint8_t  PWM_BITS = 8;       // rapport cyclique de 0 à 255
 
 void motorsBegin() {
-  int sorties[] = {PIN_AIN1, PIN_AIN2, PIN_BIN1, PIN_BIN2, PIN_STBY};
-  for (int p : sorties) { pinMode(p, OUTPUT); digitalWrite(p, LOW); }
-  ledcAttachChannel(PIN_PWMA, PWM_FREQ, PWM_BITS, 0);   // canaux 0 et 1 → timer 0
-  ledcAttachChannel(PIN_PWMB, PWM_FREQ, PWM_BITS, 1);
+  // À compléter.
 }
 
 static void driveOne(int in1, int in2, int pwmPin, int cmd) {
-  cmd = constrain(cmd, -255, 255);
-  digitalWrite(in1, cmd &gt; 0);      // IN1=1, IN2=0 : sens horaire
-  digitalWrite(in2, cmd &lt; 0);      // IN1=0, IN2=1 : sens anti-horaire ; 0/0 : roue libre
-  ledcWrite(pwmPin, abs(cmd));
+  // À compléter.
 }
 
 void setMotors(int left, int right) {
-  digitalWrite(PIN_STBY, HIGH);
-  driveOne(PIN_AIN1, PIN_AIN2, PIN_PWMA, MOTOR_L_SIGN * left);
-  driveOne(PIN_BIN1, PIN_BIN2, PIN_PWMB, MOTOR_R_SIGN * right);
+  // À compléter.
 }
 
 void motorsOff() {
-  setMotors(0, 0);
-  digitalWrite(PIN_STBY, LOW);     // pont en H en veille
+  // À compléter.
 }</code></pre></div></details>
-  <details class="code-fold"><summary>encoders.h : décodage en quadrature</summary><div class="code"><div class="code-head"><span class="code-name">encoders.h</span><button class="copy" type="button">Copier</button></div><pre><code class="language-cpp">// encoders.h — comptage des encodeurs en quadrature (x4) par interruptions
+  <details class="code-fold"><summary>encoders.h : décodage en quadrature</summary><div class="code"><div class="code-head"><span class="code-name">encoders.h</span><button class="copy" type="button">Copier</button></div><pre><code class="language-cpp">/*
+ * encoders.h — comptage des encodeurs en quadrature (x4) par interruptions
+ *
+ * Rôle : compter les ticks de chaque roue, avec leur signe, en décodant les
+ * deux signaux A et B décalés de 90°.
+ *
+ * Principe du décodage x4 : à chaque front (montant ou descendant) de A OU de B,
+ * on lit l'état AB (2 bits). L'index = (ancien état &lt;&lt; 2) | nouvel état (4 bits)
+ * donne, dans une table de 16 cases, +1, -1 ou 0 (transition impossible ou
+ * parasite). Construire la table QDEC à partir de la séquence 00 -&gt; 01 -&gt; 11 -&gt; 10
+ * (un sens) et de la séquence inverse (l'autre sens).
+ *
+ * À implémenter :
+ *   isrL() / isrR()   IRAM_ATTR : mettre à jour l'état (garder 4 bits) et ajouter
+ *                     QDEC[état] au compteur de la roue.
+ *   encodersBegin()   les 4 broches en INPUT (GPIO 34 à 39 n'ont PAS de pull-up
+ *                     interne : résistance de 10 kΩ vers 3,3 V obligatoire) et une
+ *                     interruption CHANGE sur chacune des 4 broches.
+ *   getTicksL/R()     compteur multiplié par ENC_L_SIGN / ENC_R_SIGN (config.h).
+ */
 #pragma once
 #include "config.h"
 
 // Table de décodage : index = (ancien état AB &lt;&lt; 2) | nouvel état AB
-static const int8_t QDEC[16] = {0,-1,1,0, 1,0,0,-1, -1,0,0,1, 0,1,-1,0};
+static const int8_t QDEC[16] = { 0 };   // À compléter : 16 valeurs parmi +1, -1, 0
 volatile int32_t ticksL = 0, ticksR = 0;
 volatile uint8_t stL = 0, stR = 0;
 
 void IRAM_ATTR isrL() {
-  stL = ((stL &lt;&lt; 2) | (digitalRead(PIN_ENC_LA) &lt;&lt; 1) | digitalRead(PIN_ENC_LB)) &amp; 0x0F;
-  ticksL += QDEC[stL];
+  // À compléter.
 }
 void IRAM_ATTR isrR() {
-  stR = ((stR &lt;&lt; 2) | (digitalRead(PIN_ENC_RA) &lt;&lt; 1) | digitalRead(PIN_ENC_RB)) &amp; 0x0F;
-  ticksR += QDEC[stR];
+  // À compléter.
 }
 
 void encodersBegin() {
-  int entrees[] = {PIN_ENC_LA, PIN_ENC_LB, PIN_ENC_RA, PIN_ENC_RB};
-  for (int p : entrees) pinMode(p, INPUT);        // tirage externe 10 kΩ obligatoire
-  attachInterrupt(digitalPinToInterrupt(PIN_ENC_LA), isrL, CHANGE);
-  attachInterrupt(digitalPinToInterrupt(PIN_ENC_LB), isrL, CHANGE);
-  attachInterrupt(digitalPinToInterrupt(PIN_ENC_RA), isrR, CHANGE);
-  attachInterrupt(digitalPinToInterrupt(PIN_ENC_RB), isrR, CHANGE);
+  // À compléter.
 }
 
-int32_t getTicksL() { return ENC_L_SIGN * ticksL; }   // lecture 32 bits : atomique sur ESP32
-int32_t getTicksR() { return ENC_R_SIGN * ticksR; }</code></pre></div></details>
-  <details class="code-fold"><summary>speed_pi.h : régulateur PI</summary><div class="code"><div class="code-head"><span class="code-name">speed_pi.h</span><button class="copy" type="button">Copier</button></div><pre><code class="language-cpp">// speed_pi.h — régulateur PI de vitesse (mm/s → commande PWM)
+int32_t getTicksL() { return 0; }   // À compléter (lecture 32 bits : atomique sur ESP32)
+int32_t getTicksR() { return 0; }   // À compléter</code></pre></div></details>
+  <details class="code-fold"><summary>speed_pi.h : régulateur PI</summary><div class="code"><div class="code-head"><span class="code-name">speed_pi.h</span><button class="copy" type="button">Copier</button></div><pre><code class="language-cpp">/*
+ * speed_pi.h — régulateur PI de vitesse (mm/s -&gt; commande PWM)
+ *
+ * Rôle : calculer la commande PWM d'une roue pour que sa vitesse mesurée suive
+ * la consigne. Un objet SpeedPI par roue.
+ *
+ * update(consigne, mesure, dt) :
+ *   e = consigne - mesure
+ *   u = KP * e + intégrale + KI * e * dt
+ *   anti-emballement : n'ajouter KI * e * dt à l'intégrale QUE si u n'est pas
+ *   saturée (-255 &lt; u &lt; 255), sinon l'intégrale grossit sans effet et provoque
+ *   un gros dépassement quand la saturation cesse ;
+ *   renvoyer u bornée à ±255.
+ * reset() : remettre l'intégrale à zéro (changement de consigne, arrêt).
+ *
+ * KP et KI sont dans config.h ; pc/tools/analyse_echelon.py propose des valeurs
+ * à partir de la réponse indicielle du moteur (TP7).
+ */
 #pragma once
 #include "config.h"
 
 struct SpeedPI {
   float integ = 0;
   float update(float consigne, float mesure, float dt) {
-    float e = consigne - mesure;
-    float u = KP * e + integ + KI * e * dt;
-    if (u &gt; -255 &amp;&amp; u &lt; 255) integ += KI * e * dt;   // anti-emballement : pas d'intégration en saturation
-    return constrain(u, -255, 255);
+    // À compléter.
+    return 0;
   }
   void reset() { integ = 0; }
 };</code></pre></div></details>
-  <details class="code-fold"><summary>tp7_banc_moteur.ino : programme de test</summary><div class="code"><div class="code-head"><span class="code-name">tp7_banc_moteur.ino</span><button class="copy" type="button">Copier</button></div><pre><code class="language-cpp">// TP7 — Banc moteur (roues en l'air) : boucle ouverte, réponse indicielle, régulation PI
+  <details class="code-fold"><summary>tp7_banc_moteur.ino : programme de test</summary><div class="code"><div class="code-head"><span class="code-name">tp7_banc_moteur.ino</span><button class="copy" type="button">Copier</button></div><pre><code class="language-cpp">/*
+ * TP7 — Banc moteur (roues en l'air) : boucle ouverte, réponse indicielle, PI
+ *
+ * But : piloter les moteurs depuis le moniteur série, mesurer la vitesse des
+ * roues avec les encodeurs, enregistrer une réponse indicielle puis tester le
+ * régulateur PI.
+ *
+ * Commandes reçues sur le port série (une par ligne) :
+ *   p &lt;pwm&gt;   boucle OUVERTE : même PWM sur les deux roues (ex. « p 150 »)
+ *   v &lt;mm/s&gt;  boucle FERMÉE  : consigne de vitesse pour les deux PI (remis à zéro)
+ *   t         afficher les ticks cumulés des deux encodeurs
+ *   autre     arrêt (mode STOP)
+ *
+ * lireCommande() : si une ligne est disponible, la lire jusqu'à '\n', la nettoyer
+ * (trim) puis mettre à jour « mode » et « consigne » selon la première lettre.
+ *
+ * loop() : appeler lireCommande(), puis toutes les CTRL_MS millisecondes :
+ *   1. dt en secondes depuis le dernier calcul ;
+ *   2. vitesses vL, vR en mm/s = (ticks actuels - ticks précédents) * MM_PER_TICK / dt ;
+ *   3. commande : OUVERT -&gt; uL = uR = consigne ; FERME -&gt; piL.update / piR.update ;
+ *      STOP -&gt; motorsOff(), sinon setMotors(uL, uR) ;
+ *   4. hors STOP, envoyer une ligne CSV  temps_ms,consigne,vG,vD,pwmG,pwmD
+ *      (lue par pc/tools/log_serial.py puis pc/tools/analyse_echelon.py).
+ */
 #include "config.h"
 #include "motors.h"
 #include "encoders.h"
@@ -2339,13 +2636,7 @@ enum { STOP, OUVERT, FERME } mode = STOP;
 float consigne = 0;                 // PWM (mode OUVERT) ou mm/s (mode FERME)
 
 void lireCommande() {
-  if (!Serial.available()) return;
-  String l = Serial.readStringUntil('\n');
-  l.trim();
-  if (l.startsWith("p"))      { mode = OUVERT; consigne = l.substring(1).toFloat(); }
-  else if (l.startsWith("v")) { mode = FERME;  consigne = l.substring(1).toFloat(); piL.reset(); piR.reset(); }
-  else if (l == "t")          { Serial.printf("ticks G=%ld D=%ld\n", (long)getTicksL(), (long)getTicksR()); }
-  else                        { mode = STOP;   consigne = 0; }
+  // À compléter.
 }
 
 void setup() {
@@ -2357,24 +2648,7 @@ void setup() {
 
 void loop() {
   lireCommande();
-  static uint32_t t = millis();
-  static int32_t pL = 0, pR = 0;
-  if (millis() - t &lt; CTRL_MS) return;
-  float dt = (millis() - t) / 1000.0f;
-  t = millis();
-
-  int32_t nL = getTicksL(), nR = getTicksR();
-  float vL = (nL - pL) * MM_PER_TICK / dt;      // vitesses en mm/s
-  float vR = (nR - pR) * MM_PER_TICK / dt;
-  pL = nL; pR = nR;
-
-  int uL = 0, uR = 0;
-  if (mode == OUVERT) { uL = uR = (int)consigne; }
-  if (mode == FERME)  { uL = piL.update(consigne, vL, dt); uR = piR.update(consigne, vR, dt); }
-  if (mode == STOP) motorsOff(); else setMotors(uL, uR);
-
-  if (mode != STOP)   // CSV : temps_ms,consigne,vG,vD,pwmG,pwmD
-    Serial.printf("%lu,%.0f,%.1f,%.1f,%d,%d\n", millis(), consigne, vL, vR, uL, uR);
+  // À compléter : calcul périodique (CTRL_MS), vitesses, commande, ligne CSV.
 }</code></pre></div></details>
 
   <h2>Simulation : régler le PI</h2>
@@ -2385,49 +2659,74 @@ void loop() {
     <li><div><p><strong>Sens de rotation.</strong> Envoyer <code>p 100</code> dans le moniteur série. Les deux roues doivent tourner « en avant ». Sinon, passer <code>MOTOR_L_SIGN</code> ou <code>MOTOR_R_SIGN</code> à −1.</p></div></li>
     <li><div><p><strong>Oscilloscope</strong> sur <span class="pin">GPIO25</span> : PWM à 20 kHz, rapport cyclique 100/255. Puis sur les voies A et B d'un encodeur : deux carrés décalés d'un quart de période. Inverser le sens et observer que l'ordre A/B s'inverse.</p></div></li>
     <li><div><p><strong>Ticks par tour.</strong> Envoyer <code>s</code>, puis <code>t</code>. Faire 10 tours de roue à la main (repère au scotch), renvoyer <code>t</code>. La différence divisée par 10 donne <code>TICKS_PER_REV</code>. Comparer à la théorie : impulsions par tour moteur × rapport × 4. Si les ticks diminuent en avançant, mettre <code>ENC_x_SIGN</code> à −1.</p></div></li>
-    <li><div><p><strong>Réponse indicielle.</strong> Fermer le moniteur série et enregistrer un échelon de PWM 150, puis l'analyser :</p><div class="code"><div class="code-head"><span class="code-name">pc/tools/log_serial.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python"># Enregistre les lignes CSV du port série pendant N secondes
-# usage : python log_serial.py COM3 mesures/echelon.csv 4 "p 150"
+    <li><div><p><strong>Réponse indicielle.</strong> Fermer le moniteur série et enregistrer un échelon de PWM 150, puis l'analyser :</p><div class="code"><div class="code-head"><span class="code-name">pc/tools/log_serial.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python">"""TP7 — Enregistre les lignes CSV du port série pendant N secondes.
+
+Usage : python log_serial.py COM3 mesures/echelon.csv 4 "p 150"
+        (port, fichier de sortie, durée en secondes, commande facultative)
+
+Sert à enregistrer la réponse indicielle du moteur : on envoie « p 150 » au
+croquis tp7_banc_moteur.ino et on garde ses lignes
+    temps_ms,consigne,vG,vD,pwmG,pwmD
+
+Ce que le script doit faire :
+  1. ouvrir le port (115200 bauds), attendre 2 s (redémarrage de l'ESP32 à
+     l'ouverture du port), vider le tampon d'entrée ;
+  2. si une commande est donnée, l'envoyer suivie de « \\n » ;
+  3. pendant la durée demandée : lire les lignes et n'écrire dans le fichier que
+     celles qui commencent par un chiffre (les autres sont des messages) ;
+  4. envoyer « s » pour arrêter les moteurs et afficher le nombre de lignes.
+"""
 import sys, time
 import serial
 
-port, fichier, duree = sys.argv[1], sys.argv[2], float(sys.argv[3])
-ser = serial.Serial(port, 115200, timeout=0.5)
-time.sleep(2)                                   # l'ESP32 redémarre à l'ouverture du port
-ser.reset_input_buffer()
-if len(sys.argv) &gt; 4:
-    ser.write((sys.argv[4] + "\n").encode())    # commande à envoyer au départ (ex. "p 150")
 
-t0, n = time.time(), 0
-with open(fichier, "w") as f:
-    while time.time() - t0 &lt; duree:
-        l = ser.readline().decode(errors="ignore").strip()
-        if l and l[0].isdigit():
-            f.write(l + "\n"); n += 1
-ser.write(b"s\n")                               # arrêt des moteurs
-print(n, "lignes enregistrées dans", fichier)</code></pre></div><div class="code"><div class="code-head"><span class="code-name">pc/tools/analyse_echelon.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python"># Réponse indicielle en boucle ouverte → modèle du 1er ordre (K, tau) → réglage du PI
+def main(port, fichier, duree, commande=None):
+    """Étapes 1 à 4 décrites en tête de fichier."""
+    raise NotImplementedError("À compléter")
+
+
+if __name__ == "__main__":
+    main(sys.argv[1], sys.argv[2], float(sys.argv[3]), sys.argv[4] if len(sys.argv) &gt; 4 else None)</code></pre></div><div class="code"><div class="code-head"><span class="code-name">pc/tools/analyse_echelon.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python">"""TP7 — Réponse indicielle en boucle ouverte -&gt; modèle du 1er ordre (K, tau) -&gt; réglage du PI.
+
+Usage : python analyse_echelon.py mesures/echelon.csv
+        (fichier produit par log_serial.py : t_ms,consigne,vG,vD,pwmG,pwmD)
+
+Modèle du moteur : v(t) = K · u · (1 - exp(-t / tau)) pour un échelon de PWM u.
+
+Ce que le script doit faire :
+  1. charger le CSV (np.loadtxt), temps en secondes depuis le début, vitesse =
+     moyenne des deux roues, u = PWM appliquée ;
+  2. vitesse finale v_inf = moyenne de la fin de l'enregistrement (régime établi) ;
+  3. tau = instant où la vitesse atteint 63 % de v_inf ; K = v_inf / u ;
+  4. réglage par compensation du pôle : on choisit une boucle fermée deux fois
+     plus rapide (tau_bf = tau / 2), d'où
+        Kp = tau / (K · tau_bf)      Ki = Kp / tau
+     (le zéro du PI compense le pôle du moteur) ; afficher les valeurs à
+     recopier dans config.h ;
+  5. tracer la mesure et le modèle pour vérifier qu'ils se superposent.
+"""
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
 
-d = np.loadtxt(sys.argv[1], delimiter=",")       # t_ms,consigne,vG,vD,pwmG,pwmD
-t = (d[:, 0] - d[0, 0]) / 1000
-v = (d[:, 2] + d[:, 3]) / 2
-pwm = d[:, 4].max()
 
-v_inf = v[t &gt; 0.6 * t[-1]].mean()                # vitesse finale
-tau = t[np.argmax(v &gt;= 0.63 * v_inf)]            # temps pour atteindre 63 %
-K = v_inf / pwm
-print(f"K = {K:.2f} (mm/s) par unité de PWM, tau = {tau * 1000:.0f} ms")
+def identifier(t, v, u):
+    """Renvoie (K, tau, v_inf) à partir de la réponse indicielle (étapes 2 et 3)."""
+    raise NotImplementedError("À compléter")
 
-tau_bf = tau / 2                                 # boucle fermée 2 fois plus rapide
-Kp = tau / (K * tau_bf)
-Ki = Kp / tau                                    # le zéro du PI compense le pôle du moteur
-print(f"Proposition : KP = {Kp:.2f}, KI = {Ki:.1f}  (à recopier dans config.h)")
 
-plt.plot(t, v, label="mesure")
-plt.plot(t, v_inf * (1 - np.exp(-t / tau)), "--", label="modèle 1er ordre")
-plt.xlabel("t (s)"); plt.ylabel("vitesse (mm/s)"); plt.legend(); plt.grid(alpha=0.3)
-plt.show()</code></pre></div></div></li>
+def reglage_pi(K, tau):
+    """Renvoie (Kp, Ki) par compensation du pôle (étape 4)."""
+    raise NotImplementedError("À compléter")
+
+
+def main(fichier):
+    """Charge le fichier, identifie le modèle, propose KP/KI et trace (étapes 1 à 5)."""
+    raise NotImplementedError("À compléter")
+
+
+if __name__ == "__main__":
+    main(sys.argv[1])</code></pre></div></div></li>
     <li><div><p><strong>Boucle fermée.</strong> Recopier KP et KI proposés dans <code>config.h</code>, téléverser, envoyer <code>v 150</code>. Enregistrer et tracer consigne et vitesses. Freiner une roue avec le doigt : la commande PWM doit monter pour maintenir la vitesse.</p></div></li>
     <li><div><p><strong>Ajustement.</strong> Oscillations : diminuer KP. Erreur qui disparaît trop lentement : augmenter KI. Tester aussi <code>v 50</code> (zone morte du moteur) et <code>v -150</code>.</p></div></li>
   </ol>
@@ -2511,17 +2810,28 @@ plt.show()</code></pre></div></div></li>
     <li><div><p><strong>Câblage des signaux</strong> : transposer la plaque d'essai sur une plaque à pastilles (ou une demi-plaque d'essai collée), avec des connecteurs pour pouvoir débrancher chaque module. Garder un code couleur : rouge 5 V, orange batterie, noir GND, bleu I2C, vert encodeurs, jaune PWM.</p></div></li>
     <li><div><p><strong>Ajouter</strong> le pont diviseur 100 kΩ / 33 kΩ vers <span class="pin">GPIO33</span>, et un 470 µF sur le 5 V près du servo et de la caméra.</p></div></li>
     <li><div><p><strong>Mise sous tension progressive.</strong> Sans aucune carte : mesurer la batterie et le 5 V. Puis ajouter l'ESP32 seule, puis le TB6612, puis les capteurs, puis la caméra. Mesurer à chaque étape.</p></div></li>
-    <li><div><p><strong>Mesure de la batterie</strong> : ajouter <code>battery.h</code>, afficher <code>readVbat()</code> et ajuster <code>vbatCorr</code> pour coller au multimètre.</p><div class="code"><div class="code-head"><span class="code-name">battery.h</span><button class="copy" type="button">Copier</button></div><pre><code class="language-cpp">// battery.h — mesure de la tension batterie (2S : 6,0 V vide → 8,4 V pleine)
+    <li><div><p><strong>Mesure de la batterie</strong> : ajouter <code>battery.h</code>, afficher <code>readVbat()</code> et ajuster <code>vbatCorr</code> pour coller au multimètre.</p><div class="code"><div class="code-head"><span class="code-name">battery.h</span><button class="copy" type="button">Copier</button></div><pre><code class="language-cpp">/*
+ * battery.h — mesure de la tension batterie (2S : 6,0 V vide -&gt; 8,4 V pleine)
+ *
+ * Rôle : renvoyer la tension de la batterie en volts.
+ *
+ * Le pont diviseur 100 kΩ / 33 kΩ ramène 8,4 V à environ 2,08 V, mesurable par
+ * l'ADC1 (GPIO 33 : l'ADC2 est inutilisable quand le Wi-Fi est actif).
+ *
+ * readVbat() : faire 16 lectures avec analogReadMilliVolts(PIN_VBAT) (valeur déjà
+ * calibrée en mV par l'ESP32), en faire la moyenne, convertir en volts, multiplier
+ * par le rapport du pont (VBAT_RATIO) et par vbatCorr, un facteur de correction
+ * ajusté au multimètre au TP8.
+ */
 #pragma once
 #include "config.h"
 
-const float VBAT_RATIO = (100.0f + 33.0f) / 33.0f;   // pont 100 kΩ / 33 kΩ : 8,4 V → 2,08 V
+const float VBAT_RATIO = (100.0f + 33.0f) / 33.0f;   // pont 100 kΩ / 33 kΩ : 8,4 V -&gt; 2,08 V
 float vbatCorr = 1.00f;                               // à ajuster avec le multimètre (TP8)
 
 float readVbat() {                                    // en volts, moyenne de 16 lectures
-  uint32_t mv = 0;
-  for (int i = 0; i &lt; 16; i++) mv += analogReadMilliVolts(PIN_VBAT);
-  return (mv / 16.0f) / 1000.0f * VBAT_RATIO * vbatCorr;
+  // À compléter.
+  return 0;
 }</code></pre></div></div></li>
     <li><div><p><strong>Mesurer la géométrie</strong> : diamètre réel des roues, entraxe (milieu de pneu à milieu de pneu), distances du centre O au laser et à la caméra, hauteur de la caméra. Reporter dans <code>config.h</code>.</p></div></li>
     <li><div><p><strong>Test en charge</strong>, robot sur une cale, roues en l'air : programme du TP7 avec <code>p 255</code>, servo qui balaie, caméra en flux vidéo. Le 5 V doit rester au-dessus de 4,8 V et rien ne doit redémarrer.</p></div></li>
@@ -2570,7 +2880,44 @@ float readVbat() {                                    // en volts, moyenne de 16
   <h2>Étapes</h2>
   <ol class="steps">
     <li><div><p>Créer le dossier <code>robot_fw</code> avec les fichiers des TPs précédents (<code>config.h</code>, <code>motors.h</code>, <code>encoders.h</code>, <code>speed_pi.h</code>, <code>imu.h</code>, <code>scanner.h</code>, <code>comms.h</code>, <code>battery.h</code>) et le programme principal :</p>
-    <details class="code-fold"><summary>robot_fw.ino : le firmware complet</summary><div class="code"><div class="code-head"><span class="code-name">robot_fw.ino</span><button class="copy" type="button">Copier</button></div><pre><code class="language-cpp">// robot_fw.ino — firmware complet du robot (TP9 → TP13)
+    <details class="code-fold"><summary>robot_fw.ino : le firmware complet</summary><div class="code"><div class="code-head"><span class="code-name">robot_fw.ino</span><button class="copy" type="button">Copier</button></div><pre><code class="language-cpp">/*
+ * robot_fw.ino — firmware complet du robot (TP9 -&gt; TP13)
+ *
+ * Rôle : assembler toutes les briques des TPs précédents. L'ESP32 ne fait que le
+ * temps réel ; tout le reste (carte, vision, Kalman, A*) tourne sur le PC.
+ *
+ * Protocole (une ligne de texte par datagramme UDP) :
+ *   PC -&gt; robot  V,v_mm_s,w_mrad_s   consigne de vitesse d'avance et de rotation
+ *                M,pwmG,pwmD         commande directe des moteurs (tests)
+ *                C                   lancer un balayage (ignoré s'il y en a déjà un)
+ *                X                   arrêt : consignes à zéro, moteurs coupés
+ *                P,...               ping : renvoyer la ligne telle quelle
+ *   robot -&gt; PC  O,seq,t_ms,ticksG,ticksD,cap_mdeg,avant_mm,vbat_mV   à 20 Hz
+ *                S,seq,angle0,pas,d0,...,d60                         après un balayage
+ *
+ * À implémenter :
+ *   handleCommand(c)  décoder la commande (sscanf convient) et mettre à jour
+ *                     vRef (mm/s), wRef (rad/s : reçu en mrad/s), direct, pwmDir*.
+ *   controlStep(dt)   appelée toutes les CTRL_MS :
+ *       1. vitesses mesurées des roues (ticks -&gt; mm/s, comme au TP7) ;
+ *       2. intégrer le cap : headingDeg += gyroZ() * dt ;
+ *       3. chien de garde : plus de commande depuis 500 ms -&gt; consignes à zéro ;
+ *       4. en mode direct, appliquer pwmDirL/R et s'arrêter là ;
+ *       5. sécurité : ne pas avancer si 0 &lt; frontMm &lt; STOP_MM ;
+ *       6. consignes nulles -&gt; remettre les PI à zéro et couper les moteurs ;
+ *       7. cinématique différentielle :
+ *            refL = v - w * TRACK_MM / 2      refR = v + w * TRACK_MM / 2
+ *          puis setMotors(piL.update(refL, vL, dt), piR.update(refR, vR, dt)).
+ *   sendOdom(now)     construire et envoyer le message O (snprintf) : cap en
+ *                     millidegrés, tension batterie en mV.
+ *   sendScan()        construire et envoyer le message S (comme au TP4).
+ *   setup()           série, LED, I2C 400 kHz, moteurs, encodeurs, IMU, scanner
+ *                     (messages d'erreur si un capteur manque), calibration du
+ *                     gyroscope ROBOT IMMOBILE, Wi-Fi, LED allumée = prêt.
+ *   loop()            traiter toutes les commandes reçues ; controlStep toutes
+ *                     les CTRL_MS ; sendOdom toutes les 50 ms ; scanUpdate() ;
+ *                     envoyer le balayage quand scanReady.
+ */
 #include "config.h"
 #include "motors.h"
 #include "encoders.h"
@@ -2587,139 +2934,123 @@ bool  direct = false;
 float headingDeg = 0;              // cap intégré à 50 Hz à partir du gyroscope
 
 void handleCommand(char* c) {
-  switch (c[0]) {
-    case 'V': { float v, w;
-      if (sscanf(c, "V,%f,%f", &amp;v, &amp;w) == 2) { vRef = v; wRef = w / 1000.0f; direct = false; }
-      break; }
-    case 'M': { int a, b;
-      if (sscanf(c, "M,%d,%d", &amp;a, &amp;b) == 2) { pwmDirL = a; pwmDirR = b; direct = true; }
-      break; }
-    case 'C': if (!scanBusy()) scanStart(); break;          // lancer un balayage
-    case 'X': vRef = wRef = 0; direct = false; motorsOff(); break;   // arrêt
-    case 'P': sendLine(String(c)); break;                    // écho pour la latence
-  }
+  // À compléter.
 }
 
 void controlStep(float dt) {
-  static int32_t pL = 0, pR = 0;
-  int32_t nL = getTicksL(), nR = getTicksR();
-  float vL = (nL - pL) * MM_PER_TICK / dt;
-  float vR = (nR - pR) * MM_PER_TICK / dt;
-  pL = nL; pR = nR;
-  headingDeg += gyroZ() * dt;
-
-  if (millis() - lastCmdMs &gt; 500) { vRef = wRef = 0; direct = false; }  // PC muet → arrêt
-  if (direct) { setMotors(pwmDirL, pwmDirR); return; }
-
-  float v = vRef;
-  if (v &gt; 0 &amp;&amp; frontMm &gt; 0 &amp;&amp; frontMm &lt; STOP_MM) v = 0;   // obstacle devant → on n'avance plus
-  if (v == 0 &amp;&amp; wRef == 0) { piL.reset(); piR.reset(); motorsOff(); return; }
-
-  float refL = v - wRef * TRACK_MM / 2;                    // cinématique différentielle
-  float refR = v + wRef * TRACK_MM / 2;
-  setMotors(piL.update(refL, vL, dt), piR.update(refR, vR, dt));
+  // À compléter.
 }
 
 void sendOdom(uint32_t now) {
-  char m[112];
-  snprintf(m, sizeof m, "O,%lu,%lu,%ld,%ld,%ld,%u,%d",
-           (unsigned long)txSeq++, (unsigned long)now,
-           (long)getTicksL(), (long)getTicksR(),
-           (long)(headingDeg * 1000), frontMm, (int)(readVbat() * 1000));
-  sendLine(m);
+  // À compléter.
 }
 
 void sendScan() {
-  String s = "S," + String(txSeq++) + "," + String(SCAN_MIN) + "," + String(SCAN_STEP);
-  for (int i = 0; i &lt; SCAN_N; i++) s += "," + String(scanDist[i]);
-  sendLine(s);
+  // À compléter.
 }
 
 void setup() {
-  Serial.begin(115200);
-  pinMode(PIN_LED, OUTPUT);
-  Wire.begin(PIN_SDA, PIN_SCL);
-  Wire.setClock(400000);
-  motorsBegin();
-  encodersBegin();
-  if (!imuBegin())     Serial.println("ERREUR : MPU6050 absent");
-  if (!scannerBegin()) Serial.println("ERREUR : VL53L1X absent");
-  imuCalibrate();                    // robot IMMOBILE à l'allumage
-  wifiBegin();
-  digitalWrite(PIN_LED, HIGH);       // LED allumée = prêt
+  // À compléter.
 }
 
 void loop() {
-  char cmd[96];
-  while (readCommand(cmd, sizeof cmd)) handleCommand(cmd);
-
-  static uint32_t tCtrl = millis(), tOdom = 0;
-  uint32_t now = millis();
-  if (now - tCtrl &gt;= CTRL_MS) { controlStep((now - tCtrl) / 1000.0f); tCtrl = now; }
-  if (now - tOdom &gt;= 50)      { tOdom = now; sendOdom(now); }       // télémesure 20 Hz
-
-  scanUpdate();
-  if (scanReady) { scanReady = false; sendScan(); }
+  // À compléter.
 }</code></pre></div></details></div></li>
     <li><div><p>Robot sur une cale, téléverser. Au démarrage le robot doit rester <strong>immobile</strong> (calibration du gyroscope). La LED s'allume quand il est prêt ; noter son IP.</p></div></li>
     <li><div><p>Côté PC, dans <code>pc/robot/</code> :</p>
-      <details class="code-fold"><summary>link.py</summary><div class="code"><div class="code-head"><span class="code-name">pc/robot/link.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python"># link.py — communication UDP avec le robot
+      <details class="code-fold"><summary>link.py</summary><div class="code"><div class="code-head"><span class="code-name">pc/robot/link.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python">"""link.py — communication UDP avec le robot (TP9).
+
+Rôle : envoyer des commandes au robot et récupérer, sans jamais bloquer, tous les
+messages qu'il a envoyés depuis le dernier appel.
+
+Ports : le PC écoute sur 5005 (messages O et S du robot) et envoie vers le port
+5006 du robot (commandes V, C, X, M, P). Un message = une ligne de texte dont les
+champs sont séparés par des virgules.
+
+Link(robot_ip)
+    Créer une socket UDP, la lier à ("0.0.0.0", port_rx), la rendre non
+    bloquante, retenir l'adresse (robot_ip, port_tx).
+send(msg)
+    Encoder la chaîne et l'envoyer au robot.
+poll()
+    Lire tous les datagrammes en attente et renvoyer une liste de messages,
+    chacun déjà découpé en liste de champs (ex. ["O", "12", "3400", ...]).
+    BlockingIOError signifie qu'il n'y a plus rien à lire. Sous Windows,
+    ConnectionResetError peut apparaître tant que le robot n'écoute pas : l'ignorer.
+"""
 import socket
+
 
 class Link:
     def __init__(self, robot_ip, port_rx=5005, port_tx=5006):
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.sock.bind(("0.0.0.0", port_rx))
-        self.sock.setblocking(False)
-        self.robot = (robot_ip, port_tx)
+        raise NotImplementedError("À compléter")
 
     def send(self, msg):
-        self.sock.sendto(msg.encode(), self.robot)
+        raise NotImplementedError("À compléter")
 
     def poll(self):
         """Renvoie la liste des messages reçus depuis le dernier appel (listes de champs)."""
-        msgs = []
-        while True:
-            try:
-                data, _ = self.sock.recvfrom(2048)
-            except BlockingIOError:
-                break
-            except ConnectionResetError:        # Windows : robot pas encore à l'écoute
-                continue
-            msgs.append(data.decode(errors="ignore").strip().split(","))
-        return msgs</code></pre></div></details>
-      <details class="code-fold"><summary>odometry.py</summary><div class="code"><div class="code-head"><span class="code-name">pc/robot/odometry.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python"># odometry.py — pose (x, y, θ) en mètres et radians à partir des ticks et du cap
+        raise NotImplementedError("À compléter")</code></pre></div></details>
+      <details class="code-fold"><summary>odometry.py</summary><div class="code"><div class="code-head"><span class="code-name">pc/robot/odometry.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python">"""odometry.py — pose (x, y, θ) en mètres et radians à partir des ticks et du cap (TP9).
+
+Rôle : à chaque message O du robot, calculer de combien le robot a avancé et
+tourné depuis le message précédent, et cumuler la pose.
+
+Modèle de la voiture (deux roues motrices, entraxe L) :
+    dl, dr = déplacement de chaque roue = (ticks - ticks précédents) · mètres par tick
+    d      = (dl + dr) / 2                       distance parcourue par le centre
+    dθ     = (dr - dl) / L                       rotation, d'après les roues
+          ou différence de deux caps du gyroscope (plus fiable : les roues glissent)
+    x += d · cos(θ + dθ/2)   y += d · sin(θ + dθ/2)   θ += dθ
+L'angle moyen θ + dθ/2 donne un meilleur résultat qu'utiliser θ seul.
+Penser à ramener les angles dans ]-π, π] (fonction wrap) : sinon la différence de
+deux caps proches de ±180° donne un saut de 360°.
+
+update(tl, tr, heading_mdeg)
+    Au premier appel : mémoriser les valeurs et renvoyer (0, 0).
+    Ensuite : calculer d et dθ, mettre à jour la pose, mémoriser les valeurs et
+    renvoyer (d, dθ) ; ce couple sert aussi à la prédiction du filtre de Kalman.
+"""
 import math
+
 
 def wrap(a):
     """Ramène un angle dans ]-pi, pi]."""
-    return (a + math.pi) % (2 * math.pi) - math.pi
+    raise NotImplementedError("À compléter")
+
 
 class Odometry:
     def __init__(self, mm_per_tick, track_mm, use_gyro=True):
-        self.k = mm_per_tick / 1000
-        self.L = track_mm / 1000
+        self.k = mm_per_tick / 1000          # mètres par tick
+        self.L = track_mm / 1000             # entraxe en mètres
         self.use_gyro = use_gyro
         self.x = self.y = self.th = 0.0
-        self.prev = None
+        self.prev = None                     # (ticks gauche, ticks droite, cap en rad) précédents
 
     def update(self, tl, tr, heading_mdeg):
         """Renvoie (d, dθ) : distance parcourue et rotation depuis le message précédent."""
-        h = math.radians(heading_mdeg / 1000)
-        if self.prev is None:
-            self.prev = (tl, tr, h)
-            return 0.0, 0.0
-        dl = (tl - self.prev[0]) * self.k
-        dr = (tr - self.prev[1]) * self.k
-        d = (dl + dr) / 2
-        dth = wrap(h - self.prev[2]) if self.use_gyro else (dr - dl) / self.L
-        self.prev = (tl, tr, h)
-        a = self.th + dth / 2                      # angle moyen pendant le pas
-        self.x += d * math.cos(a)
-        self.y += d * math.sin(a)
-        self.th = wrap(self.th + dth)
-        return d, dth</code></pre></div></details>
-      <div class="code"><div class="code-head"><span class="code-name">pc/robot/teleop.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python"># teleop.py — pilotage au clavier (Z Q S D, espace = stop, Échap = quitter)
+        raise NotImplementedError("À compléter")</code></pre></div></details>
+      <div class="code"><div class="code-head"><span class="code-name">pc/robot/teleop.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python">"""teleop.py — TP9 : pilotage au clavier (Z Q S D, espace = stop, Échap = quitter).
+
+Usage : python teleop.py IP_ROBOT
+
+Rôle : conduire le robot à la main et vérifier l'odométrie en traçant la
+trajectoire calculée.
+
+Ce que le script doit faire, en boucle (environ 20 fois par seconde) :
+  1. lire tous les messages du robot (Link.poll) ; pour chaque message O
+     (8 champs) : mettre à jour l'odométrie avec ticksG, ticksD, cap_mdeg,
+     retenir la tension batterie, ajouter (x, y) à la trace ;
+  2. dessiner une image blanche 500 x 500 (1 pixel = 1 cm, départ au centre,
+     y vers le haut) avec la trace et un texte : x, y, cap en degrés, batterie ;
+  3. cv2.waitKey(50) : Z avance (v = 150 mm/s), S recule, Q tourne à gauche
+     (w = 1500 mrad/s), D à droite, espace arrête, Échap quitte ;
+  4. envoyer « V,v,w » À CHAQUE tour : le robot s'arrête de lui-même s'il ne
+     reçoit rien pendant 500 ms (chien de garde).
+En quittant, envoyer « X ».
+
+Validation : un carré de 1 m parcouru au clavier se referme à moins de 5 cm.
+"""
 import math, sys
 import cv2
 import numpy as np
@@ -2727,32 +3058,15 @@ from link import Link
 from odometry import Odometry
 
 MM_PER_TICK, TRACK_MM = 0.1418, 130.0          # recopier les valeurs de config.h
-link = Link(sys.argv[1])
-odo = Odometry(MM_PER_TICK, TRACK_MM)
-v = w = 0
-trace, vbat = [], 0.0
 
-while True:
-    for m in link.poll():
-        if m[0] == "O" and len(m) &gt;= 8:
-            odo.update(int(m[3]), int(m[4]), int(m[5]))
-            vbat = int(m[7]) / 1000
-            trace.append((odo.x, odo.y))
-    img = np.full((500, 500, 3), 255, np.uint8)
-    for x, y in trace[-3000:]:                  # 1 pixel = 1 cm, départ au centre
-        cv2.circle(img, (int(250 + x * 100), int(250 - y * 100)), 1, (200, 80, 0), -1)
-    txt = f"x={odo.x:.2f} m  y={odo.y:.2f} m  cap={math.degrees(odo.th):.0f} deg  batt={vbat:.2f} V"
-    cv2.putText(img, txt, (10, 25), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1)
-    cv2.imshow("teleop", img)
-    k = cv2.waitKey(50) &amp; 0xFF
-    if k == ord("z"):   v, w = 150, 0           # mm/s, mrad/s
-    elif k == ord("s"): v, w = -150, 0
-    elif k == ord("q"): v, w = 0, 1500
-    elif k == ord("d"): v, w = 0, -1500
-    elif k == ord(" "): v, w = 0, 0
-    elif k == 27: break
-    link.send(f"V,{v},{w}")                     # répété à 20 Hz, sinon le robot s'arrête
-link.send("X")</code></pre></div></div></li>
+
+def main(robot_ip):
+    """Boucle de pilotage décrite en tête de fichier."""
+    raise NotImplementedError("À compléter")
+
+
+if __name__ == "__main__":
+    main(sys.argv[1])</code></pre></div></div></li>
     <li><div><p><strong>Test de sécurité</strong>, robot sur cale : avancer avec <kbd>Z</kbd>, puis fermer brutalement le programme Python. Les roues doivent s'arrêter en moins de 0,5 s.</p></div></li>
     <li><div><p><strong>Au sol</strong> : piloter avec <kbd>Z</kbd> <kbd>Q</kbd> <kbd>S</kbd> <kbd>D</kbd> et <kbd>Espace</kbd>, regarder la trace.</p></div></li>
     <li><div><p><strong>Calibrer la distance.</strong> Coller deux repères à 2 m l'un de l'autre, rouler de l'un à l'autre, comparer le <code>x</code> affiché à 2,00 m. Corriger : <code>MM_PER_TICK ← MM_PER_TICK × 2,00 / x_affiché</code> (ou ajuster <code>WHEEL_D_MM</code>). Faire 3 essais et moyenner.</p></div></li>
@@ -2796,26 +3110,49 @@ link.send("X")</code></pre></div></div></li>
 
   <h2>Étapes</h2>
   <ol class="steps">
-    <li><div><p>Ajouter le module de carte. Reporter <code>SERVO_SENS</code> (TP3) et <code>SENSOR_X</code> (TP8).</p><div class="code"><div class="code-head"><span class="code-name">pc/robot/grid_map.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python"># grid_map.py — carte en grille d'occupation (log-odds)
+    <li><div><p>Ajouter le module de carte. Reporter <code>SERVO_SENS</code> (TP3) et <code>SENSOR_X</code> (TP8).</p><div class="code"><div class="code-head"><span class="code-name">pc/robot/grid_map.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python">"""grid_map.py — carte en grille d'occupation (log-odds) (TP10).
+
+Rôle : transformer les balayages et la pose du robot en une carte de la pièce.
+
+La pièce est découpée en cases de res mètres (5 cm). Chaque case garde un score
+L (log-odds) : négatif = probablement libre, positif = probablement un mur,
+0 = inconnu. Probabilité correspondante : p = 1 - 1 / (1 + exp(L)).
+Additionner des scores revient à combiner des observations indépendantes.
+
+Repères : le monde est en mètres, le départ du robot est à « origin » du coin
+de la carte. La case (i, j) contient le point
+    x = (i + 0,5) · res - ox      y = (j + 0,5) · res - oy
+et le tableau est indexé L[j, i] (ligne = y, colonne = x).
+
+À implémenter :
+  bresenham(c0, c1)
+      Liste des cases traversées par le segment entre deux cases (algorithme de
+      Bresenham, entiers seulement), c0 et c1 comprises.
+  to_cell / to_world
+      Conversions mètres &lt;-&gt; indices de case (formules ci-dessus).
+  add_scan(pose, angles_deg, dists_mm)
+      Pour chaque mesure valide (d &gt; 0) :
+        - position du capteur : SENSOR_X mètres devant le centre des roues ;
+        - direction du faisceau : θ + SERVO_SENS · (angle - 90°) (90° = devant) ;
+        - distance bornée à max_r ; case d'arrivée ;
+        - cases traversées (sauf la dernière) : score - 0,4 (libre) ;
+        - case d'arrivée, seulement si la mesure est &lt; max_r : score + 0,85 (mur).
+      Enfin borner les scores à ±5 pour que la carte puisse encore changer.
+  prob()   probabilité d'occupation de chaque case.
+  image()  image en niveaux de gris : blanc = libre, noir = mur, gris = inconnu,
+           retournée verticalement (np.flipud) pour avoir y vers le haut à l'écran.
+"""
 import math
 import numpy as np
 
 SERVO_SENS = +1        # -1 si le radar apparaît en miroir (voir TP3)
 SENSOR_X = 0.06        # position du laser devant le centre des roues (m)
 
+
 def bresenham(c0, c1):
     """Cases traversées par le segment c0 → c1 (algorithme de Bresenham)."""
-    (x0, y0), (x1, y1) = c0, c1
-    dx, dy = abs(x1 - x0), -abs(y1 - y0)
-    sx, sy = (1 if x0 &lt; x1 else -1), (1 if y0 &lt; y1 else -1)
-    err, cells = dx + dy, []
-    while True:
-        cells.append((x0, y0))
-        if (x0, y0) == (x1, y1):
-            return cells
-        e2 = 2 * err
-        if e2 &gt;= dy: err += dy; x0 += sx
-        if e2 &lt;= dx: err += dx; y0 += sy
+    raise NotImplementedError("À compléter")
+
 
 class GridMap:
     def __init__(self, size_m=6.0, res=0.05, origin=(1.0, 1.0)):
@@ -2825,39 +3162,41 @@ class GridMap:
         self.ox, self.oy = origin                  # le départ du robot est à (1 m, 1 m) du coin
 
     def to_cell(self, x, y):
-        return int((x + self.ox) / self.res), int((y + self.oy) / self.res)
+        raise NotImplementedError("À compléter")
 
     def to_world(self, i, j):
-        return (i + 0.5) * self.res - self.ox, (j + 0.5) * self.res - self.oy
-
-    def _add(self, i, j, v):
-        if 0 &lt;= i &lt; self.n and 0 &lt;= j &lt; self.n:
-            self.L[j, i] += v
+        raise NotImplementedError("À compléter")
 
     def add_scan(self, pose, angles_deg, dists_mm, max_r=3.5):
-        x, y, th = pose
-        sx, sy = x + SENSOR_X * math.cos(th), y + SENSOR_X * math.sin(th)
-        c0 = self.to_cell(sx, sy)
-        for a, d in zip(angles_deg, dists_mm):
-            if d &lt;= 0:
-                continue                           # mesure invalide
-            r = min(d / 1000, max_r)
-            b = th + SERVO_SENS * math.radians(a - 90)
-            c1 = self.to_cell(sx + r * math.cos(b), sy + r * math.sin(b))
-            cells = bresenham(c0, c1)
-            for i, j in cells[:-1]:
-                self._add(i, j, -0.4)              # le faisceau a traversé : libre
-            if d / 1000 &lt; max_r:
-                self._add(*c1, +0.85)              # il s'est arrêté : obstacle
-        np.clip(self.L, -5, 5, out=self.L)
+        raise NotImplementedError("À compléter")
 
     def prob(self):
-        return 1 - 1 / (1 + np.exp(self.L))       # probabilité d'occupation
+        """Probabilité d'occupation de chaque case."""
+        raise NotImplementedError("À compléter")
 
     def image(self):
         """Image en niveaux de gris : blanc = libre, noir = mur, gris = inconnu."""
-        return np.flipud((255 * (1 - self.prob())).astype(np.uint8))</code></pre></div></div></li>
-    <li><div><p>Ajouter le programme de cartographie téléopérée : <kbd>C</kbd> arrête le robot et lance un balayage, <kbd>E</kbd> enregistre l'image de la carte.</p><div class="code"><div class="code-head"><span class="code-name">pc/robot/map_live.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python"># map_live.py — TP10 : téléopération + construction de la carte (stop and scan)
+        raise NotImplementedError("À compléter")</code></pre></div></div></li>
+    <li><div><p>Ajouter le programme de cartographie téléopérée : <kbd>C</kbd> arrête le robot et lance un balayage, <kbd>E</kbd> enregistre l'image de la carte.</p><div class="code"><div class="code-head"><span class="code-name">pc/robot/map_live.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python">"""map_live.py — TP10 : téléopération + construction de la carte (« s'arrêter pour balayer »).
+
+Usage : python map_live.py IP_ROBOT
+
+Rôle : conduire le robot au clavier comme dans teleop.py, et ajouter chaque
+balayage reçu à la grille d'occupation affichée en direct.
+
+Ce que le script doit faire, en boucle :
+  1. messages O -&gt; odométrie ; messages S -&gt; angles = angle0 + pas · k et
+     distances, puis carte.add_scan((x, y, θ), angles, distances) ;
+  2. afficher carte.image() agrandie ECH fois (cv2.resize, INTER_NEAREST),
+     avec le robot (cercle + trait dans la direction du cap) ;
+  3. clavier : mêmes touches que teleop.py, plus
+       C  s'arrêter et lancer un balayage (envoyer « C ») ;
+       E  enregistrer l'image dans mesures/carte.png ;
+  4. envoyer « V,v,w » à chaque tour (chien de garde) ; « X » en quittant.
+
+Stratégie conseillée : s'arrêter, balayer (≈ 5 s), demi-tour sur place, balayer,
+avancer d'environ 50 cm. Une mesure prise en roulant serait mal placée.
+"""
 import math, sys
 import cv2
 from link import Link
@@ -2865,34 +3204,15 @@ from odometry import Odometry
 from grid_map import GridMap
 
 MM_PER_TICK, TRACK_MM, ECH = 0.1418, 130.0, 4     # ECH : pixels par case à l'écran
-link, odo, carte = Link(sys.argv[1]), Odometry(MM_PER_TICK, TRACK_MM), GridMap()
-v = w = 0
 
-while True:
-    for m in link.poll():
-        if m[0] == "O" and len(m) &gt;= 8:
-            odo.update(int(m[3]), int(m[4]), int(m[5]))
-        elif m[0] == "S":                           # balayage reçu : on l'ajoute à la carte
-            a0, pas, d = int(m[2]), int(m[3]), [int(x) for x in m[4:]]
-            carte.add_scan((odo.x, odo.y, odo.th), [a0 + pas * k for k in range(len(d))], d)
-    img = cv2.cvtColor(cv2.resize(carte.image(), None, fx=ECH, fy=ECH,
-                                  interpolation=cv2.INTER_NEAREST), cv2.COLOR_GRAY2BGR)
-    i, j = carte.to_cell(odo.x, odo.y)
-    p = (i * ECH, (carte.n - 1 - j) * ECH)
-    cv2.circle(img, p, 6, (0, 150, 0), 2)
-    cv2.line(img, p, (int(p[0] + 20 * math.cos(odo.th)), int(p[1] - 20 * math.sin(odo.th))), (0, 150, 0), 2)
-    cv2.imshow("carte", img)
-    k = cv2.waitKey(50) &amp; 0xFF
-    if k == ord("c"): v, w = 0, 0; link.send("C")  # s'arrêter et balayer
-    elif k == ord("z"): v, w = 150, 0
-    elif k == ord("s"): v, w = -150, 0
-    elif k == ord("q"): v, w = 0, 1500
-    elif k == ord("d"): v, w = 0, -1500
-    elif k == ord(" "): v, w = 0, 0
-    elif k == ord("e"): cv2.imwrite("mesures/carte.png", img)
-    elif k == 27: break
-    link.send(f"V,{v},{w}")
-link.send("X")</code></pre></div></div></li>
+
+def main(robot_ip):
+    """Boucle décrite en tête de fichier."""
+    raise NotImplementedError("À compléter")
+
+
+if __name__ == "__main__":
+    main(sys.argv[1])</code></pre></div></div></li>
     <li><div><p><strong>Premier 360°</strong> : robot immobile au milieu de la pièce, <kbd>C</kbd>, attendre le balayage, demi-tour avec <kbd>Q</kbd>, <kbd>C</kbd> à nouveau. Les murs doivent apparaître autour du robot.</p></div></li>
     <li><div><p><strong>Explorer</strong> la pièce par étapes de 50 cm en balayant à chaque arrêt. Enregistrer la carte.</p></div></li>
     <li><div><p><strong>Mesurer sur la carte</strong> la longueur d'un mur (nombre de cases × 5 cm) et la comparer au mètre.</p></div></li>
@@ -2944,17 +3264,48 @@ link.send("X")</code></pre></div></div></li>
   "3": [0.80,  3.60],
   "4": [-0.60, 1.40]
 }</code></pre></div></div></li>
-    <li><div><p>Ajouter le filtre :</p><div class="code"><div class="code-head"><span class="code-name">pc/robot/ekf.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python"># ekf.py — filtre de Kalman étendu : odométrie (prédiction) + marqueurs ArUco (correction)
+    <li><div><p>Ajouter le filtre :</p><div class="code"><div class="code-head"><span class="code-name">pc/robot/ekf.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python">"""ekf.py — filtre de Kalman étendu : odométrie (prédiction) + marqueurs ArUco (correction) (TP11).
+
+État estimé : mu = [x, y, θ] et sa covariance S (3 x 3), qui mesure l'incertitude.
+
+Prédiction — predict(d, dθ), à chaque message O :
+    même modèle que l'odométrie : a = θ + dθ/2, x += d cos a, y += d sin a, θ += dθ ;
+    G = jacobienne du modèle par rapport à l'état :
+        [[1, 0, -d sin a],
+         [0, 1,  d cos a],
+         [0, 0,  1      ]]
+    S = G S Gᵀ + Q, avec un bruit Q qui grandit avec le déplacement :
+        q_xy = (k_d · |d|)² + petit terme
+        q_θ  = (k_th · |dθ|)² + (0,01 · |d|)² + petit terme
+
+Correction — update_landmark(r, φ, mx, my), quand un marqueur de position connue
+(mx, my) est vu à la distance r et à l'angle φ (dans le repère du robot) :
+    dx = mx - x, dy = my - y, q = dx² + dy² ;
+    mesure prédite  ẑ = [√q, wrap(atan2(dy, dx) - θ)] ;
+    H = [[-dx/√q, -dy/√q,  0],
+         [ dy/q,  -dx/q,  -1]] ;
+    R = bruit de mesure : écart-type de distance 3 cm + 5 % de r, d'angle s_phi ;
+    innovation ν = [r - ẑ₀, wrap(φ - ẑ₁)] ; Sz = H S Hᵀ + R ;
+    test du χ² : si νᵀ Sz⁻¹ ν &gt; 9,21 (99 % pour 2 degrés de liberté), la mesure
+    est aberrante : la rejeter et renvoyer False ;
+    sinon gain K = S Hᵀ Sz⁻¹ ; mu += K ν (θ ramené par wrap) ; S = (I - K H) S ;
+    renvoyer True.
+
+mesure_vers_robot(r, a) : la caméra est CAM_X mètres devant le centre des roues ;
+convertir la mesure (distance, angle) vue de la caméra en mesure vue du centre
+des roues (passer par les coordonnées cartésiennes).
+"""
 import math
 import numpy as np
 from odometry import wrap
 
 CAM_X = 0.08                       # caméra 8 cm devant le centre des roues (à mesurer)
 
+
 def mesure_vers_robot(r, a):
     """Distance / angle vus par la caméra → par rapport au centre des roues."""
-    px, py = CAM_X + r * math.cos(a), r * math.sin(a)
-    return math.hypot(px, py), math.atan2(py, px)
+    raise NotImplementedError("À compléter")
+
 
 class EKF:
     def __init__(self, x0=(0.0, 0.0, 0.0)):
@@ -2962,38 +3313,36 @@ class EKF:
         self.S = np.diag([1e-4, 1e-4, 1e-4])           # covariance (incertitude)
 
     def predict(self, d, dth, k_d=0.03, k_th=0.05):
-        x, y, th = self.mu
-        a = th + dth / 2
-        self.mu = np.array([x + d * math.cos(a), y + d * math.sin(a), wrap(th + dth)])
-        G = np.array([[1, 0, -d * math.sin(a)],        # jacobienne du modèle de mouvement
-                      [0, 1,  d * math.cos(a)],
-                      [0, 0,  1]])
-        q_xy = (k_d * abs(d)) ** 2 + 1e-7              # le bruit grandit avec le déplacement
-        q_th = (k_th * abs(dth)) ** 2 + (0.01 * abs(d)) ** 2 + 1e-7
-        self.S = G @ self.S @ G.T + np.diag([q_xy, q_xy, q_th])
+        raise NotImplementedError("À compléter")
 
     def update_landmark(self, r, phi, mx, my, s_phi=math.radians(3)):
         """Correction avec un marqueur de position connue (mx, my) vu à (r, phi)."""
-        x, y, th = self.mu
-        dx, dy = mx - x, my - y
-        q = dx * dx + dy * dy
-        sq = math.sqrt(q)
-        z_pred = np.array([sq, wrap(math.atan2(dy, dx) - th)])
-        H = np.array([[-dx / sq, -dy / sq,  0],
-                      [ dy / q,  -dx / q,  -1]])
-        R = np.diag([(0.03 + 0.05 * r) ** 2, s_phi ** 2])
-        nu = np.array([r - z_pred[0], wrap(phi - z_pred[1])])   # innovation
-        Sz = H @ self.S @ H.T + R
-        if nu @ np.linalg.solve(Sz, nu) &gt; 9.21:        # test du chi² (99 %) : mesure aberrante
-            return False
-        Kg = self.S @ H.T @ np.linalg.inv(Sz)          # gain de Kalman
-        self.mu = self.mu + Kg @ nu
-        self.mu[2] = wrap(self.mu[2])
-        self.S = (np.eye(3) - Kg @ H) @ self.S
-        return True</code></pre></div></div></li>
+        raise NotImplementedError("À compléter")</code></pre></div></div></li>
     <li><div><p><strong>Test statique</strong> : poser le robot à 1 m face à un marqueur, en partant volontairement d'une pose fausse de 20 cm. La pose estimée doit converger vers la vraie en quelques secondes.</p></div></li>
-    <li><div><p><strong>Test dynamique</strong> : faire 3 tours de la pièce en téléopération en comparant odométrie seule et EKF, puis tracer les deux trajets depuis le CSV.</p><div class="code"><div class="code-head"><span class="code-name">pc/robot/fusion_test.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python"># fusion_test.py — TP11 : compare odométrie seule et EKF pendant un trajet téléopéré
-import json, math, sys, time
+    <li><div><p><strong>Test dynamique</strong> : faire 3 tours de la pièce en téléopération en comparant odométrie seule et EKF, puis tracer les deux trajets depuis le CSV.</p><div class="code"><div class="code-head"><span class="code-name">pc/robot/fusion_test.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python">"""fusion_test.py — TP11 : compare odométrie seule et EKF pendant un trajet téléopéré.
+
+Usage : python fusion_test.py IP_ROBOT http://IP_CAMERA/capture
+
+Rôle : conduire le robot au clavier devant les marqueurs ArUco, faire tourner en
+parallèle l'odométrie seule et le filtre de Kalman, et enregistrer les deux
+trajectoires pour le rapport.
+
+Ce que le script doit faire, en boucle :
+  1. messages O : odométrie (renvoie d, dθ), puis ekf.predict(d, dθ) ; ajouter
+     (odo.x, odo.y, ekf.mu) au journal ;
+  2. deux fois par seconde seulement (la caméra est lente) : lire une image,
+     détecter les marqueurs ; pour chaque marqueur connu de markers.json,
+     convertir la mesure (mesure_vers_robot) et appeler ekf.update_landmark ;
+     afficher « accepté » ou « rejeté » (test du χ²) ; montrer l'image ;
+     une erreur de la caméra ne doit pas arrêter le programme (try/except) ;
+  3. clavier comme teleop.py, « V,v,w » envoyé à chaque tour, « X » en quittant ;
+  4. à la fin : enregistrer le journal dans mesures/tp11_trajets.csv
+     (colonnes odo_x, odo_y, ekf_x, ekf_y, ekf_th).
+
+Validation : après un tour de la pièce, l'EKF revient à moins de 10 cm du point
+de départ alors que l'odométrie seule dérive bien plus.
+"""
+import json, sys, time
 import cv2
 import numpy as np
 from link import Link
@@ -3001,40 +3350,21 @@ from odometry import Odometry
 from ekf import EKF, mesure_vers_robot
 import aruco_cam
 
-ROBOT_IP, CAM_URL = sys.argv[1], sys.argv[2]   # ex. 192.168.43.50  http://192.168.43.51/capture
-MARQUEURS = {int(k): v for k, v in json.load(open("markers.json")).items()}
-link, odo, ekf = Link(ROBOT_IP), Odometry(0.1418, 130.0), EKF()
-v = w = 0
-t_cam, journal = 0.0, []
+MM_PER_TICK, TRACK_MM = 0.1418, 130.0
 
-while True:
-    for m in link.poll():
-        if m[0] == "O" and len(m) &gt;= 8:
-            d, dth = odo.update(int(m[3]), int(m[4]), int(m[5]))
-            ekf.predict(d, dth)
-            journal.append((odo.x, odo.y, *ekf.mu))
-    if time.time() - t_cam &gt; 0.5:                 # 2 images par seconde suffisent
-        t_cam = time.time()
-        try:
-            img = aruco_cam.lire_image(CAM_URL)
-            for mid, r, a in aruco_cam.detecter(img):
-                if mid in MARQUEURS:
-                    ok = ekf.update_landmark(*mesure_vers_robot(r, a), *MARQUEURS[mid])
-                    print(f"marqueur {mid} : {'accepté' if ok else 'rejeté'}")
-            cv2.imshow("camera", img)
-        except Exception as e:
-            print("caméra :", e)
-    k = cv2.waitKey(30) &amp; 0xFF
-    if k == ord("z"):   v, w = 150, 0
-    elif k == ord("s"): v, w = -150, 0
-    elif k == ord("q"): v, w = 0, 1500
-    elif k == ord("d"): v, w = 0, -1500
-    elif k == ord(" "): v, w = 0, 0
-    elif k == 27: break
-    link.send(f"V,{v},{w}")
-link.send("X")
-np.savetxt("mesures/tp11_trajets.csv", np.array(journal), delimiter=",",
-           header="odo_x,odo_y,ekf_x,ekf_y,ekf_th", comments="")</code></pre></div></div></li>
+
+def charger_marqueurs(fichier="markers.json"):
+    """Renvoie {id: (x, y)} : position des marqueurs dans le repère de la carte, en mètres."""
+    raise NotImplementedError("À compléter")
+
+
+def main(robot_ip, cam_url):
+    """Boucle décrite en tête de fichier."""
+    raise NotImplementedError("À compléter")
+
+
+if __name__ == "__main__":
+    main(sys.argv[1], sys.argv[2])</code></pre></div></div></li>
     <li><div><p><strong>Carte corrigée</strong> : dans <code>map_live.py</code>, remplacer la pose d'odométrie par celle de l'EKF et refaire les deux tours du TP10. Comparer les deux images.</p></div></li>
     <li><div><p><strong>Réglage</strong> : corrections trop brutales → augmenter <code>R</code> ; marqueurs toujours rejetés → vérifier les signes et les positions dans <code>markers.json</code> avant de toucher au seuil.</p></div></li>
   </ol>
@@ -3078,62 +3408,89 @@ np.savetxt("mesures/tp11_trajets.csv", np.array(journal), delimiter=",",
 
   <h2>Étapes</h2>
   <ol class="steps">
-    <li><div><p>Ajouter le planificateur et le suivi de point :</p><div class="code"><div class="code-head"><span class="code-name">pc/robot/planner.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python"># planner.py — gonflement des obstacles + recherche de chemin A*
+    <li><div><p>Ajouter le planificateur et le suivi de point :</p><div class="code"><div class="code-head"><span class="code-name">pc/robot/planner.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python">"""planner.py — gonflement des obstacles + recherche de chemin A* (TP12).
+
+inflate(prob, rayon_m, res, seuil)
+    Cases interdites au CENTRE du robot : une case est un obstacle si sa
+    probabilité dépasse « seuil » ; on élargit ensuite chaque obstacle du rayon
+    du robot (plus une marge) avec une dilatation morphologique
+    (cv2.getStructuringElement en ellipse de rayon k cases, puis cv2.dilate).
+    Ainsi on peut planifier comme si le robot était un point.
+    Renvoie un tableau de booléens indexé [j, i].
+
+astar(bloque, depart, but)
+    Plus court chemin sur la grille, 8 voisins (coût 1 en ligne droite, √2 en
+    diagonale), heuristique = distance en ligne droite jusqu'au but (elle ne
+    surestime jamais : le chemin trouvé est optimal).
+    - file de priorité (heapq) triée par f = g + h ;
+    - g[c] = meilleur coût connu depuis le départ, parent[c] = case précédente ;
+    - sortir une case : si c'est le but, terminer ; si elle a déjà été atteinte
+      avec un meilleur coût, l'ignorer ; sinon examiner ses voisins (dans la
+      grille et non bloqués) et les ajouter quand leur coût s'améliore ;
+    - reconstruire le chemin en remontant les parents depuis le but.
+    depart et but sont des cases (i, j). Renvoie la liste des cases du départ au
+    but, ou None si le but est inaccessible.
+"""
 import heapq, math
 import cv2
 import numpy as np
 
+
 def inflate(prob, rayon_m, res, seuil=0.65):
     """Cases interdites : obstacles élargis du rayon du robot (+ marge)."""
-    occ = (prob &gt; seuil).astype(np.uint8)
-    k = int(math.ceil(rayon_m / res))
-    noyau = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * k + 1, 2 * k + 1))
-    return cv2.dilate(occ, noyau) &gt; 0
+    raise NotImplementedError("À compléter")
+
 
 def astar(bloque, depart, but):
     """bloque[j, i] ; depart et but en cases (i, j). Renvoie la liste des cases ou None."""
-    nl, nc = bloque.shape
-    voisins = [(1, 0, 1), (-1, 0, 1), (0, 1, 1), (0, -1, 1),
-               (1, 1, 1.414), (1, -1, 1.414), (-1, 1, 1.414), (-1, -1, 1.414)]
-    h = lambda c: math.hypot(c[0] - but[0], c[1] - but[1])   # heuristique : ligne droite
-    ouverts = [(h(depart), 0.0, depart)]
-    parent, g = {depart: None}, {depart: 0.0}
-    while ouverts:
-        _, gc, c = heapq.heappop(ouverts)
-        if c == but:
-            break
-        if gc &gt; g[c]:
-            continue
-        for di, dj, cout in voisins:
-            nb = (c[0] + di, c[1] + dj)
-            if not (0 &lt;= nb[0] &lt; nc and 0 &lt;= nb[1] &lt; nl) or bloque[nb[1], nb[0]]:
-                continue
-            ng = gc + cout
-            if ng &lt; g.get(nb, math.inf):
-                g[nb], parent[nb] = ng, c
-                heapq.heappush(ouverts, (ng + h(nb), ng, nb))
-    if but not in parent:
-        return None
-    chemin, c = [], but
-    while c is not None:
-        chemin.append(c)
-        c = parent[c]
-    return chemin[::-1]</code></pre></div><div class="code"><div class="code-head"><span class="code-name">pc/robot/controller.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python"># controller.py — suivi d'un point : tourner vers lui, puis avancer en corrigeant le cap
+    raise NotImplementedError("À compléter")</code></pre></div><div class="code"><div class="code-head"><span class="code-name">pc/robot/controller.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python">"""controller.py — suivi d'un point : tourner vers lui, puis avancer en corrigeant le cap (TP12).
+
+suivre(pose, cible, v_max, k_w, w_max) renvoie (v en m/s, w en rad/s, distance restante en m) :
+    - distance et direction de la cible depuis la pose (x, y, θ) ;
+    - erreur de cap = direction de la cible - θ, ramenée dans ]-π, π] ;
+    - rotation proportionnelle à l'erreur : w = k_w · erreur, bornée à ±w_max ;
+    - si l'erreur dépasse environ 25°, tourner sur place (v = 0) ; sinon avancer
+      à min(v_max, 0,8 · distance) pour ralentir en approchant.
+"""
 import math
 from odometry import wrap
 
+
 def suivre(pose, cible, v_max=0.15, k_w=2.0, w_max=1.5):
     """Renvoie (v en m/s, w en rad/s, distance restante en m)."""
-    x, y, th = pose
-    dx, dy = cible[0] - x, cible[1] - y
-    dist = math.hypot(dx, dy)
-    err = wrap(math.atan2(dy, dx) - th)              # erreur de cap
-    w = max(-w_max, min(w_max, k_w * err))
-    v = 0.0 if abs(err) &gt; math.radians(25) else min(v_max, 0.8 * dist)
-    return v, w, dist</code></pre></div></div></li>
+    raise NotImplementedError("À compléter")</code></pre></div></div></li>
     <li><div><p><strong>Tester le suivi seul</strong> dans un espace vide : un but à 1 m devant, puis un but à 1 m à gauche. Régler <code>k_w</code> (oscillations de cap) et <code>v_max</code>.</p></div></li>
-    <li><div><p>Assembler l'application finale :</p><div class="code"><div class="code-head"><span class="code-name">pc/robot/app.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python"># app.py — application finale : carte en direct, recalage ArUco, navigation multi-points
-# usage : python app.py IP_ROBOT http://IP_CAMERA/capture
+    <li><div><p>Assembler l'application finale :</p><div class="code"><div class="code-head"><span class="code-name">pc/robot/app.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python">"""app.py — application finale : carte en direct, recalage ArUco, navigation multi-points (TP12).
+
+Usage : python app.py IP_ROBOT http://IP_CAMERA/capture
+
+Rôle : réunir tous les modules. Le robot s'arrête, balaye, la carte se met à
+jour, la caméra recale la position, puis le robot rejoint un par un les buts
+cliqués sur la carte.
+
+Ce que le programme doit faire, en boucle (≈ 20 fois par seconde) :
+  1. Messages du robot :
+       O -&gt; odometry.update, puis ekf.predict(d, dθ) ;
+       S -&gt; carte.add_scan(pose estimée par l'EKF, angles, distances) ; le
+            balayage est fini : revenir à l'état ATTENTE.
+  2. Recalage, deux fois par seconde : détecter les marqueurs, et pour chaque
+     marqueur connu (markers.json) appeler ekf.update_landmark ; une erreur de
+     la caméra est affichée sans arrêter le programme.
+  3. Navigation, s'il reste des buts et qu'aucun balayage n'est en cours :
+       - pas de chemin courant -&gt; inflate(carte.prob(), 0,12 m, res), puis A*
+         de la case du robot à la case du premier but ; but inaccessible -&gt;
+         le signaler et le retirer de la liste ;
+       - garder un point de passage sur 4 (chemin plus fluide), plus le but ;
+       - suivre(pose, premier point) -&gt; (v, w) ; point atteint à moins de 5 cm
+         -&gt; passer au suivant ; but atteint -&gt; le retirer, envoyer « C » et
+         passer à l'état SCAN (on balaye avant de repartir).
+     Envoyer « V,v,w » à chaque tour (en mm/s et mrad/s), même à l'arrêt.
+  4. Affichage : carte agrandie, buts numérotés, points du chemin, robot (cercle
+     + direction), état courant (ATTENTE, ROULE, SCAN).
+     Clic gauche = ajouter un but (convertir pixels -&gt; case -&gt; mètres) ;
+     C = balayage manuel ; E = enregistrer mesures/carte_finale.png ; Échap = quitter.
+  En quittant, envoyer « X ».
+"""
 import json, math, sys, time
 import cv2
 from link import Link
@@ -3144,82 +3501,16 @@ from planner import inflate, astar
 from controller import suivre
 import aruco_cam
 
-ROBOT_IP, CAM_URL = sys.argv[1], sys.argv[2]
 MM_PER_TICK, TRACK_MM, ECH = 0.1418, 130.0, 4
-MARQUEURS = {int(k): v for k, v in json.load(open("markers.json")).items()}
 
-link, odo, ekf, carte = Link(ROBOT_IP), Odometry(MM_PER_TICK, TRACK_MM), EKF(), GridMap()
-buts, chemin, etat, t_cam = [], [], "ATTENTE", 0.0      # etat : ATTENTE, ROULE, SCAN
 
-def ecran(x, y):                                        # mètres → pixels
-    i, j = carte.to_cell(x, y)
-    return i * ECH, (carte.n - 1 - j) * ECH
+def main(robot_ip, cam_url):
+    """Boucle principale décrite en tête de fichier."""
+    raise NotImplementedError("À compléter")
 
-def clic(evt, u, v, flags, param):                      # clic gauche = nouveau but
-    if evt == cv2.EVENT_LBUTTONDOWN:
-        buts.append(carte.to_world(u // ECH, carte.n - 1 - v // ECH))
 
-cv2.namedWindow("robot")
-cv2.setMouseCallback("robot", clic)
-
-while True:
-    # 1. Messages du robot
-    for m in link.poll():
-        if m[0] == "O" and len(m) &gt;= 8:
-            ekf.predict(*odo.update(int(m[3]), int(m[4]), int(m[5])))
-        elif m[0] == "S":
-            a0, pas, d = int(m[2]), int(m[3]), [int(x) for x in m[4:]]
-            carte.add_scan(tuple(ekf.mu), [a0 + pas * k for k in range(len(d))], d)
-            etat = "ATTENTE"
-
-    # 2. Recalage par la caméra, deux fois par seconde
-    if time.time() - t_cam &gt; 0.5:
-        t_cam = time.time()
-        try:
-            for mid, r, a in aruco_cam.detecter(aruco_cam.lire_image(CAM_URL)):
-                if mid in MARQUEURS:
-                    ekf.update_landmark(*mesure_vers_robot(r, a), *MARQUEURS[mid])
-        except Exception as e:
-            print("caméra :", e)
-
-    # 3. Navigation vers le premier but de la liste
-    v = w = 0.0
-    if buts and etat != "SCAN":
-        etat = "ROULE"
-        if not chemin:
-            bloque = inflate(carte.prob(), 0.12, carte.res)
-            cases = astar(bloque, carte.to_cell(*ekf.mu[:2]), carte.to_cell(*buts[0]))
-            if cases is None:
-                print("but inaccessible, ignoré"); buts.pop(0); continue
-            chemin = [carte.to_world(i, j) for i, j in cases[::4]] + [buts[0]]
-        v, w, dist = suivre(ekf.mu, chemin[0])
-        if dist &lt; 0.05:
-            chemin.pop(0)
-            if not chemin:                              # but atteint : on balaye avant le suivant
-                buts.pop(0); link.send("C"); etat = "SCAN"
-    link.send(f"V,{v * 1000:.0f},{w * 1000:.0f}")
-
-    # 4. Affichage
-    img = cv2.cvtColor(cv2.resize(carte.image(), None, fx=ECH, fy=ECH,
-                                  interpolation=cv2.INTER_NEAREST), cv2.COLOR_GRAY2BGR)
-    for k, b in enumerate(buts):
-        cv2.drawMarker(img, ecran(*b), (0, 0, 255), cv2.MARKER_CROSS, 14, 2)
-        cv2.putText(img, str(k + 1), ecran(*b), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1)
-    for p in chemin:
-        cv2.circle(img, ecran(*p), 2, (255, 120, 0), -1)
-    x, y, th = ekf.mu
-    cv2.circle(img, ecran(x, y), 7, (0, 150, 0), 2)
-    cv2.line(img, ecran(x, y), ecran(x + 0.15 * math.cos(th), y + 0.15 * math.sin(th)), (0, 150, 0), 2)
-    cv2.putText(img, etat, (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 200), 2)
-    cv2.imshow("robot", img)
-    k = cv2.waitKey(50) &amp; 0xFF
-    if k == ord("c"):
-        link.send("C"); etat = "SCAN"                   # balayage manuel
-    elif k == ord("e"):
-        cv2.imwrite("mesures/carte_finale.png", img)
-    elif k == 27:
-        break
-link.send("X")</code></pre></div></div></li>
+if __name__ == "__main__":
+    main(sys.argv[1], sys.argv[2])</code></pre></div></div></li>
     <li><div><p><strong>Explorer puis naviguer</strong> : balayer la pièce depuis 2 ou 3 endroits, puis cliquer 3 points. Le robot va de l'un à l'autre et balaie à chaque arrivée.</p></div></li>
     <li><div><p><strong>Ajouter un obstacle</strong> sur le trajet entre deux buts : après le balayage suivant, le nouveau chemin doit le contourner.</p></div></li>
     <li><div><p><strong>Réglages</strong> : rayon de gonflement (moitié de la largeur du robot + 3 cm), tolérance d'arrivée (5 cm), un point de passage toutes les 4 cases.</p></div></li>
@@ -3687,6 +3978,16 @@ link.send("X")</code></pre></div></div></li>
   });
   refreshBuy();
 
+  /* ---------- Filtre des composants ---------- */
+  $$(".comp-filter").forEach(function (bar) {
+    bar.addEventListener("click", function (e) {
+      var b = e.target.closest("button"); if (!b) return;
+      $$("button", bar).forEach(function (x) { x.classList.toggle("on", x === b); });
+      var f = b.getAttribute("data-f");
+      $$(".comp", bar.parentNode).forEach(function (c) { c.hidden = f !== "tous" && c.getAttribute("data-cat") !== f; });
+    });
+  });
+
   /* ---------- Blocs de code ---------- */
   if (window.hljs) $$("pre code").forEach(function (el) { try { window.hljs.highlightElement(el); } catch (e) {} });
   var LANGS = { cpp: "C++", python: "Python", bash: "Shell", json: "JSON", plaintext: "Texte" };
@@ -3698,6 +3999,7 @@ link.send("X")</code></pre></div></div></li>
     var m = (code.className.match(/language-(\w+)/) || [])[1];
     if (m && btn) btn.insertAdjacentHTML("beforebegin", '<span class="lang">' + (LANGS[m] || m) + "</span>");
     if (btn) btn.innerHTML = ICON.copy + "<span>Copier</span>";
+    if (/À compléter/.test(raw) && btn) btn.insertAdjacentHTML("beforebegin", '<span class="todo" title="Squelette : la description en tête de fichier dit ce qu\'il faut écrire">à compléter</span>');
     // numéros de ligne
     var lines = code.innerHTML.replace(/\n$/, "").split("\n");
     if (lines.length > 3) {

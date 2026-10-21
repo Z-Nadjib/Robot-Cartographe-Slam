@@ -2,6 +2,8 @@
 
 Les photos de ce dossier viennent de Wikimedia Commons. Elles ont été recadrées au format 4:3 et posées sur un fond flouté tiré de la même image. Chaque photo garde la licence de l'original.
 
+`vl53l1x.svg` et `motoreducteur.svg` sont des illustrations dessinées pour ce projet, faute de photo libre de ces composants.
+
 | Fichier | Original | Auteur | Licence |
 |---|---|---|---|
 | `esp32.jpg` | [ESP32 Dev Board.jpg](https://commons.wikimedia.org/wiki/File:ESP32_Dev_Board.jpg) | Edwiyanto | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
