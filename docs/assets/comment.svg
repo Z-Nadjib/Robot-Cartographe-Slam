@@ -10,26 +10,26 @@
   <text x="166.0" y="44" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="16" font-weight="700" text-anchor="middle" fill="#E6F1F5">1 · Balayer</text>
   <rect x="30" y="70" width="272" height="230" rx="14" fill="#0B2530" stroke="#1E3A45"/>
   <rect x="136.0" y="52" width="60" height="3" rx="1.5" fill="#E88C55"/>
-  <text x="166.0" y="328" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" text-anchor="middle" fill="#8FA9B8">VL53L1X sur servo : 61 mesures</text>
-  <text x="166.0" y="347" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" text-anchor="middle" fill="#8FA9B8">sur 180°, puis demi-tour</text>
+  <text x="166.0" y="328" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14" text-anchor="middle" fill="#8FA9B8">VL53L1X sur servo : 61 mesures</text>
+  <text x="166.0" y="348" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14" text-anchor="middle" fill="#8FA9B8">sur 180°, puis demi-tour</text>
   <path d="M308,185.0 L333,185.0" fill="none" stroke="#2C4A57" stroke-width="3" marker-end="url(#arr)"/><circle r="4" fill="#2DD4BF"><animateMotion dur="1.2s" begin="0.00s" repeatCount="indefinite" path="M308,185.0 L333,185.0"/></circle>
   <text x="477.0" y="44" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="16" font-weight="700" text-anchor="middle" fill="#E6F1F5">2 · Cartographier</text>
   <rect x="341" y="70" width="272" height="230" rx="14" fill="#0B2530" stroke="#1E3A45"/>
   <rect x="447.0" y="52" width="60" height="3" rx="1.5" fill="#3B82F6"/>
-  <text x="477.0" y="328" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" text-anchor="middle" fill="#8FA9B8">grille d&#x27;occupation log-odds,</text>
-  <text x="477.0" y="347" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" text-anchor="middle" fill="#8FA9B8">cases de 5 cm, en direct</text>
+  <text x="477.0" y="328" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14" text-anchor="middle" fill="#8FA9B8">grille d&#x27;occupation log-odds,</text>
+  <text x="477.0" y="348" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14" text-anchor="middle" fill="#8FA9B8">cases de 5 cm, en direct</text>
   <path d="M619,185.0 L644,185.0" fill="none" stroke="#2C4A57" stroke-width="3" marker-end="url(#arr)"/><circle r="4" fill="#2DD4BF"><animateMotion dur="1.2s" begin="0.30s" repeatCount="indefinite" path="M619,185.0 L644,185.0"/></circle>
   <text x="788.0" y="44" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="16" font-weight="700" text-anchor="middle" fill="#E6F1F5">3 · Se recaler</text>
   <rect x="652" y="70" width="272" height="230" rx="14" fill="#0B2530" stroke="#1E3A45"/>
   <rect x="758.0" y="52" width="60" height="3" rx="1.5" fill="#2DD4BF"/>
-  <text x="788.0" y="328" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" text-anchor="middle" fill="#8FA9B8">marqueur ArUco vu par l&#x27;ESP32-CAM :</text>
-  <text x="788.0" y="347" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" text-anchor="middle" fill="#8FA9B8">l&#x27;EKF corrige la dérive</text>
+  <text x="788.0" y="328" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14" text-anchor="middle" fill="#8FA9B8">marqueur ArUco vu par l&#x27;ESP32-CAM :</text>
+  <text x="788.0" y="348" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14" text-anchor="middle" fill="#8FA9B8">l&#x27;EKF corrige la dérive</text>
   <path d="M930,185.0 L955,185.0" fill="none" stroke="#2C4A57" stroke-width="3" marker-end="url(#arr)"/><circle r="4" fill="#2DD4BF"><animateMotion dur="1.2s" begin="0.60s" repeatCount="indefinite" path="M930,185.0 L955,185.0"/></circle>
   <text x="1099.0" y="44" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="16" font-weight="700" text-anchor="middle" fill="#E6F1F5">4 · Naviguer</text>
   <rect x="963" y="70" width="272" height="230" rx="14" fill="#0B2530" stroke="#1E3A45"/>
   <rect x="1069.0" y="52" width="60" height="3" rx="1.5" fill="#4FD092"/>
-  <text x="1099.0" y="328" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" text-anchor="middle" fill="#8FA9B8">A* sur la carte, puis suivi</text>
-  <text x="1099.0" y="347" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" text-anchor="middle" fill="#8FA9B8">des points jusqu&#x27;à chaque but</text>
+  <text x="1099.0" y="328" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14" text-anchor="middle" fill="#8FA9B8">A* sur la carte, puis suivi</text>
+  <text x="1099.0" y="348" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14" text-anchor="middle" fill="#8FA9B8">des points jusqu&#x27;à chaque but</text>
   <line x1="166.0" y1="260" x2="276.1" y2="260.0" stroke="#E88C55" stroke-width="1" opacity="0"><animate attributeName="opacity" dur="4s" repeatCount="indefinite" keyTimes="0;0.000;0.010;0.080;1" values="0;0;0.7;0;0"/></line>
   <circle cx="276.1" cy="260.0" r="2.6" fill="#E88C55" opacity="0.35"><animate attributeName="opacity" dur="4s" repeatCount="indefinite" keyTimes="0;0.000;0.010;0.97;1" values="0.35;0.35;1;0.7;0.35"/></circle>
   <line x1="166.0" y1="260" x2="276.1" y2="248.4" stroke="#E88C55" stroke-width="1" opacity="0"><animate attributeName="opacity" dur="4s" repeatCount="indefinite" keyTimes="0;0.030;0.040;0.110;1" values="0;0;0.7;0;0"/></line>
@@ -201,18 +201,18 @@
   <rect x="538.0" y="246" width="18" height="18" rx="3" fill="#0F2E38" opacity="1"/>
   <rect x="558.0" y="246" width="18" height="18" rx="3" fill="#0F2E38" opacity="1"/>
   <rect x="578.0" y="246" width="18" height="18" rx="3" fill="#0F2E38" opacity="1"/>
-  <rect x="363" y="286" width="10" height="10" rx="2" fill="#123C45" stroke="#1E3A45"/><text x="378" y="295" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" fill="#8FA9B8">libre</text>
-  <rect x="445" y="286" width="10" height="10" rx="2" fill="#C9D7DE" stroke="#1E3A45"/><text x="460" y="295" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" fill="#8FA9B8">mur</text>
-  <rect x="527" y="286" width="10" height="10" rx="2" fill="#0F2E38" stroke="#1E3A45"/><text x="542" y="295" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" fill="#8FA9B8">inconnu</text>
+  <rect x="363" y="286" width="10" height="10" rx="2" fill="#123C45" stroke="#1E3A45"/><text x="378" y="295" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#8FA9B8">libre</text>
+  <rect x="445" y="286" width="10" height="10" rx="2" fill="#C9D7DE" stroke="#1E3A45"/><text x="460" y="295" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#8FA9B8">mur</text>
+  <rect x="527" y="286" width="10" height="10" rx="2" fill="#0F2E38" stroke="#1E3A45"/><text x="542" y="295" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#8FA9B8">inconnu</text>
   <line x1="672" x2="904" y1="92" y2="92" stroke="#C9D7DE" stroke-width="4" opacity="0.8"/>
   <rect x="776.0" y="96" width="24" height="24" fill="#03111C" stroke="#2DD4BF" stroke-width="1.5"/><rect x="781.0" y="101" width="6" height="6" fill="#fff"/><rect x="789.0" y="109" width="6" height="6" fill="#fff"/>
-  <text x="788.0" y="138" font-family="'SFMono-Regular', Consolas, 'Liberation Mono', monospace" font-size="11" text-anchor="middle" fill="#2DD4BF">ArUco n° 2, position connue</text>
+  <text x="788.0" y="138" font-family="'SFMono-Regular', Consolas, 'Liberation Mono', monospace" font-size="12.5" text-anchor="middle" fill="#2DD4BF">ArUco n° 2, position connue</text>
   <line x1="798.0" y1="230" x2="788.0" y2="122" stroke="#2DD4BF" stroke-width="1.6" stroke-dasharray="4 4"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.35;0.4;0.85;1" dur="4s" repeatCount="indefinite"/></line>
   <ellipse cx="798.0" cy="230" fill="#2DD4BF" fill-opacity="0.10" stroke="#2DD4BF" stroke-dasharray="3 3"><animate attributeName="rx" values="16;52;52;18;16" keyTimes="0;0.35;0.4;0.55;1" dur="4s" repeatCount="indefinite"/><animate attributeName="ry" values="12;34;34;13;12" keyTimes="0;0.35;0.4;0.55;1" dur="4s" repeatCount="indefinite"/></ellipse>
   <g opacity="0.45"><animateTransform attributeName="transform" type="translate" values="0 0;-34 10;-34 10;0 0;0 0" keyTimes="0;0.35;0.4;0.55;1" dur="4s" repeatCount="indefinite"/><circle cx="798.0" cy="230" r="8" fill="none" stroke="#F87171" stroke-width="1.6" stroke-dasharray="3 2"/></g>
   <circle cx="798.0" cy="230" r="8" fill="#2DD4BF" stroke="#03111C" stroke-width="2"/><line x1="798.0" y1="230" x2="793.0" y2="216" stroke="#03111C" stroke-width="2"/>
-  <line x1="676" x2="692" y1="290" y2="290" stroke="#F87171" stroke-width="1.6" stroke-dasharray="3 2"/><text x="698" y="294" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" fill="#8FA9B8">odométrie seule</text>
-  <circle cx="810" cy="290" r="5" fill="#2DD4BF"/><text x="820" y="294" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" fill="#8FA9B8">estimation EKF</text>
+  <line x1="676" x2="692" y1="290" y2="290" stroke="#F87171" stroke-width="1.6" stroke-dasharray="3 2"/><text x="698" y="294" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#8FA9B8">odométrie seule</text>
+  <circle cx="810" cy="290" r="5" fill="#2DD4BF"/><text x="820" y="294" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#8FA9B8">estimation EKF</text>
   <rect x="980.0" y="86" width="18" height="18" rx="3" fill="#C9D7DE" opacity="0.9"/>
   <rect x="1000.0" y="86" width="18" height="18" rx="3" fill="#C9D7DE" opacity="0.9"/>
   <rect x="1020.0" y="86" width="18" height="18" rx="3" fill="#C9D7DE" opacity="0.9"/>

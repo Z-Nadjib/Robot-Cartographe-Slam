@@ -29,8 +29,7 @@ def T(x, y, s, size=13.5, fill=DIM, weight=None, font=SANS, anchor=None, extra="
     return f'<text x="{x}" y="{y}" font-family="{font}" font-size="{size}"{w}{a} fill="{fill}"{extra}>{escape(s)}</text>'
 
 def fade(i, body):
-    d = 0.75 + 0.18 * i
-    return f'<g><animate attributeName="opacity" values="0;0;1" keyTimes="0;{0.2 + 0.05 * i:.3f};1" dur="{d:.2f}s" fill="freeze"/>{body}</g>'
+    return f'<g>{body}</g>'
 
 def card(x, y, w, h, color, bar=True, stroke=None):
     s = f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="14" fill="{CARD}" stroke="{stroke or EDGE}"{" stroke-width=\"1.4\"" if stroke else ""}/>'
@@ -75,16 +74,14 @@ def banner():
     cx, cy, R, dur = 168, 248, 150, 4.0
     b = []
     for r in (50, 100, 150):
-        b.append(f'<path d="M{cx - r},{cy} A{r},{r} 0 0 1 {cx + r},{cy}" fill="none" stroke="#5EEAD4" stroke-opacity="0.12" stroke-dasharray="3 5"/>')
-    for a in (30, 60, 90, 120, 150):
-        ra = math.radians(a)
-        b.append(f'<line x1="{cx}" y1="{cy}" x2="{cx + R * math.cos(ra):.1f}" y2="{cy - R * math.sin(ra):.1f}" stroke="#5EEAD4" stroke-opacity="0.07"/>')
+        b.append(f'<path d="M{cx - r},{cy} A{r},{r} 0 0 1 {cx + r},{cy}" fill="none" stroke="#5EEAD4" stroke-opacity="0.14"/>')
+    b.append(f'<line x1="{cx - R}" x2="{cx + R}" y1="{cy}" y2="{cy}" stroke="#5EEAD4" stroke-opacity="0.14"/>')
     # points du balayage : s'allument au passage du faisceau (0° → 180°)
     for k in range(0, 181, 6):
-        d = room_dist(k, cx, cy)
+        d = room_dist(k, cx, cy) * 0.85      # la pièce tient dans le dernier arc
         px, py = cx + d * math.cos(math.radians(k)), cy - d * math.sin(math.radians(k))
         t = k / 180 * 0.9
-        col = COPPER if px > cx + 40 and py < cy - 60 and d < 150 else TEAL
+        col = COPPER if px > cx + 34 and py < cy - 50 and d < 128 else TEAL
         b.append(f'<circle cx="{px:.1f}" cy="{py:.1f}" r="3.2" fill="{col}" opacity="0.3">'
                  f'<animate attributeName="opacity" dur="{dur}s" repeatCount="indefinite" keyTimes="0;{t:.3f};{t + 0.01:.3f};0.97;1" values="0.3;0.3;1;0.6;0.3"/></circle>')
     # faisceau
@@ -150,10 +147,7 @@ def typing():
         clips.append(f'<clipPath id="c{k}"><rect x="{x:.1f}" y="0" height="50" width="0"><animate attributeName="width" dur="{total}s" repeatCount="indefinite" keyTimes="{kt(*times)}" values="{";".join(wv)}"/></rect></clipPath>')
         out.append(f'<text x="{x:.1f}" y="32" clip-path="url(#c{k})" font-family="{MONO}" font-size="{size}" textLength="{w:.0f}" lengthAdjust="spacingAndGlyphs" fill="{TEAL}">{escape(s)}</text>')
         cx = [f"{x + float(v):.1f}" for v in wv]
-        vis = ["0", "1", "1", "1", "1", "0"] if k else ["1", "1", "1", "1", "0"]
-        if k:
-            vis = ["0"] + ["1"] * 4 + ["0"]
-            times_v = [0, t0, t1, t2, t3, total]
+        vis = ["0", "1", "1", "1", "0", "0"] if k else ["1", "1", "1", "0", "0"]
         out.append(f'<rect y="12" width="2.5" height="26" fill="{TEAL}" x="{x:.1f}" opacity="0">'
                    f'<animate attributeName="x" dur="{total}s" repeatCount="indefinite" keyTimes="{kt(*times)}" values="{";".join(cx)}"/>'
                    f'<animate attributeName="opacity" dur="{total}s" repeatCount="indefinite" calcMode="discrete" keyTimes="{kt(*times)}" values="{";".join(vis)}"/></rect>')
@@ -218,12 +212,12 @@ def features():
     ]
     b = []
     for k, (ic, col, title, lines) in enumerate(cards):
-        x, y = 30 + 410 * (k % 3), 24 + 162 * (k // 3)
-        s = card(x, y, 396, 150, col) + icon(ic, x + 26, y + 62, col)
-        s += T(x + 80, y + 64, title, 15.5, INK, 700)
-        s += "".join(T(x + 26, y + 102 + 21 * n, l) for n, l in enumerate(lines))
+        x, y = 30 + 410 * (k % 3), 24 + 176 * (k // 3)
+        s = card(x, y, 396, 162, col) + icon(ic, x + 26, y + 62, col)
+        s += T(x + 80, y + 64, title, 17, INK, 700)
+        s += "".join(T(x + 26, y + 104 + 22 * n, l, 14.5) for n, l in enumerate(lines))
         b.append(fade(k, s))
-    write("features.svg", frame(1280, 360, "Ce que contient le dépôt", "\n  ".join(b)))
+    write("features.svg", frame(1280, 386, "Ce que contient le dépôt", "\n  ".join(b)))
 
 # ---------------------------------------------------------------- « comment ça marche » : 4 étapes
 def steps():
@@ -241,7 +235,7 @@ def steps():
         b.append(f'<rect x="{x}" y="{py0}" width="{pw}" height="{ph}" rx="14" fill="{CARD}" stroke="{EDGE}"/>')
         b.append(f'<rect x="{x + pw / 2 - 30}" y="52" width="60" height="3" rx="1.5" fill="{col}"/>')
         for n, l in enumerate(caps[k]):
-            b.append(T(x + pw / 2, py0 + ph + 28 + 19 * n, l, 13, DIM, anchor="middle"))
+            b.append(T(x + pw / 2, py0 + ph + 28 + 20 * n, l, 14, DIM, anchor="middle"))
         if k < 3:
             p = f"M{x + pw + 6},{py0 + ph / 2} L{x + pw + 31},{py0 + ph / 2}"
             b.append(flow(p, 0.3 * k))
@@ -275,14 +269,14 @@ def steps():
             b.append(f'<rect x="{gx + i * c + 1}" y="{gy + j * c + 1}" width="{c - 2}" height="{c - 2}" rx="3" fill="{f}" opacity="{o}"/>')
     lx = x0 + 22
     for n, (f, l) in enumerate([("#123C45", "libre"), ("#C9D7DE", "mur"), ("#0F2E38", "inconnu")]):
-        b.append(f'<rect x="{lx + n * 82}" y="{py0 + ph - 14}" width="10" height="10" rx="2" fill="{f}" stroke="{EDGE}"/>' + T(lx + n * 82 + 15, py0 + ph - 5, l, 11.5))
+        b.append(f'<rect x="{lx + n * 82}" y="{py0 + ph - 14}" width="10" height="10" rx="2" fill="{f}" stroke="{EDGE}"/>' + T(lx + n * 82 + 15, py0 + ph - 5, l, 12.5))
 
     # 3. recalage
     x0 = xs[2]; mx, my = x0 + pw / 2 - 12, py0 + 22
     b.append(f'<line x1="{x0 + 20}" x2="{x0 + pw - 20}" y1="{py0 + 22}" y2="{py0 + 22}" stroke="#C9D7DE" stroke-width="4" opacity="0.8"/>')
     b.append(f'<rect x="{mx}" y="{my + 4}" width="24" height="24" fill="#03111C" stroke="{TEAL}" stroke-width="1.5"/>'
              f'<rect x="{mx + 5}" y="{my + 9}" width="6" height="6" fill="#fff"/><rect x="{mx + 13}" y="{my + 17}" width="6" height="6" fill="#fff"/>')
-    b.append(T(mx + 12, my + 46, "ArUco n° 2, position connue", 11, TEAL, font=MONO, anchor="middle"))
+    b.append(T(mx + 12, my + 46, "ArUco n° 2, position connue", 12.5, TEAL, font=MONO, anchor="middle"))
     rx, ry = x0 + pw / 2 + 10, py0 + 160
     b.append(f'<line x1="{rx}" y1="{ry}" x2="{mx + 12}" y2="{my + 30}" stroke="{TEAL}" stroke-width="1.6" stroke-dasharray="4 4">'
              f'<animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.35;0.4;0.85;1" dur="4s" repeatCount="indefinite"/></line>')
@@ -292,8 +286,8 @@ def steps():
     b.append(f'<g opacity="0.45"><animateTransform attributeName="transform" type="translate" values="0 0;-34 10;-34 10;0 0;0 0" keyTimes="0;0.35;0.4;0.55;1" dur="4s" repeatCount="indefinite"/>'
              f'<circle cx="{rx}" cy="{ry}" r="8" fill="none" stroke="{RED}" stroke-width="1.6" stroke-dasharray="3 2"/></g>')
     b.append(f'<circle cx="{rx}" cy="{ry}" r="8" fill="{TEAL}" stroke="#03111C" stroke-width="2"/><line x1="{rx}" y1="{ry}" x2="{rx - 5}" y2="{ry - 14}" stroke="#03111C" stroke-width="2"/>')
-    b.append(f'<line x1="{x0 + 24}" x2="{x0 + 40}" y1="{py0 + ph - 10}" y2="{py0 + ph - 10}" stroke="{RED}" stroke-width="1.6" stroke-dasharray="3 2"/>' + T(x0 + 46, py0 + ph - 6, "odométrie seule", 11.5))
-    b.append(f'<circle cx="{x0 + 158}" cy="{py0 + ph - 10}" r="5" fill="{TEAL}"/>' + T(x0 + 168, py0 + ph - 6, "estimation EKF", 11.5))
+    b.append(f'<line x1="{x0 + 24}" x2="{x0 + 40}" y1="{py0 + ph - 10}" y2="{py0 + ph - 10}" stroke="{RED}" stroke-width="1.6" stroke-dasharray="3 2"/>' + T(x0 + 46, py0 + ph - 6, "odométrie seule", 12.5))
+    b.append(f'<circle cx="{x0 + 158}" cy="{py0 + ph - 10}" r="5" fill="{TEAL}"/>' + T(x0 + 168, py0 + ph - 6, "estimation EKF", 12.5))
 
     # 4. navigation
     x0 = xs[3]; c = 20; gx, gy = x0 + (pw - 12 * c) / 2, py0 + 15
@@ -316,7 +310,7 @@ def steps():
 def node(x, y, w, h, title, sub, col, i=0, sub_font=MONO):
     s = (f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="12" fill="{CARD}" stroke="{col}" stroke-width="1.4"/>'
          f'<circle cx="{x + 18}" cy="{y + 24}" r="5" fill="{col}"><animate attributeName="opacity" values="1;0.35;1" dur="2s" begin="{0.3 * i:.1f}s" repeatCount="indefinite"/></circle>'
-         + T(x + 31, y + 29, title, 14, INK, 700) + T(x + 18, y + h - 14, sub, 11.5, DIM, font=sub_font))
+         + T(x + 31, y + 29, title, 15, INK, 700) + T(x + 18, y + h - 13, sub, 13, DIM, font=sub_font))
     return s
 
 def architecture():
@@ -331,30 +325,30 @@ def architecture():
         b.append(fade(n, node(44, y, 200, 62, t, s, COPPER, n)))
         b.append(f'<path d="M244,{y + 31} C272,{y + 31} 270,170 296,170" fill="none" stroke="{ARROW}" stroke-width="2" marker-end="url(#arr)"/>')
     b.append(fade(4, node(300, 110, 214, 112, "ESP32", "balayage non bloquant", COPPER, 4)
-                  + T(318, 176, "PI 50 Hz · ticks · cap", 11.5, DIM, font=MONO)))
+                  + T(318, 174, "PI 50 Hz · ticks · cap", 13, DIM, font=MONO)))
     b.append(f'<path d="M407,222 L407,250" stroke="{ARROW}" stroke-width="3" marker-end="url(#arr)"/>')
     b.append(fade(5, node(300, 254, 214, 62, "TB6612 + moteurs", "PWM 20 kHz", COPPER, 5)))
     b.append(fade(6, node(300, 336, 214, 62, "ESP32-CAM", "HTTP /capture", COPPER, 6)))
     # PC
     pc = {"udp": (722, 82, "Réception UDP", "link.py"), "odo": (910, 82, "Odométrie", "odometry.py"), "ekf": (1086, 82, "Kalman (EKF)", "ekf.py"),
-          "astar": (722, 206, "A* + suivi", "planner · controller"), "grid": (910, 206, "Grille", "grid_map.py"),
+          "astar": (722, 206, "A* + suivi", "planner.py"), "grid": (910, 206, "Grille", "grid_map.py"),
           "aruco": (722, 330, "Vision ArUco", "aruco_cam.py")}
     for n, (k, (x, y, t, s)) in enumerate(pc.items()):
-        b.append(fade(n, node(x, y, 158 if k != "astar" else 166, 66, t, s, TEAL, n)))
+        b.append(fade(n, node(x, y, 158, 66, t, s, TEAL, n)))
     b.append(flow("M880,115 L906,115", 0.0, 0.9))
     b.append(flow("M1068,115 L1082,115", 0.3, 0.9))
     b.append(flow("M1150,148 L1150,239 L1072,239", 0.6, 1.4))
     b.append(flow("M910,239 L892,239", 0.9, 0.9))
     b.append(flow("M888,363 L1214,363 L1214,152", 0.2, 1.8))
-    b.append(T(1226, 300, "recalage", 11.5, DIM, font=MONO, extra=' transform="rotate(90 1226 300)"'))
-    b.append(T(1111, 230, "pose", 11.5, DIM, font=MONO, anchor="middle"))
+    b.append(T(1226, 300, "recalage", 13, DIM, font=MONO, extra=' transform="rotate(90 1226 300)"'))
+    b.append(T(1111, 230, "pose", 13, DIM, font=MONO, anchor="middle"))
     # liaisons
     b.append(flow("M514,140 C610,140 620,115 718,115", 0.0, 1.4, COPPER))
-    b.append(T(617, 112, "UDP 5005 · O, S", 12, COPPER, font=MONO, anchor="middle"))
+    b.append(T(617, 112, "UDP 5005 · O, S", 13.5, COPPER, font=MONO, anchor="middle"))
     b.append(flow("M722,239 C620,239 610,196 518,196", 0.5, 1.4, TEAL))
-    b.append(T(617, 248, "UDP 5006 · V, C, X", 12, TEAL, font=MONO, anchor="middle"))
+    b.append(T(617, 248, "UDP 5006 · V, C, X", 13.5, TEAL, font=MONO, anchor="middle"))
     b.append(flow("M514,367 L718,363", 0.8, 1.4, BLUE))
-    b.append(T(617, 354, "HTTP · JPEG", 12, BLUE, font=MONO, anchor="middle"))
+    b.append(T(617, 354, "HTTP · JPEG", 13.5, BLUE, font=MONO, anchor="middle"))
     write("architecture.svg", frame(W, H, "Architecture : le robot fait le temps réel, le PC la carte et la navigation", "\n  ".join(b)))
 
 # ---------------------------------------------------------------- parcours des TPs
@@ -373,11 +367,11 @@ def parcours():
         b.append(f'<line x1="{x}" x2="{x + 590}" y1="58" y2="58" stroke="{col}" stroke-width="1.5" opacity="0.8"/>')
         for n, (num, t, code) in enumerate(rows):
             y = 74 + n * (rh + 8)
-            pw = len(code) * 7.0 + 24
+            pw = len(code) * 7.8 + 26
             s = card(x, y, 590, rh, col)
             s += f'<circle cx="{x + 34}" cy="{y + rh / 2}" r="15" fill="none" stroke="{col}" stroke-width="1.6"/>' + T(x + 34, y + rh / 2 + 5, num, 13, col, 700, anchor="middle")
-            s += T(x + 62, y + rh / 2 + 5, t, 15, INK, 600)
-            s += f'<rect x="{x + 570 - pw:.0f}" y="{y + 13}" width="{pw:.0f}" height="24" rx="12" fill="none" stroke="{col}"/>' + T(x + 570 - pw / 2, y + 29, code, 11.5, col, font=MONO, anchor="middle")
+            s += T(x + 62, y + rh / 2 + 6, t, 16, INK, 600)
+            s += f'<rect x="{x + 570 - pw:.0f}" y="{y + 13}" width="{pw:.0f}" height="24" rx="12" fill="none" stroke="{col}"/>' + T(x + 570 - pw / 2, y + 30, code, 13, col, font=MONO, anchor="middle")
             b.append(fade(n, s))
     b.append(T(1250, 74 + 8 * (rh + 8) + 8, "pastille : dossier ou script principal du TP", 12.5, DIM, anchor="end"))
     write("parcours.svg", frame(1280, 74 + 8 * (rh + 8) + 24, "Les 14 TPs en deux phases", "\n  ".join(b)))
