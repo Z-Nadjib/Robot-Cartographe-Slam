@@ -1,5 +1,34 @@
-# app.py — application finale : carte en direct, recalage ArUco, navigation multi-points
-# usage : python app.py IP_ROBOT http://IP_CAMERA/capture
+"""app.py — application finale : carte en direct, recalage ArUco, navigation multi-points (TP12).
+
+Usage : python app.py IP_ROBOT http://IP_CAMERA/capture
+
+Rôle : réunir tous les modules. Le robot s'arrête, balaye, la carte se met à
+jour, la caméra recale la position, puis le robot rejoint un par un les buts
+cliqués sur la carte.
+
+Ce que le programme doit faire, en boucle (≈ 20 fois par seconde) :
+  1. Messages du robot :
+       O -> odometry.update, puis ekf.predict(d, dθ) ;
+       S -> carte.add_scan(pose estimée par l'EKF, angles, distances) ; le
+            balayage est fini : revenir à l'état ATTENTE.
+  2. Recalage, deux fois par seconde : détecter les marqueurs, et pour chaque
+     marqueur connu (markers.json) appeler ekf.update_landmark ; une erreur de
+     la caméra est affichée sans arrêter le programme.
+  3. Navigation, s'il reste des buts et qu'aucun balayage n'est en cours :
+       - pas de chemin courant -> inflate(carte.prob(), 0,12 m, res), puis A*
+         de la case du robot à la case du premier but ; but inaccessible ->
+         le signaler et le retirer de la liste ;
+       - garder un point de passage sur 4 (chemin plus fluide), plus le but ;
+       - suivre(pose, premier point) -> (v, w) ; point atteint à moins de 5 cm
+         -> passer au suivant ; but atteint -> le retirer, envoyer « C » et
+         passer à l'état SCAN (on balaye avant de repartir).
+     Envoyer « V,v,w » à chaque tour (en mm/s et mrad/s), même à l'arrêt.
+  4. Affichage : carte agrandie, buts numérotés, points du chemin, robot (cercle
+     + direction), état courant (ATTENTE, ROULE, SCAN).
+     Clic gauche = ajouter un but (convertir pixels -> case -> mètres) ;
+     C = balayage manuel ; E = enregistrer mesures/carte_finale.png ; Échap = quitter.
+  En quittant, envoyer « X ».
+"""
 import json, math, sys, time
 import cv2
 from link import Link
@@ -10,79 +39,13 @@ from planner import inflate, astar
 from controller import suivre
 import aruco_cam
 
-ROBOT_IP, CAM_URL = sys.argv[1], sys.argv[2]
 MM_PER_TICK, TRACK_MM, ECH = 0.1418, 130.0, 4
-MARQUEURS = {int(k): v for k, v in json.load(open("markers.json")).items()}
 
-link, odo, ekf, carte = Link(ROBOT_IP), Odometry(MM_PER_TICK, TRACK_MM), EKF(), GridMap()
-buts, chemin, etat, t_cam = [], [], "ATTENTE", 0.0      # etat : ATTENTE, ROULE, SCAN
 
-def ecran(x, y):                                        # mètres → pixels
-    i, j = carte.to_cell(x, y)
-    return i * ECH, (carte.n - 1 - j) * ECH
+def main(robot_ip, cam_url):
+    """Boucle principale décrite en tête de fichier."""
+    raise NotImplementedError("À compléter")
 
-def clic(evt, u, v, flags, param):                      # clic gauche = nouveau but
-    if evt == cv2.EVENT_LBUTTONDOWN:
-        buts.append(carte.to_world(u // ECH, carte.n - 1 - v // ECH))
 
-cv2.namedWindow("robot")
-cv2.setMouseCallback("robot", clic)
-
-while True:
-    # 1. Messages du robot
-    for m in link.poll():
-        if m[0] == "O" and len(m) >= 8:
-            ekf.predict(*odo.update(int(m[3]), int(m[4]), int(m[5])))
-        elif m[0] == "S":
-            a0, pas, d = int(m[2]), int(m[3]), [int(x) for x in m[4:]]
-            carte.add_scan(tuple(ekf.mu), [a0 + pas * k for k in range(len(d))], d)
-            etat = "ATTENTE"
-
-    # 2. Recalage par la caméra, deux fois par seconde
-    if time.time() - t_cam > 0.5:
-        t_cam = time.time()
-        try:
-            for mid, r, a in aruco_cam.detecter(aruco_cam.lire_image(CAM_URL)):
-                if mid in MARQUEURS:
-                    ekf.update_landmark(*mesure_vers_robot(r, a), *MARQUEURS[mid])
-        except Exception as e:
-            print("caméra :", e)
-
-    # 3. Navigation vers le premier but de la liste
-    v = w = 0.0
-    if buts and etat != "SCAN":
-        etat = "ROULE"
-        if not chemin:
-            bloque = inflate(carte.prob(), 0.12, carte.res)
-            cases = astar(bloque, carte.to_cell(*ekf.mu[:2]), carte.to_cell(*buts[0]))
-            if cases is None:
-                print("but inaccessible, ignoré"); buts.pop(0); continue
-            chemin = [carte.to_world(i, j) for i, j in cases[::4]] + [buts[0]]
-        v, w, dist = suivre(ekf.mu, chemin[0])
-        if dist < 0.05:
-            chemin.pop(0)
-            if not chemin:                              # but atteint : on balaye avant le suivant
-                buts.pop(0); link.send("C"); etat = "SCAN"
-    link.send(f"V,{v * 1000:.0f},{w * 1000:.0f}")
-
-    # 4. Affichage
-    img = cv2.cvtColor(cv2.resize(carte.image(), None, fx=ECH, fy=ECH,
-                                  interpolation=cv2.INTER_NEAREST), cv2.COLOR_GRAY2BGR)
-    for k, b in enumerate(buts):
-        cv2.drawMarker(img, ecran(*b), (0, 0, 255), cv2.MARKER_CROSS, 14, 2)
-        cv2.putText(img, str(k + 1), ecran(*b), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1)
-    for p in chemin:
-        cv2.circle(img, ecran(*p), 2, (255, 120, 0), -1)
-    x, y, th = ekf.mu
-    cv2.circle(img, ecran(x, y), 7, (0, 150, 0), 2)
-    cv2.line(img, ecran(x, y), ecran(x + 0.15 * math.cos(th), y + 0.15 * math.sin(th)), (0, 150, 0), 2)
-    cv2.putText(img, etat, (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 200), 2)
-    cv2.imshow("robot", img)
-    k = cv2.waitKey(50) & 0xFF
-    if k == ord("c"):
-        link.send("C"); etat = "SCAN"                   # balayage manuel
-    elif k == ord("e"):
-        cv2.imwrite("mesures/carte_finale.png", img)
-    elif k == 27:
-        break
-link.send("X")
+if __name__ == "__main__":
+    main(sys.argv[1], sys.argv[2])

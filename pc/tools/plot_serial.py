@@ -1,4 +1,21 @@
-# Lit le port série (format t_ms,brut,filtre,valide), trace et enregistre un CSV
+"""TP2 — Lit les mesures du laser sur le port série, les trace et les enregistre.
+
+Usage : python plot_serial.py COM3        (Linux : /dev/ttyUSB0)
+
+Le croquis tp2_laser.ino envoie une ligne CSV par mesure :
+    temps_ms,brut_mm,filtre_mm,valide
+
+Ce que le script doit faire :
+  1. ouvrir le port série à 115200 bauds (pyserial), attendre 2 s (l'ESP32
+     redémarre à l'ouverture du port) puis vider le tampon d'entrée ;
+  2. lire N = 400 lignes valides : découper sur les virgules, ignorer les lignes
+     qui n'ont pas 4 champs ou qui ne se convertissent pas en entiers ;
+  3. enregistrer t, brut, filtré dans mesures/tp2_laser.csv (avec un en-tête) ;
+  4. afficher la moyenne et l'écart-type des mesures brutes et filtrées : le
+     filtre doit réduire l'écart-type sans déplacer la moyenne ;
+  5. tracer les deux courbes en fonction du temps en secondes (matplotlib),
+     enregistrer la figure dans mesures/tp2_laser.png et l'afficher.
+"""
 import csv, sys, time
 import numpy as np
 import matplotlib.pyplot as plt
@@ -6,29 +23,17 @@ import serial
 
 PORT = sys.argv[1] if len(sys.argv) > 1 else "COM3"   # Linux : /dev/ttyUSB0
 N = 400                                                # nombre de mesures
-ser = serial.Serial(PORT, 115200, timeout=1)
-time.sleep(2)
-ser.reset_input_buffer()
 
-t, brut, filt = [], [], []
-while len(t) < N:
-    champs = ser.readline().decode(errors="ignore").strip().split(",")
-    if len(champs) != 4:
-        continue
-    try:
-        t.append(int(champs[0])); brut.append(int(champs[1])); filt.append(int(champs[2]))
-    except ValueError:
-        continue
-ser.close()
 
-with open("mesures/tp2_laser.csv", "w", newline="") as f:
-    csv.writer(f).writerows([("t_ms", "brut_mm", "filtre_mm"), *zip(t, brut, filt)])
+def lire_mesures(ser, n):
+    """Renvoie trois listes (t_ms, brut_mm, filtre_mm) de n mesures valides."""
+    raise NotImplementedError("À compléter : étape 2")
 
-b, m = np.array(brut), np.array(filt)
-print(f"brut   : moyenne {b.mean():.1f} mm, écart-type {b.std():.1f} mm")
-print(f"filtré : moyenne {m.mean():.1f} mm, écart-type {m.std():.1f} mm")
-plt.plot((np.array(t) - t[0]) / 1000, b, color="0.6", lw=1, label="brut")
-plt.plot((np.array(t) - t[0]) / 1000, m, lw=2, label="médiane sur 5")
-plt.xlabel("temps (s)"); plt.ylabel("distance (mm)"); plt.legend(); plt.grid(alpha=0.3)
-plt.savefig("mesures/tp2_laser.png", dpi=150)
-plt.show()
+
+def main():
+    """Étapes 1 à 5 décrites en tête de fichier."""
+    raise NotImplementedError("À compléter")
+
+
+if __name__ == "__main__":
+    main()

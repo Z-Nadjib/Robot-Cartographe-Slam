@@ -1,4 +1,28 @@
-// scanner.h — balayage servo + laser, NON bloquant (réutilisé jusqu'au TP12)
+/*
+ * scanner.h — balayage servo + laser, NON bloquant (réutilisé jusqu'au TP12)
+ *
+ * Rôle : faire tourner le servo de SCAN_MIN à SCAN_MAX par pas de SCAN_STEP et
+ * prendre une distance à chaque angle, sans jamais bloquer loop(). Hors
+ * balayage, le servo reste à 90° et frontMm donne la distance devant le robot
+ * (utilisée pour l'arrêt d'urgence).
+ *
+ * Servo : PWM 50 Hz (période 20 ms) en 14 bits, donc 20 ms = 16384 pas.
+ * La largeur d'impulsion va de SERVO_US_MIN (0°) à SERVO_US_MAX (180°) :
+ *   us    = SERVO_US_MIN + (SERVO_US_MAX - SERVO_US_MIN) * deg / 180
+ *   duty  = us * 16383 / 20000
+ *
+ * Machine d'états (une vérification rapide par appel de scanUpdate) :
+ *   SC_IDLE    servo au centre : si une mesure est prête, la lire dans frontMm
+ *              (0 si la mesure n'est pas valide) ;
+ *   SC_SETTLE  attendre que le servo soit arrivé : SETTLE_MS (400 ms pour le
+ *              premier angle, qui part de 90°) -> SC_FLUSH ;
+ *   SC_FLUSH   jeter la mesure commencée pendant le mouvement -> SC_MEASURE ;
+ *   SC_MEASURE lire la mesure (0 si invalide) dans scanDist[scIndex] ; si c'était
+ *              le dernier angle : servo à 90°, SC_IDLE, scanReady = true ;
+ *              sinon : angle suivant, noter l'instant, SC_SETTLE.
+ * Pour savoir si une mesure est prête sans attendre : tof.dataReady(), puis
+ * tof.read(false) ; validité : tof.ranging_data.range_status == VL53L1X::RangeValid.
+ */
 #pragma once
 #include <Wire.h>
 #include <VL53L1X.h>
@@ -19,64 +43,32 @@ bool     scanReady = false;             // vrai quand un balayage complet est di
 uint16_t frontMm = 0;                   // hors balayage : distance devant le robot (servo à 90°)
 
 enum { SC_IDLE, SC_SETTLE, SC_FLUSH, SC_MEASURE } scState = SC_IDLE;
-int scIndex = 0;
-uint32_t scT0 = 0;
+int scIndex = 0;                        // indice de l'angle en cours
+uint32_t scT0 = 0;                      // instant de la dernière commande du servo
 
-void servoWriteDeg(float deg) {         // PWM 50 Hz, 14 bits : 20 ms = 16384 pas
-  deg = constrain(deg, 0, 180);
-  float us = SERVO_US_MIN + (SERVO_US_MAX - SERVO_US_MIN) * deg / 180.0f;
-  ledcWrite(PIN_SERVO, (uint32_t)(us * 16383.0f / 20000.0f));
+// Place le servo à « deg » degrés (borné entre 0 et 180).
+void servoWriteDeg(float deg) {
+  // À compléter : formule de la largeur d'impulsion, puis ledcWrite.
 }
 
+// Configure la PWM du servo (ledcAttachChannel, 50 Hz, 14 bits, SERVO_CH), le
+// met au centre, puis initialise le capteur : timeout 500 ms, mode Long,
+// budget 33 ms, mesures continues toutes les 33 ms. Renvoie false si le
+// capteur ne répond pas.
 bool scannerBegin() {
-  ledcAttachChannel(PIN_SERVO, 50, 14, SERVO_CH);
-  servoWriteDeg(90);
-  tof.setTimeout(500);
-  if (!tof.init()) return false;
-  tof.setDistanceMode(VL53L1X::Long);
-  tof.setMeasurementTimingBudget(33000);   // 33 ms : compromis vitesse / bruit
-  tof.startContinuous(33);
-  return true;
+  // À compléter.
+  return false;
 }
 
+// Démarre un balayage : remet scanReady à faux et l'indice à 0, envoie le servo
+// au premier angle, note l'instant et passe en SC_SETTLE.
 void scanStart() {
-  scanReady = false;
-  scIndex = 0;
-  servoWriteDeg(SCAN_MIN);
-  scT0 = millis();
-  scState = SC_SETTLE;
+  // À compléter.
 }
 
 bool scanBusy() { return scState != SC_IDLE; }
 
-void scanUpdate() {                     // à appeler à chaque tour de loop()
-  switch (scState) {
-    case SC_IDLE:                       // servo au centre : on surveille l'avant
-      if (tof.dataReady()) {
-        uint16_t d = tof.read(false);
-        frontMm = (tof.ranging_data.range_status == VL53L1X::RangeValid) ? d : 0;
-      }
-      break;
-    case SC_SETTLE:                     // attendre que le servo soit arrivé
-      if (millis() - scT0 >= (scIndex == 0 ? 400 : SETTLE_MS)) scState = SC_FLUSH;
-      break;
-    case SC_FLUSH:                      // jeter la mesure commencée pendant le mouvement
-      if (tof.dataReady()) { tof.read(false); scState = SC_MEASURE; }
-      break;
-    case SC_MEASURE:
-      if (tof.dataReady()) {
-        uint16_t d = tof.read(false);
-        scanDist[scIndex] = (tof.ranging_data.range_status == VL53L1X::RangeValid) ? d : 0;
-        if (++scIndex >= SCAN_N) {      // fin du balayage
-          servoWriteDeg(90);
-          scState = SC_IDLE;
-          scanReady = true;
-        } else {
-          servoWriteDeg(SCAN_MIN + scIndex * SCAN_STEP);
-          scT0 = millis();
-          scState = SC_SETTLE;
-        }
-      }
-      break;
-  }
+// À appeler à chaque tour de loop() : fait avancer la machine d'états.
+void scanUpdate() {
+  // À compléter : un « case » par état, comme décrit en tête de fichier.
 }

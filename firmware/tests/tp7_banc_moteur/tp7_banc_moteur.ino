@@ -1,4 +1,27 @@
-// TP7 — Banc moteur (roues en l'air) : boucle ouverte, réponse indicielle, régulation PI
+/*
+ * TP7 — Banc moteur (roues en l'air) : boucle ouverte, réponse indicielle, PI
+ *
+ * But : piloter les moteurs depuis le moniteur série, mesurer la vitesse des
+ * roues avec les encodeurs, enregistrer une réponse indicielle puis tester le
+ * régulateur PI.
+ *
+ * Commandes reçues sur le port série (une par ligne) :
+ *   p <pwm>   boucle OUVERTE : même PWM sur les deux roues (ex. « p 150 »)
+ *   v <mm/s>  boucle FERMÉE  : consigne de vitesse pour les deux PI (remis à zéro)
+ *   t         afficher les ticks cumulés des deux encodeurs
+ *   autre     arrêt (mode STOP)
+ *
+ * lireCommande() : si une ligne est disponible, la lire jusqu'à '\n', la nettoyer
+ * (trim) puis mettre à jour « mode » et « consigne » selon la première lettre.
+ *
+ * loop() : appeler lireCommande(), puis toutes les CTRL_MS millisecondes :
+ *   1. dt en secondes depuis le dernier calcul ;
+ *   2. vitesses vL, vR en mm/s = (ticks actuels - ticks précédents) * MM_PER_TICK / dt ;
+ *   3. commande : OUVERT -> uL = uR = consigne ; FERME -> piL.update / piR.update ;
+ *      STOP -> motorsOff(), sinon setMotors(uL, uR) ;
+ *   4. hors STOP, envoyer une ligne CSV  temps_ms,consigne,vG,vD,pwmG,pwmD
+ *      (lue par pc/tools/log_serial.py puis pc/tools/analyse_echelon.py).
+ */
 #include "config.h"
 #include "motors.h"
 #include "encoders.h"
@@ -9,13 +32,7 @@ enum { STOP, OUVERT, FERME } mode = STOP;
 float consigne = 0;                 // PWM (mode OUVERT) ou mm/s (mode FERME)
 
 void lireCommande() {
-  if (!Serial.available()) return;
-  String l = Serial.readStringUntil('\n');
-  l.trim();
-  if (l.startsWith("p"))      { mode = OUVERT; consigne = l.substring(1).toFloat(); }
-  else if (l.startsWith("v")) { mode = FERME;  consigne = l.substring(1).toFloat(); piL.reset(); piR.reset(); }
-  else if (l == "t")          { Serial.printf("ticks G=%ld D=%ld\n", (long)getTicksL(), (long)getTicksR()); }
-  else                        { mode = STOP;   consigne = 0; }
+  // À compléter.
 }
 
 void setup() {
@@ -27,22 +44,5 @@ void setup() {
 
 void loop() {
   lireCommande();
-  static uint32_t t = millis();
-  static int32_t pL = 0, pR = 0;
-  if (millis() - t < CTRL_MS) return;
-  float dt = (millis() - t) / 1000.0f;
-  t = millis();
-
-  int32_t nL = getTicksL(), nR = getTicksR();
-  float vL = (nL - pL) * MM_PER_TICK / dt;      // vitesses en mm/s
-  float vR = (nR - pR) * MM_PER_TICK / dt;
-  pL = nL; pR = nR;
-
-  int uL = 0, uR = 0;
-  if (mode == OUVERT) { uL = uR = (int)consigne; }
-  if (mode == FERME)  { uL = piL.update(consigne, vL, dt); uR = piR.update(consigne, vR, dt); }
-  if (mode == STOP) motorsOff(); else setMotors(uL, uR);
-
-  if (mode != STOP)   // CSV : temps_ms,consigne,vG,vD,pwmG,pwmD
-    Serial.printf("%lu,%.0f,%.1f,%.1f,%d,%d\n", millis(), consigne, vL, vR, uL, uR);
+  // À compléter : calcul périodique (CTRL_MS), vitesses, commande, ligne CSV.
 }

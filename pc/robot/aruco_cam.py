@@ -1,51 +1,56 @@
-# Détection des marqueurs ArUco et estimation de la distance et de l'angle
+"""aruco_cam.py — détection des marqueurs ArUco et estimation de la distance et de l'angle (TP5).
+
+Usage autonome : python aruco_cam.py 0                         (webcam)
+                 python aruco_cam.py http://IP_CAM/capture     (ESP32-CAM)
+
+Rôle : pour chaque marqueur visible, donner son identifiant, sa distance (m) et
+son angle (rad, positif = à gauche de l'axe optique). Utilisé par fusion_test.py
+et app.py pour corriger la position du robot.
+
+À implémenter :
+  charger_calibration()
+      Lire calib.npz (produit par pc/tools/calibrate.py) : matrice K et
+      coefficients de distorsion.
+  detecter(img)
+      - niveaux de gris, puis cv2.aruco.ArucoDetector (dictionnaire DICT_4X4_50)
+        .detectMarkers ;
+      - pour chaque marqueur : cv2.solvePnP entre les 4 coins du marqueur dans son
+        propre repère (carré de côté TAILLE centré en 0, z = 0, dans l'ordre
+        renvoyé par OpenCV : haut-gauche, haut-droit, bas-droit, bas-gauche) et
+        les 4 coins détectés dans l'image ; le drapeau SOLVEPNP_IPPE_SQUARE est
+        fait pour ce cas ;
+      - tvec = position du marqueur dans le repère caméra (x à droite, y en bas,
+        z devant) : distance horizontale = √(x² + z²), angle = -atan2(x, z) ;
+      - dessiner les axes et les contours sur l'image (aide au réglage).
+  lire_image(src, cap)
+      Depuis l'URL /capture de l'ESP32-CAM (urllib + cv2.imdecode) ou depuis la
+      webcam cap.
+
+Validation : marqueur à 1 m en face -> 1,00 m ± 3 cm et 0° ± 2°.
+"""
 import math, sys, urllib.request
 import cv2
 import numpy as np
 
 TAILLE = 0.10                                   # côté du carré noir imprimé (m)
-calib = np.load("calib.npz")
-K, DIST = calib["K"], calib["dist"]
-# Coins du marqueur dans son propre repère, dans l'ordre renvoyé par OpenCV
-OBJ = np.array([[-TAILLE / 2,  TAILLE / 2, 0], [TAILLE / 2,  TAILLE / 2, 0],
-                [ TAILLE / 2, -TAILLE / 2, 0], [-TAILLE / 2, -TAILLE / 2, 0]], np.float32)
-DETECTEUR = cv2.aruco.ArucoDetector(cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_4X4_50),
-                                    cv2.aruco.DetectorParameters())
+
+
+def charger_calibration(fichier="calib.npz"):
+    """Renvoie (K, dist) lus dans le fichier de calibration."""
+    raise NotImplementedError("À compléter")
+
 
 def detecter(img):
     """Renvoie [(id, distance_m, angle_rad)] ; angle > 0 = marqueur à gauche de l'axe optique."""
-    gris = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    coins, ids, _ = DETECTEUR.detectMarkers(gris)
-    res = []
-    if ids is None:
-        return res
-    for c, i in zip(coins, ids.flatten()):
-        ok, rvec, tvec = cv2.solvePnP(OBJ, c[0], K, DIST, flags=cv2.SOLVEPNP_IPPE_SQUARE)
-        if not ok:
-            continue
-        tx, ty, tz = tvec.flatten()             # repère caméra : x à droite, y en bas, z devant
-        res.append((int(i), math.hypot(tx, tz), -math.atan2(tx, tz)))
-        cv2.drawFrameAxes(img, K, DIST, rvec, tvec, TAILLE / 2)
-    cv2.aruco.drawDetectedMarkers(img, coins, ids)
-    return res
+    raise NotImplementedError("À compléter")
+
 
 def lire_image(src, cap=None):
     """src = URL /capture de l'ESP32-CAM (image la plus récente) ou numéro de webcam."""
-    if src.startswith("http"):
-        data = urllib.request.urlopen(src, timeout=3).read()
-        return cv2.imdecode(np.frombuffer(data, np.uint8), cv2.IMREAD_COLOR)
-    ok, img = cap.read()
-    return img if ok else None
+    raise NotImplementedError("À compléter")
+
 
 if __name__ == "__main__":
-    SRC = sys.argv[1] if len(sys.argv) > 1 else "0"
-    cap = None if SRC.startswith("http") else cv2.VideoCapture(int(SRC))
-    while True:
-        img = lire_image(SRC, cap)
-        if img is None:
-            continue
-        for i, r, a in detecter(img):
-            print(f"marqueur {i} : {r * 100:.1f} cm, {math.degrees(a):+.1f}°")
-        cv2.imshow("ArUco", img)
-        if cv2.waitKey(1) & 0xFF == ord("q"):
-            break
+    # À compléter : ouvrir la source donnée en argument, puis en boucle lire une
+    # image, détecter, afficher « marqueur i : x cm, y° » et l'image ; Q pour quitter.
+    raise NotImplementedError("À compléter")

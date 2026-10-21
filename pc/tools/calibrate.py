@@ -1,4 +1,27 @@
-# Calibration de la caméra avec un damier de 9 x 6 coins intérieurs
+"""TP5 — Calibration de la caméra avec un damier de 9 x 6 coins intérieurs.
+
+Usage : python calibrate.py 0                        (webcam du PC)
+        python calibrate.py http://IP_CAM/capture    (ESP32-CAM)
+
+But : obtenir la matrice K (focales, centre optique) et les coefficients de
+distorsion de la caméra, indispensables pour mesurer une distance avec ArUco.
+Le résultat est enregistré dans calib.npz (K, dist), lu par aruco_cam.py.
+
+Ce que le script doit faire :
+  1. lire_image() : depuis l'URL (urllib, puis cv2.imdecode) ou depuis la
+     webcam (cv2.VideoCapture) ;
+  2. préparer les points 3D du damier : une grille 9 x 6 dont le pas vaut la
+     taille réelle d'une case EN MÈTRES (à mesurer sur l'impression), z = 0 ;
+  3. en boucle : chercher les coins (cv2.findChessboardCorners), les dessiner,
+     afficher le nombre d'images retenues ;
+       ESPACE -> si le damier est vu, affiner les coins (cv2.cornerSubPix) et
+                 garder le couple (points 3D, points image) ;
+       Q      -> terminer s'il y a au moins 10 images ;
+  4. cv2.calibrateCamera, puis enregistrer calib.npz et afficher l'erreur de
+     reprojection (bonne si < 0,5 px, acceptable si < 1 px).
+
+Conseil : 15 à 25 images, damier incliné, près, loin, dans les coins de l'image.
+"""
 import sys, urllib.request
 import cv2
 import numpy as np
@@ -6,39 +29,21 @@ import numpy as np
 SRC = sys.argv[1] if len(sys.argv) > 1 else "0"   # "0" = webcam, ou http://IP_CAM/capture
 COINS, CARRE = (9, 6), 0.025                       # côté d'une case en mètres : MESUREZ-LE
 
+
 def lire_image(cap):
-    if SRC.startswith("http"):
-        data = urllib.request.urlopen(SRC, timeout=3).read()
-        return cv2.imdecode(np.frombuffer(data, np.uint8), cv2.IMREAD_COLOR)
-    ok, img = cap.read()
-    return img if ok else None
+    """Renvoie une image BGR (ou None) depuis l'URL SRC ou la webcam cap."""
+    raise NotImplementedError("À compléter")
 
-cap = None if SRC.startswith("http") else cv2.VideoCapture(int(SRC))
-objp = np.zeros((COINS[0] * COINS[1], 3), np.float32)
-objp[:, :2] = np.mgrid[0:COINS[0], 0:COINS[1]].T.reshape(-1, 2) * CARRE
-obj_pts, img_pts, gris = [], [], None
-print("ESPACE = garder l'image, Q = calculer (15 à 25 images, angles et distances variés)")
 
-while True:
-    img = lire_image(cap)
-    if img is None:
-        continue
-    gris = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    ok, coins = cv2.findChessboardCorners(gris, COINS)
-    vue = img.copy()
-    if ok:
-        cv2.drawChessboardCorners(vue, COINS, coins, ok)
-    cv2.putText(vue, f"images : {len(obj_pts)}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
-    cv2.imshow("calibration", vue)
-    k = cv2.waitKey(30) & 0xFF
-    if k == ord(" ") and ok:
-        coins = cv2.cornerSubPix(gris, coins, (11, 11), (-1, -1),
-                                 (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001))
-        obj_pts.append(objp); img_pts.append(coins)
-    elif k == ord("q") and len(obj_pts) >= 10:
-        break
+def points_damier():
+    """Renvoie le tableau (54, 3) float32 des coins du damier dans son repère, en mètres."""
+    raise NotImplementedError("À compléter")
 
-err, K, dist, _, _ = cv2.calibrateCamera(obj_pts, img_pts, gris.shape[::-1], None, None)
-np.savez("calib.npz", K=K, dist=dist)
-print(f"Erreur de reprojection : {err:.3f} px (bon si < 0,5 ; acceptable si < 1)")
-print("Matrice K :\n", K)
+
+def main():
+    """Boucle de capture puis calibration (étapes 3 et 4)."""
+    raise NotImplementedError("À compléter")
+
+
+if __name__ == "__main__":
+    main()

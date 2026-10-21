@@ -1,23 +1,46 @@
-# grid_map.py — carte en grille d'occupation (log-odds)
+"""grid_map.py — carte en grille d'occupation (log-odds) (TP10).
+
+Rôle : transformer les balayages et la pose du robot en une carte de la pièce.
+
+La pièce est découpée en cases de res mètres (5 cm). Chaque case garde un score
+L (log-odds) : négatif = probablement libre, positif = probablement un mur,
+0 = inconnu. Probabilité correspondante : p = 1 - 1 / (1 + exp(L)).
+Additionner des scores revient à combiner des observations indépendantes.
+
+Repères : le monde est en mètres, le départ du robot est à « origin » du coin
+de la carte. La case (i, j) contient le point
+    x = (i + 0,5) · res - ox      y = (j + 0,5) · res - oy
+et le tableau est indexé L[j, i] (ligne = y, colonne = x).
+
+À implémenter :
+  bresenham(c0, c1)
+      Liste des cases traversées par le segment entre deux cases (algorithme de
+      Bresenham, entiers seulement), c0 et c1 comprises.
+  to_cell / to_world
+      Conversions mètres <-> indices de case (formules ci-dessus).
+  add_scan(pose, angles_deg, dists_mm)
+      Pour chaque mesure valide (d > 0) :
+        - position du capteur : SENSOR_X mètres devant le centre des roues ;
+        - direction du faisceau : θ + SERVO_SENS · (angle - 90°) (90° = devant) ;
+        - distance bornée à max_r ; case d'arrivée ;
+        - cases traversées (sauf la dernière) : score - 0,4 (libre) ;
+        - case d'arrivée, seulement si la mesure est < max_r : score + 0,85 (mur).
+      Enfin borner les scores à ±5 pour que la carte puisse encore changer.
+  prob()   probabilité d'occupation de chaque case.
+  image()  image en niveaux de gris : blanc = libre, noir = mur, gris = inconnu,
+           retournée verticalement (np.flipud) pour avoir y vers le haut à l'écran.
+"""
 import math
 import numpy as np
 
 SERVO_SENS = +1        # -1 si le radar apparaît en miroir (voir TP3)
 SENSOR_X = 0.06        # position du laser devant le centre des roues (m)
 
+
 def bresenham(c0, c1):
     """Cases traversées par le segment c0 → c1 (algorithme de Bresenham)."""
-    (x0, y0), (x1, y1) = c0, c1
-    dx, dy = abs(x1 - x0), -abs(y1 - y0)
-    sx, sy = (1 if x0 < x1 else -1), (1 if y0 < y1 else -1)
-    err, cells = dx + dy, []
-    while True:
-        cells.append((x0, y0))
-        if (x0, y0) == (x1, y1):
-            return cells
-        e2 = 2 * err
-        if e2 >= dy: err += dy; x0 += sx
-        if e2 <= dx: err += dx; y0 += sy
+    raise NotImplementedError("À compléter")
+
 
 class GridMap:
     def __init__(self, size_m=6.0, res=0.05, origin=(1.0, 1.0)):
@@ -27,35 +50,18 @@ class GridMap:
         self.ox, self.oy = origin                  # le départ du robot est à (1 m, 1 m) du coin
 
     def to_cell(self, x, y):
-        return int((x + self.ox) / self.res), int((y + self.oy) / self.res)
+        raise NotImplementedError("À compléter")
 
     def to_world(self, i, j):
-        return (i + 0.5) * self.res - self.ox, (j + 0.5) * self.res - self.oy
-
-    def _add(self, i, j, v):
-        if 0 <= i < self.n and 0 <= j < self.n:
-            self.L[j, i] += v
+        raise NotImplementedError("À compléter")
 
     def add_scan(self, pose, angles_deg, dists_mm, max_r=3.5):
-        x, y, th = pose
-        sx, sy = x + SENSOR_X * math.cos(th), y + SENSOR_X * math.sin(th)
-        c0 = self.to_cell(sx, sy)
-        for a, d in zip(angles_deg, dists_mm):
-            if d <= 0:
-                continue                           # mesure invalide
-            r = min(d / 1000, max_r)
-            b = th + SERVO_SENS * math.radians(a - 90)
-            c1 = self.to_cell(sx + r * math.cos(b), sy + r * math.sin(b))
-            cells = bresenham(c0, c1)
-            for i, j in cells[:-1]:
-                self._add(i, j, -0.4)              # le faisceau a traversé : libre
-            if d / 1000 < max_r:
-                self._add(*c1, +0.85)              # il s'est arrêté : obstacle
-        np.clip(self.L, -5, 5, out=self.L)
+        raise NotImplementedError("À compléter")
 
     def prob(self):
-        return 1 - 1 / (1 + np.exp(self.L))       # probabilité d'occupation
+        """Probabilité d'occupation de chaque case."""
+        raise NotImplementedError("À compléter")
 
     def image(self):
         """Image en niveaux de gris : blanc = libre, noir = mur, gris = inconnu."""
-        return np.flipud((255 * (1 - self.prob())).astype(np.uint8))
+        raise NotImplementedError("À compléter")

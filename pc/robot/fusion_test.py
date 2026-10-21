@@ -1,5 +1,27 @@
-# fusion_test.py — TP11 : compare odométrie seule et EKF pendant un trajet téléopéré
-import json, math, sys, time
+"""fusion_test.py — TP11 : compare odométrie seule et EKF pendant un trajet téléopéré.
+
+Usage : python fusion_test.py IP_ROBOT http://IP_CAMERA/capture
+
+Rôle : conduire le robot au clavier devant les marqueurs ArUco, faire tourner en
+parallèle l'odométrie seule et le filtre de Kalman, et enregistrer les deux
+trajectoires pour le rapport.
+
+Ce que le script doit faire, en boucle :
+  1. messages O : odométrie (renvoie d, dθ), puis ekf.predict(d, dθ) ; ajouter
+     (odo.x, odo.y, ekf.mu) au journal ;
+  2. deux fois par seconde seulement (la caméra est lente) : lire une image,
+     détecter les marqueurs ; pour chaque marqueur connu de markers.json,
+     convertir la mesure (mesure_vers_robot) et appeler ekf.update_landmark ;
+     afficher « accepté » ou « rejeté » (test du χ²) ; montrer l'image ;
+     une erreur de la caméra ne doit pas arrêter le programme (try/except) ;
+  3. clavier comme teleop.py, « V,v,w » envoyé à chaque tour, « X » en quittant ;
+  4. à la fin : enregistrer le journal dans mesures/tp11_trajets.csv
+     (colonnes odo_x, odo_y, ekf_x, ekf_y, ekf_th).
+
+Validation : après un tour de la pièce, l'EKF revient à moins de 10 cm du point
+de départ alors que l'odométrie seule dérive bien plus.
+"""
+import json, sys, time
 import cv2
 import numpy as np
 from link import Link
@@ -7,37 +29,18 @@ from odometry import Odometry
 from ekf import EKF, mesure_vers_robot
 import aruco_cam
 
-ROBOT_IP, CAM_URL = sys.argv[1], sys.argv[2]   # ex. 192.168.43.50  http://192.168.43.51/capture
-MARQUEURS = {int(k): v for k, v in json.load(open("markers.json")).items()}
-link, odo, ekf = Link(ROBOT_IP), Odometry(0.1418, 130.0), EKF()
-v = w = 0
-t_cam, journal = 0.0, []
+MM_PER_TICK, TRACK_MM = 0.1418, 130.0
 
-while True:
-    for m in link.poll():
-        if m[0] == "O" and len(m) >= 8:
-            d, dth = odo.update(int(m[3]), int(m[4]), int(m[5]))
-            ekf.predict(d, dth)
-            journal.append((odo.x, odo.y, *ekf.mu))
-    if time.time() - t_cam > 0.5:                 # 2 images par seconde suffisent
-        t_cam = time.time()
-        try:
-            img = aruco_cam.lire_image(CAM_URL)
-            for mid, r, a in aruco_cam.detecter(img):
-                if mid in MARQUEURS:
-                    ok = ekf.update_landmark(*mesure_vers_robot(r, a), *MARQUEURS[mid])
-                    print(f"marqueur {mid} : {'accepté' if ok else 'rejeté'}")
-            cv2.imshow("camera", img)
-        except Exception as e:
-            print("caméra :", e)
-    k = cv2.waitKey(30) & 0xFF
-    if k == ord("z"):   v, w = 150, 0
-    elif k == ord("s"): v, w = -150, 0
-    elif k == ord("q"): v, w = 0, 1500
-    elif k == ord("d"): v, w = 0, -1500
-    elif k == ord(" "): v, w = 0, 0
-    elif k == 27: break
-    link.send(f"V,{v},{w}")
-link.send("X")
-np.savetxt("mesures/tp11_trajets.csv", np.array(journal), delimiter=",",
-           header="odo_x,odo_y,ekf_x,ekf_y,ekf_th", comments="")
+
+def charger_marqueurs(fichier="markers.json"):
+    """Renvoie {id: (x, y)} : position des marqueurs dans le repère de la carte, en mètres."""
+    raise NotImplementedError("À compléter")
+
+
+def main(robot_ip, cam_url):
+    """Boucle décrite en tête de fichier."""
+    raise NotImplementedError("À compléter")
+
+
+if __name__ == "__main__":
+    main(sys.argv[1], sys.argv[2])
