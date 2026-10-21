@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="854" height="110" viewBox="0 0 854 110" role="img" aria-label="">
+  <defs><linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
+    <stop offset="0%" stop-color="#0A3433"/><stop offset="50%" stop-color="#E88C55" stop-opacity="0.6"/><stop offset="100%" stop-color="#2DD4BF"/>
+  </linearGradient></defs>
+  <g transform="rotate(180 427 55)">
+    <path fill="url(#linear)" opacity="0.4"><animate attributeName="d" dur="20s" repeatCount="indefinite" keyTimes="0;0.333;0.667;1" calcMode="spline" keySplines="0.2 0 0.2 1;0.2 0 0.2 1;0.2 0 0.2 1"
+      values="M0 0L 0 30Q 213.5 70 427 40T 854 65L 854 0 Z;M0 0L 0 55Q 213.5 70 427 50T 854 40L 854 0 Z;M0 0L 0 75Q 213.5 45 427 75T 854 40L 854 0 Z;M0 0L 0 30Q 213.5 70 427 40T 854 65L 854 0 Z"/></path>
+    <path fill="url(#linear)" opacity="0.4"><animate attributeName="d" dur="20s" begin="-10s" repeatCount="indefinite" keyTimes="0;0.333;0.667;1" calcMode="spline" keySplines="0.2 0 0.2 1;0.2 0 0.2 1;0.2 0 0.2 1"
+      values="M0 0L 0 45Q 213.5 90 427 60T 854 70L 854 0 Z;M0 0L 0 60Q 213.5 30 427 30T 854 50L 854 0 Z;M0 0L 0 55Q 213.5 35 427 60T 854 75L 854 0 Z;M0 0L 0 45Q 213.5 90 427 60T 854 70L 854 0 Z"/></path>
+  </g>
+</svg>

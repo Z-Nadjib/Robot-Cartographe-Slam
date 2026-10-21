@@ -1,243 +1,277 @@
 <div align="center">
 
-# Robot Cartographe SLAM
+<img src="docs/assets/banner.svg" width="100%" alt="Robot Cartographe SLAM"/>
 
-**Un robot qui dessine la carte d'une pièce, se recale grâce à la vision, puis s'y déplace seul.**
+<br/>
 
-Projet de Travaux Avant Projet · L3 Électronique · USTHB
+<img src="docs/assets/typing.svg" alt="Balayer une pièce, construire la carte, se recaler sur des marqueurs ArUco, rejoindre plusieurs points"/>
 
-![ESP32](https://img.shields.io/badge/ESP32-Arduino%20core%203.x-E7352C?logo=espressif&logoColor=white)
-![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
-![OpenCV](https://img.shields.io/badge/OpenCV-ArUco-5C3EE8?logo=opencv&logoColor=white)
-![Réseau](https://img.shields.io/badge/R%C3%A9seau-UDP%20%2F%20Wi--Fi-0A7E8C)
-![TPs](https://img.shields.io/badge/TPs-14%20guid%C3%A9s-B0501A)
-![Langue](https://img.shields.io/badge/langue-fran%C3%A7ais-1B6A55)
+<p>
+  <img src="docs/assets/badges/tps.svg" alt="14 TPs guidés"/>
+  <img src="docs/assets/badges/phases.svg" alt="Phase A sur table, phase B sur la voiture"/>
+  <img src="docs/assets/badges/budget.svg" alt="Budget d'environ 100 €"/>
+</p>
+<p>
+  <img src="docs/assets/badges/esp32.svg" alt="ESP32, Arduino core 3.x"/>
+  <img src="docs/assets/badges/python.svg" alt="Python 3.10+"/>
+  <img src="docs/assets/badges/opencv.svg" alt="OpenCV ArUco"/>
+  <img src="docs/assets/badges/reseau.svg" alt="UDP sur Wi-Fi"/>
+  <img src="docs/assets/badges/langue.svg" alt="En français"/>
+</p>
 
-<img src="docs/captures/accueil.png" alt="Page d'accueil du manuel" width="880">
+<p>
+  <a href="#le-manuel"><b>Manuel</b></a> &nbsp;|&nbsp;
+  <a href="#installation"><b>Installation</b></a> &nbsp;|&nbsp;
+  <a href="#utilisation"><b>Utilisation</b></a> &nbsp;|&nbsp;
+  <a href="#le-parcours--14-tps"><b>TPs</b></a> &nbsp;|&nbsp;
+  <a href="#architecture"><b>Architecture</b></a> &nbsp;|&nbsp;
+  <a href="#protocole"><b>Protocole</b></a> &nbsp;|&nbsp;
+  <a href="#matériel"><b>Matériel</b></a>
+</p>
 
 </div>
 
----
+<br/>
 
-## Sommaire
+**Robot Cartographe SLAM** est un projet de Travaux Avant Projet (L3 Électronique, USTHB). On y
+construit un petit robot à deux roues qui réalise une forme simple de SLAM, c'est-à-dire de
+localisation et cartographie simultanées. Le robot balaye la pièce avec un laser monté sur un
+servomoteur et le PC en tire une grille d'occupation. Une caméra lit des marqueurs ArUco collés aux
+murs pour corriger la dérive de l'odométrie. On clique ensuite des points sur la carte et le robot
+s'y rend seul. Le dépôt contient le manuel complet des 14 TPs, le firmware de l'ESP32 et
+l'application Python du PC.
 
-- [Le projet en bref](#le-projet-en-bref)
-- [Ouvrir le manuel](#ouvrir-le-manuel)
-- [Architecture](#architecture)
-- [Le parcours : 14 TPs](#le-parcours--14-tps)
-- [Lien avec les modules du semestre](#lien-avec-les-modules-du-semestre)
-- [Matériel](#matériel)
-- [Contenu du dépôt](#contenu-du-dépôt)
-- [Démarrage rapide du code](#démarrage-rapide-du-code)
-- [Protocole de communication](#protocole-de-communication)
-- [État du projet](#état-du-projet)
+<p align="center">
+  <img src="docs/assets/features.svg" width="100%" alt="Un manuel en un seul fichier, 14 TPs guidés, deux phases (table puis voiture), firmware ESP32 temps réel, SLAM léger en Python, navigation multi-points"/>
+</p>
 
----
+## Comment ça marche
 
-## Le projet en bref
+Le robot alterne quatre gestes. Il s'arrête pour balayer, le PC ajoute le balayage à la carte, la
+vision recale la position estimée, puis A* trace le chemin vers le but suivant.
 
-Le robot réalise une forme simple de **SLAM** (localisation et cartographie simultanées) en combinant deux capteurs complémentaires :
+<p align="center">
+  <img src="docs/assets/comment.svg" width="100%" alt="1 balayer au laser, 2 construire la grille d'occupation, 3 se recaler sur un marqueur ArUco avec l'EKF, 4 naviguer avec A*"/>
+</p>
 
-| Étape | Ce que fait le robot | Comment |
-| :---: | --- | --- |
-| **1** | **Balayer** | Un capteur laser VL53L1X sur un servomoteur mesure les distances sur 180°, puis le robot fait demi-tour pour couvrir 360°. |
-| **2** | **Cartographier** | Le PC construit une grille d'occupation (libre / mur / inconnu) affichée en direct. |
-| **3** | **Se recaler** | Une ESP32‑CAM lit des marqueurs ArUco collés aux murs ; un filtre de Kalman étendu corrige la dérive de l'odométrie. |
-| **4** | **Naviguer** | On clique plusieurs points sur la carte ; le robot calcule son chemin avec A* et va de l'un à l'autre. |
+<br/>
 
-Le projet avance en **deux phases** : chaque brique est d'abord validée seule sur une plaque d'essai (phase A), puis tout est assemblé sur la voiture (phase B).
+## Le manuel
 
----
+Tout le manuel tient dans un seul fichier, **[`index.html`](index.html)**. Il suffit de cloner le
+dépôt (ou de le télécharger en ZIP) et d'ouvrir ce fichier dans Chrome, Firefox ou Edge.
 
-## Ouvrir le manuel
-
-Tout le manuel tient dans un seul fichier : **[`index.html`](index.html)**.
-
-1. Télécharger le dépôt : bouton **Code → Download ZIP**, ou `git clone`.
-2. Ouvrir `index.html` dans un navigateur (Chrome, Firefox, Edge).
-
-Le manuel fonctionne sans serveur et presque entièrement hors ligne (seules les polices et la coloration du code viennent d'internet). Les cases cochées dans les checklists sont mémorisées dans le navigateur.
+Le manuel n'a besoin d'aucun serveur et fonctionne presque entièrement hors ligne : seules les
+polices et la coloration du code viennent d'internet. Les cases cochées des checklists restent en
+mémoire dans le navigateur d'une séance à l'autre.
 
 <div align="center">
-<img src="docs/captures/tp7.png" alt="Page d'un TP" width="49%"> <img src="docs/captures/mobile.png" alt="Version téléphone" width="22%">
+<img src="docs/captures/accueil.png" alt="Page d'accueil du manuel" width="64%"> <img src="docs/captures/mobile.png" alt="Version téléphone" width="18%">
 </div>
 
----
+| Chapitre | Contenu |
+|---|---|
+| Accueil | Ce que fera le robot, les deux phases, le lien avec les modules du semestre |
+| Matériel détaillé | Liste d'achat, fiches techniques, outillage, logiciels |
+| Architecture | Vue d'ensemble, entrées et sorties de chaque bloc, brochage, alimentation, budget de courant |
+| Modules | Circulation des données, modules du firmware et du PC, ce qui est codé à la main |
+| Protocole | Réseau, messages, caméra HTTP, choix techniques à justifier dans le rapport |
+| TP 0 à TP 13 | Objectif, matériel, câblage, étapes, code complet, critères de validation chiffrés, pièges fréquents, checklist |
 
-## Architecture
+<br/>
 
-L'ESP32 fait uniquement ce qui exige du **temps réel** ; tout ce qui demande de la mémoire ou du calcul tourne sur le **PC**. Ils ne sont reliés que par le Wi‑Fi.
+## Installation
 
-```mermaid
-flowchart LR
-  subgraph ROBOT["Robot"]
-    L["Laser VL53L1X<br/>+ servo SG90"] --> E
-    C["2 encodeurs"] --> E
-    G["Gyroscope MPU6050"] --> E
-    B["Batterie 2S"] --> E
-    E["ESP32<br/>boucle 50 Hz"] --> M["TB6612<br/>+ 2 moteurs"]
-    CAM["ESP32-CAM"]
-  end
-  subgraph PC["PC · Python"]
-    R["Réception UDP"] --> O["Odométrie"] --> K["Filtre de Kalman"]
-    V["Vision ArUco"] --> K
-    K --> MAP["Grille d'occupation"] --> A["A* + suivi"]
-  end
-  E -- "UDP 5005 · O, S" --> R
-  A -- "UDP 5006 · V, C, X" --> E
-  CAM -- "HTTP · JPEG" --> V
+### Firmware : Arduino IDE 2
+
+1. Ajouter les cartes **ESP32 d'Espressif, en version 3.x**, et la bibliothèque **VL53L1X de Pololu**.
+2. Ouvrir un dossier de [`firmware/tests/`](firmware/tests/), choisir la carte *ESP32 Dev Module* et téléverser.
+3. Pour le robot complet, ouvrir [`firmware/robot_fw/`](firmware/robot_fw/), puis renseigner :
+   - le Wi‑Fi dans [`comms.h`](firmware/robot_fw/comms.h) ;
+   - la géométrie et les gains du PI dans [`config.h`](firmware/robot_fw/config.h).
+
+### PC : Python 3.10 ou plus récent
+
+```bash
+git clone https://github.com/Z-Nadjib/Robot-Cartographe-Slam.git
+cd Robot-Cartographe-Slam
+python -m venv venv
+source venv/bin/activate          # Windows : venv\Scripts\activate
+pip install -r pc/requirements.txt
 ```
 
-<details>
-<summary><strong>Voir le schéma d'ensemble et le brochage du manuel</strong></summary>
-<br>
-<img src="docs/captures/architecture.png" alt="Schéma d'architecture" width="880">
-<br><br>
-<img src="docs/captures/brochage.png" alt="Brochage de l'ESP32" width="880">
-</details>
+Les dépendances sont `numpy`, `matplotlib`, `opencv-contrib-python` (version 4.7 au moins, pour
+ArUco) et `pyserial`.
 
-### Brochage de l'ESP32
+> [!TIP]
+> Le réseau conseillé est le **partage de connexion d'un téléphone, en 2,4 GHz**. Le PC, le robot
+> et l'ESP32‑CAM s'y connectent tous les trois.
 
-| GPIO | Fonction | Relié à |
-| :---: | --- | --- |
-| `21` / `22` | SDA / SCL (I2C) | VL53L1X (0x29), MPU6050 (0x68) |
-| `13` | PWM 50 Hz | Servo SG90 |
-| `25` `26` `27` | PWMA, AIN1, AIN2 | TB6612, moteur gauche |
-| `18` `16` `17` | PWMB, BIN1, BIN2 | TB6612, moteur droit |
-| `23` | STBY | TB6612 |
-| `34` `35` / `36` `39` | Encodeurs A, B | Encodeurs gauche / droit (tirage 10 kΩ vers 3,3 V) |
-| `33` | ADC1 | Pont diviseur 100 kΩ / 33 kΩ de la batterie |
-| `2` | LED | LED d'état intégrée |
+<br/>
 
----
+## Utilisation
+
+Les scripts de l'application se lancent depuis `pc/robot/`. Ils y lisent `markers.json` et
+`calib.npz`.
+
+### Les scripts, étape par étape
+
+| TP | Commande | Ce que fait le script |
+|:---:|---|---|
+| 2 | `python ../tools/plot_serial.py /dev/ttyUSB0` | Trace le laser brut et filtré, et enregistre un CSV |
+| 3 | `python ../tools/radar_serial.py /dev/ttyUSB0` | Affiche en direct le radar reçu sur le port série |
+| 4 | `python ../tools/udp_radar.py IP_ROBOT` | Affiche le radar reçu en UDP, compte les pertes, mesure la latence |
+| 5 | `python ../tools/calibrate.py http://IP_CAM/capture` | Calibre la caméra sur un damier 9 × 6 et écrit `calib.npz` |
+| 5 | `python aruco_cam.py http://IP_CAM/capture` | Détecte les marqueurs, affiche leur distance et leur angle |
+| 7 | `python ../tools/analyse_echelon.py echelon.csv` | Ajuste un modèle du 1<sup>er</sup> ordre et propose KP et KI |
+| 9 | `python teleop.py IP_ROBOT` | Pilotage au clavier (Z Q S D) et tracé de l'odométrie |
+| 10 | `python map_live.py IP_ROBOT` | Téléopération et carte en direct, touche **C** pour balayer |
+| 11 | `python fusion_test.py IP_ROBOT http://IP_CAM/capture` | Compare l'odométrie seule et l'EKF sur un même trajet |
+| 12 | `python app.py IP_ROBOT http://IP_CAM/capture` | Application finale |
+
+L'IP du robot s'affiche sur le moniteur série au démarrage de l'ESP32.
+
+### L'application finale
+
+```bash
+cd pc/robot
+python app.py 192.168.43.50 http://192.168.43.51/capture
+```
+
+| Action | Effet |
+|---|---|
+| Clic gauche sur la carte | Ajoute un but ; les buts sont visités dans l'ordre |
+| **C** | Lance un balayage manuel |
+| **E** | Enregistre l'image de la carte |
+| **Échap** | Arrête le robot et quitte |
+
+À chaque but atteint, le robot s'arrête et balaye avant de repartir vers le suivant. Un but
+inaccessible est signalé puis ignoré.
+
+<br/>
 
 ## Le parcours : 14 TPs
 
-<table>
-<tr>
-<th width="50%">🟧 Phase A · sur table</th>
-<th width="50%">🟩 Phase B · sur la voiture</th>
-</tr>
-<tr valign="top">
-<td>
+Le projet avance en deux phases. Pendant la **phase A**, chaque brique est validée seule sur une
+plaque d'essai. Pendant la **phase B**, tout est assemblé sur la voiture.
 
-| TP | Sujet |
-| :---: | --- |
-| 0 | Installer l'environnement |
-| 1 | ESP32 : GPIO, PWM, interruptions, timers |
-| 2 | Capteur laser VL53L1X et filtre médian |
-| 3 | Radar 2D : servo + laser |
-| 4 | Envoyer le radar au PC en Wi‑Fi (UDP) |
-| 5 | Caméra, calibration et marqueurs ArUco |
-| 6 | Gyroscope MPU6050 : mesurer le cap |
-| 7 | Moteurs, encodeurs et régulateur PI |
+<p align="center">
+  <img src="docs/assets/parcours.svg" width="100%" alt="Phase A : TP 0 à 7 sur table. Phase B : TP 8 à 13 sur la voiture."/>
+</p>
 
-</td>
-<td>
-
-| TP | Sujet |
-| :---: | --- |
-| 8 | Montage mécanique et alimentation |
-| 9 | Firmware complet, odométrie, pilotage clavier |
-| 10 | Cartographie par grille d'occupation |
-| 11 | Fusion : filtre de Kalman + ArUco |
-| 12 | Navigation A* vers plusieurs points |
-| 13 | Intégration, tests et soutenance |
-
-</td>
-</tr>
-</table>
-
-Chaque TP du manuel contient : **objectif**, **matériel**, **câblage**, **étapes**, **code complet**, **critères de validation chiffrés**, **pièges fréquents** et une **checklist**.
-
----
-
-## Lien avec les modules du semestre
+Chaque TP s'appuie sur un ou plusieurs modules du semestre :
 
 | Module | Dans le projet | TPs |
-| --- | --- | :---: |
+|---|---|:---:|
 | **Fonctions Électroniques** | Pont en H, encodeurs, régulation 5 V, pont diviseur, modèle du moteur | 7, 8 |
 | **Traitement du Signal** | Filtre médian, intégration du gyroscope, traitement d'image, filtre de Kalman | 2, 3, 5, 6, 11 |
 | **Systèmes Microprocesseurs** | PWM (LEDC), interruptions, timers, I2C, ADC, ordonnancement non bloquant | 1, 3, 7, 9 |
 | **Réseaux Informatiques Locaux** | IP, sockets UDP, protocole applicatif, latence et pertes, HTTP, Wireshark | 4, 5, 9 |
 
----
+<br/>
+
+## Architecture
+
+L'ESP32 ne fait que ce qui exige du **temps réel** : régulation des roues, comptage des
+encodeurs, intégration du cap et balayage. Tout ce qui demande de la mémoire ou du calcul tourne
+sur le **PC**. Les deux ne sont reliés que par le Wi‑Fi.
+
+<p align="center">
+  <img src="docs/assets/architecture.svg" width="100%" alt="Le robot (capteurs, ESP32, TB6612, ESP32-CAM) envoie télémesure et balayages en UDP au PC (réception, odométrie, EKF, grille, A*), qui renvoie les consignes ; la caméra envoie ses images en HTTP"/>
+</p>
+
+| Côté | Module | Rôle |
+|---|---|---|
+| ESP32 | [`motors.h`](firmware/robot_fw/motors.h) | Pont en H TB6612, PWM à 20 kHz, commande signée de −255 à +255 |
+| ESP32 | [`encoders.h`](firmware/robot_fw/encoders.h) | Quadrature x4 sur interruptions, avec une table de décodage |
+| ESP32 | [`speed_pi.h`](firmware/robot_fw/speed_pi.h) | PI de vitesse par roue, sans intégration pendant la saturation |
+| ESP32 | [`imu.h`](firmware/robot_fw/imu.h) | MPU6050 lu en I2C sans bibliothèque, biais mesuré au démarrage |
+| ESP32 | [`scanner.h`](firmware/robot_fw/scanner.h) | Machine à états servo + laser, 61 mesures sur 180° |
+| ESP32 | [`comms.h`](firmware/robot_fw/comms.h) | Wi‑Fi et UDP texte, chien de garde de 500 ms |
+| PC | [`odometry.py`](pc/robot/odometry.py) | Pose (x, y, θ) à partir des ticks et du cap gyroscopique |
+| PC | [`grid_map.py`](pc/robot/grid_map.py) | Grille log-odds de 6 × 6 m en cases de 5 cm, rayons tracés par Bresenham |
+| PC | [`aruco_cam.py`](pc/robot/aruco_cam.py) | Détection ArUco et `solvePnP`, qui donnent la distance et l'angle |
+| PC | [`ekf.py`](pc/robot/ekf.py) | Filtre de Kalman étendu, test du χ² contre les mesures aberrantes |
+| PC | [`planner.py`](pc/robot/planner.py) | Gonflement des obstacles, puis recherche A* sur 8 voisins |
+| PC | [`controller.py`](pc/robot/controller.py) | Suivi de point : s'orienter vers la cible, puis avancer |
+
+<details>
+<summary><b>Brochage de l'ESP32</b></summary>
+<br/>
+
+| GPIO | Fonction | Relié à |
+|:---:|---|---|
+| `21` / `22` | SDA / SCL (I2C) | VL53L1X (0x29), MPU6050 (0x68) |
+| `13` | PWM 50 Hz | Servo SG90 |
+| `25` `26` `27` | PWMA, AIN1, AIN2 | TB6612, moteur gauche |
+| `18` `16` `17` | PWMB, BIN1, BIN2 | TB6612, moteur droit |
+| `23` | STBY | TB6612 |
+| `34` `35` / `36` `39` | Encodeurs A, B | Encodeurs gauche / droit (tirage de 10 kΩ vers 3,3 V) |
+| `33` | ADC1 | Pont diviseur 100 kΩ / 33 kΩ de la batterie |
+| `2` | LED | LED d'état intégrée |
+
+<img src="docs/captures/brochage.png" alt="Brochage de l'ESP32 dans le manuel" width="100%">
+</details>
+
+<br/>
+
+## Protocole
+
+Les messages sont du texte : un message par datagramme UDP, champs séparés par des virgules.
+
+| Sens | Message | Rôle |
+|---|---|---|
+| Robot → PC, port 5005 | `O,seq,t_ms,ticksG,ticksD,cap_mdeg,avant_mm,vbat_mV` | Télémesure à 20 Hz |
+| Robot → PC, port 5005 | `S,seq,angle0,pas,d0,…,d60` | Un balayage de 61 distances, en mm |
+| PC → robot, port 5006 | `V,v_mm_s,w_mrad_s` | Consigne de vitesse, à répéter (arrêt au bout de 500 ms sans message) |
+| PC → robot, port 5006 | `C` · `X` · `M,pwmG,pwmD` · `P,…` | Balayer · arrêter · commande directe · écho pour la latence |
+| Caméra → PC, HTTP | `GET /capture` | Une image JPEG |
+
+Le robot s'arrête de lui-même si un obstacle est à moins de 150 mm devant lui.
+
+<br/>
 
 ## Matériel
 
 | Composant | Rôle |
-| --- | --- |
+|---|---|
 | ESP32 DevKit V1 (×2, dont une de secours) | Cerveau du robot, Wi‑Fi |
 | Capteur laser VL53L1X | Distances jusqu'à 4 m |
 | Servo SG90 / MG90S | Balayage sur 180° |
 | ESP32‑CAM AI‑Thinker + carte ESP32‑CAM‑MB | Images pour les marqueurs ArUco |
-| MPU6050 (GY‑521) | Vitesse de rotation (cap) |
+| MPU6050 (GY‑521) | Vitesse de rotation, donc le cap |
 | TB6612FNG | Pont en H double |
 | 2 motoréducteurs 6 V **avec encodeur** | Propulsion et odométrie |
 | Châssis 2 roues + roue folle | Base mobile |
 | 2 accus 18650 + support 2S + chargeur | Alimentation 7,4 V |
 | Abaisseur DC‑DC 5 V / 3 A, fusible, interrupteur | Distribution de l'énergie |
 
-**Budget : environ 100 €**, ESP32 de secours et accessoires compris. La liste détaillée, avec ce qu'il faut vérifier avant chaque achat, se trouve dans le manuel (chapitre *Matériel détaillé*).
+Le budget est d'**environ 100 €**, ESP32 de secours et accessoires compris. Le chapitre
+*Matériel détaillé* du manuel liste ce qu'il faut vérifier avant chaque achat.
 
----
+<br/>
 
-## Contenu du dépôt
+## Structure du projet
 
-```text
-Robot-Cartographe-Slam/
-├── index.html                 le manuel complet (à ouvrir dans un navigateur)
-├── firmware/
-│   ├── tests/                 un croquis Arduino par TP de la phase A
-│   │   ├── tp0_blink/   tp1_pwm/   tp2_scan_i2c/   tp2_laser/
-│   │   └── tp3_radar/   tp4_radar_wifi/   tp6_cap/   tp7_banc_moteur/
-│   └── robot_fw/              firmware final du robot (TP9 → TP13)
-├── pc/
-│   ├── requirements.txt
-│   ├── tools/                 scripts de test : tracés, calibration, analyse
-│   └── robot/                 application : odométrie, carte, EKF, A*, interface
-├── mesures/                   courbes, CSV et photos pour le rapport
-└── docs/captures/             captures d'écran du manuel
+```
+Robot-Cartographe-Slam
+|-- index.html              le manuel complet, à ouvrir dans un navigateur
+|-- firmware
+|   |-- tests               un croquis Arduino par TP de la phase A
+|   |   |-- tp0_blink   tp1_pwm   tp2_scan_i2c   tp2_laser
+|   |   `-- tp3_radar   tp4_radar_wifi   tp6_cap   tp7_banc_moteur
+|   `-- robot_fw            firmware final du robot (TP9 à TP13)
+|-- pc
+|   |-- requirements.txt
+|   |-- tools               tracés, calibration, marqueurs, analyse de l'échelon
+|   `-- robot               odométrie, carte, EKF, A*, application
+|-- mesures                 courbes, CSV et photos pour le rapport
+`-- docs
+    |-- captures            captures d'écran du manuel
+    `-- assets              figures de cette page (make_figures.py les régénère)
 ```
 
----
-
-## Démarrage rapide du code
-
-**Firmware (Arduino IDE 2)**
-
-1. Ajouter les cartes ESP32 (Espressif, version **3.x**) et la bibliothèque **VL53L1X** de Pololu.
-2. Ouvrir le dossier d'un TP dans `firmware/tests/`, choisir la carte *ESP32 Dev Module*, téléverser.
-3. Pour le robot complet, renseigner le Wi‑Fi dans `firmware/robot_fw/comms.h` et la géométrie dans `config.h`.
-
-**PC (Python 3.10+)**
-
-```bash
-python -m venv venv
-source venv/bin/activate          # Windows : venv\Scripts\activate
-pip install -r pc/requirements.txt
-
-cd pc/robot
-python teleop.py 192.168.43.50                                   # TP9 : pilotage au clavier
-python app.py 192.168.43.50 http://192.168.43.51/capture         # TP12 : application finale
-```
-
-> Le réseau conseillé est le **partage de connexion d'un téléphone en 2,4 GHz** : PC, robot et caméra s'y connectent.
-
----
-
-## Protocole de communication
-
-Messages texte, un par datagramme UDP, champs séparés par des virgules.
-
-| Sens | Message | Rôle |
-| --- | --- | --- |
-| Robot → PC (port 5005) | `O,seq,t_ms,ticksG,ticksD,cap_mdeg,avant_mm,vbat_mV` | Télémesure à 20 Hz |
-| Robot → PC | `S,seq,angle0,pas,d0,…,d60` | Un balayage de 61 distances |
-| PC → robot (port 5006) | `V,v_mm_s,w_mrad_s` | Consigne de vitesse (chien de garde à 500 ms) |
-| PC → robot | `C` · `X` · `M,pwmG,pwmD` · `P,…` | Balayer · arrêter · commande directe · ping |
-
----
+<br/>
 
 ## État du projet
 
@@ -248,10 +282,17 @@ Messages texte, un par datagramme UDP, champs séparés par des virgules.
 - [ ] Carte, fusion et navigation validées
 - [ ] Rapport et soutenance
 
-> **Note** : le code est fourni comme base de départ. Il a été vérifié (syntaxe du firmware, tests des modules Python sur données simulées) mais pas encore sur le matériel réel : des ajustements sont à prévoir pendant les TPs, et c'est le but des étapes de validation.
+> [!NOTE]
+> Le code est une base de départ. La syntaxe du firmware a été vérifiée et les modules Python ont
+> été testés sur des données simulées, mais rien n'a encore tourné sur le matériel réel. Des
+> ajustements sont à prévoir pendant les TPs ; c'est le rôle des étapes de validation.
 
----
+## Auteur
+
+Zahaf Boualem Nadjib, Licence 3 Électronique, Université des Sciences et de la Technologie Houari
+Boumediene (USTHB).
 
 <div align="center">
-<sub>Projet TAP · Licence 3 Électronique · Université des Sciences et de la Technologie Houari Boumediene</sub>
+<br/>
+<img src="docs/assets/footer.svg" width="100%" alt=""/>
 </div>
