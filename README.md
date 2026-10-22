@@ -38,7 +38,7 @@
 
 <br/>
 
-**Robot Cartographe SLAM** est un projet de Travaux Avant Projet de L3 Électronique à l'USTHB. On y construit un petit robot à deux roues qui fait du **SLAM** simplifié, c'est-à-dire qu'il se localise et cartographie en même temps.
+**Robot Cartographe SLAM** est un projet de Travaux Avant Projet destiné à un groupe d'étudiants de L3 Électronique de l'USTHB. Les étudiants y construisent un petit robot à deux roues qui fait du **SLAM** simplifié, c'est-à-dire qu'il se localise et cartographie en même temps.
 
 Le robot balaye la pièce avec un laser monté sur un servomoteur, et le PC en tire une **grille d'occupation**. Une caméra lit des **marqueurs ArUco** collés aux murs pour corriger la dérive de l'odométrie. On clique ensuite des points sur la carte, et le robot s'y rend seul grâce à **A\***.
 
@@ -330,9 +330,9 @@ Les figures de cette page sont générées par [`docs/assets/make_figures.py`](d
 > [!NOTE]
 > Le code est fourni sous forme de squelettes : les descriptions disent quoi écrire, les critères de validation de chaque TP disent quand c'est réussi. Rien n'a encore tourné sur le vrai matériel ; des ajustements (calibrations, gains, sens des moteurs) sont à prévoir pendant les TPs.
 
-## Auteur
+## Encadrement
 
-**Zahaf Boualem Nadjib**, Licence 3 Électronique, Université des Sciences et de la Technologie Houari Boumediene (USTHB).
+Projet conçu et encadré par **Zahaf Boualem Nadjib**, pour un groupe d'étudiants de Licence 3 Électronique de l'Université des Sciences et de la Technologie Houari Boumediene (USTHB). Le manuel, les squelettes de code et le matériel de ce dépôt servent de support au groupe tout au long du projet.
 
 <div align="center">
 <br/>
