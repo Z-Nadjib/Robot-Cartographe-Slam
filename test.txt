@@ -10,3 +10,8 @@ sudo do-release-upgrade
 
 sudo apt update
 sudo apt install git build-essential linux-headers-$(uname -r)
+
+git clone --depth 1 https://github.com/OnlineLearningTutorials/mt7902_temp
+cd mt7902_temp
+chmod +x ./install_guide.sh
+./install_guide.sh
