@@ -284,11 +284,14 @@ Chaque message est une ligne de texte envoyée dans un seul datagramme UDP. Les 
 | ESP32‑CAM AI‑Thinker + carte ESP32‑CAM‑MB | 1 | Images pour les marqueurs ArUco |
 | MPU6050 (GY‑521) | 1 | Vitesse de rotation, donc le cap |
 | TB6612FNG | 1 | Pont en H double |
-| Motoréducteur 6 V **avec encodeur** | 2 | Propulsion et odométrie |
-| Châssis 2 roues + roue folle | 1 | Base mobile |
+| Motoréducteur **avec encodeur Hall**, au format TT de préférence | 2 | Propulsion et odométrie |
+| Kit châssis 2 roues : plaque, roues, roue folle | 1 | Base mobile (ses moteurs TT d'origine n'ont pas d'encodeur) |
 | Accu 18650 | 2 | Alimentation 2S, 7,4 V |
 | Support 2S + chargeur | 1 | Logement et recharge des accus |
 | Abaisseur DC‑DC 5 V / 3 A, fusible, interrupteur | 1 | Distribution de l'énergie |
+
+> [!WARNING]
+> Les kits châssis 2 roues sont presque toujours livrés avec deux moteurs TT jaunes **sans encodeur**. Ils ne permettent ni la régulation de vitesse ni l'odométrie : on garde la plaque, les roues et la roue folle, et on achète à part deux moteurs **TT avec encodeur Hall**, qui se montent à la place.
 
 Le budget est d'**environ 100 €**, ESP32 de secours et accessoires compris. Le chapitre *Matériel détaillé* du manuel indique ce qu'il faut vérifier avant chaque achat.
 

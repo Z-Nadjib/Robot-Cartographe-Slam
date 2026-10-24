@@ -776,8 +776,8 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border-radius: 
       <tr data-price="10"><td><input type="checkbox" id="buy-cam" aria-label="acheté"></td><td><strong>ESP32‑CAM AI‑Thinker + caméra OV2640</strong> et sa carte <strong>ESP32‑CAM‑MB</strong></td><td class="num">1</td><td>La carte MB (port USB) sert à la programmer. Souvent vendues ensemble.</td><td><span class="tag a">A</span> TP5</td><td class="num">10</td></tr>
       <tr data-price="2"><td><input type="checkbox" id="buy-mpu" aria-label="acheté"></td><td><strong>MPU6050</strong> (module GY‑521)</td><td class="num">1</td><td>Gyroscope + accéléromètre, I2C, adresse 0x68.</td><td><span class="tag a">A</span> TP6</td><td class="num">2</td></tr>
       <tr data-price="3"><td><input type="checkbox" id="buy-tb" aria-label="acheté"></td><td><strong>Driver moteur TB6612FNG</strong> (module)</td><td class="num">1</td><td>2 voies, 1,2 A continu et 3,2 A crête par voie, VM de 4,5 à 13,5 V.</td><td><span class="tag a">A</span> TP7</td><td class="num">3</td></tr>
-      <tr data-price="16"><td><input type="checkbox" id="buy-mot" aria-label="acheté"></td><td><strong>Motoréducteurs 6 V avec encodeur à effet Hall</strong> (type N20 ou JGA25‑370)</td><td class="num">2</td><td>Encodeur 2 voies (A et B) obligatoire. Viser 150 à 300 tr/min en sortie et un courant en charge ≤ 1,2 A.</td><td><span class="tag a">A</span> TP7</td><td class="num">16</td></tr>
-      <tr data-price="10"><td><input type="checkbox" id="buy-chassis" aria-label="acheté"></td><td><strong>Châssis 2 roues</strong> + 2 roues ≈ 65 mm adaptées à l'axe des moteurs + 1 roue folle à bille</td><td class="num">1</td><td>Plaque assez large pour la batterie, la tour laser et la caméra (≈ 15 × 20 cm).</td><td><span class="tag b">B</span> TP8</td><td class="num">10</td></tr>
+      <tr data-price="16"><td><input type="checkbox" id="buy-mot" aria-label="acheté"></td><td><strong>Motoréducteurs avec encodeur à effet Hall, au format TT</strong> (ou N20 / JGA25‑370 avec leurs supports et leurs roues)</td><td class="num">2</td><td>Encodeur 2 voies (A et B) obligatoire. Le format TT se fixe directement sur les châssis 2 roues et prend leurs roues. Viser 150 à 300 tr/min en sortie et un courant en charge ≤ 1,2 A.</td><td><span class="tag a">A</span> TP7</td><td class="num">16</td></tr>
+      <tr data-price="10"><td><input type="checkbox" id="buy-chassis" aria-label="acheté"></td><td><strong>Kit châssis 2 roues</strong> : plaque, 2 roues ≈ 65 mm, 1 roue folle à bille</td><td class="num">1</td><td>Ces kits sont presque toujours livrés avec 2 moteurs TT jaunes <strong>sans encodeur</strong> : on garde la plaque, les roues et la roue folle, et on remplace les moteurs (ligne au-dessus). Plaque assez large pour la batterie, la tour laser et la caméra (≈ 15 × 20 cm).</td><td><span class="tag b">B</span> TP8</td><td class="num">10</td></tr>
       <tr data-price="14"><td><input type="checkbox" id="buy-bat" aria-label="acheté"></td><td><strong>2 accus Li‑ion 18650</strong> protégés + support 2S + chargeur</td><td class="num">1 lot</td><td>≥ 2000 mAh chacun. En série : 7,4 V nominal, 8,4 V chargé, 6,0 V à décharge.</td><td><span class="tag b">B</span> TP8</td><td class="num">14</td></tr>
       <tr data-price="2"><td><input type="checkbox" id="buy-buck" aria-label="acheté"></td><td><strong>Abaisseur DC‑DC 5 V</strong>, 3 A (LM2596, XL4015 ou MP1584)</td><td class="num">1</td><td>Courant ≥ 3 A. Le régler à 5,0 V au multimètre <em>avant</em> de brancher quoi que ce soit.</td><td><span class="tag a">A</span> TP3</td><td class="num">2</td></tr>
       <tr data-price="2"><td><input type="checkbox" id="buy-sw" aria-label="acheté"></td><td><strong>Interrupteur à bascule</strong> + <strong>porte-fusible et fusible 3 A</strong></td><td class="num">1</td><td>Le fusible protège contre un court-circuit de la batterie.</td><td><span class="tag b">B</span> TP8</td><td class="num">2</td></tr>
@@ -895,6 +895,8 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border-radius: 
           <li>Le décalage donne le sens de rotation, la fréquence donne la vitesse</li>
           <li>Ticks par tour de roue = impulsions par tour moteur × rapport de réduction × 4</li>
           <li>Exemple : 11 × 34 × 4 = 1496 ticks, soit 0,14 mm par tick avec une roue de 65 mm</li>
+          <li>Format TT conseillé : il se fixe sur les châssis 2 roues et prend leurs roues. Les moteurs TT livrés avec ces châssis n'ont généralement <strong>pas</strong> d'encodeur</li>
+          <li>Moteurs TT prévus pour 3 à 6 V : avec la batterie 2S (7,4 à 8,4 V), limiter la PWM à environ 70 %</li>
         </ul>
       </div>
     </article>
@@ -933,6 +935,7 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border-radius: 
           <li>Plaque d'environ 15 × 20 cm pour la batterie, la tour laser et la caméra</li>
           <li>L'entraxe (distance entre les roues) se mesure et va dans <code>config.h</code> : il fixe le calcul des virages</li>
           <li>Batterie au plus bas et au centre : le robot reste stable</li>
+          <li>Les kits sont souvent vendus avec deux moteurs TT <strong>sans encodeur</strong> : garder la plaque, les roues et la roue folle, et remplacer les moteurs (voir le motoréducteur à encodeur)</li>
           <li>Photo d'exemple : toute base à deux roues motrices convient</li>
         </ul>
       </div>
@@ -972,6 +975,7 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border-radius: 
     <h4>Avant de commander</h4>
     <ul>
       <li>Vérifier que les moteurs ont bien un <strong>encodeur</strong> (6 fils : 2 moteur + 4 encodeur).</li>
+      <li>Un kit châssis « 2WD » contient presque toujours des <strong>moteurs TT sans encodeur</strong>. Ils ne suffisent pas : prendre à part deux moteurs TT avec encodeur Hall, qui se montent à la place.</li>
       <li>Prendre le <strong>VL53L1X</strong>, pas le VL53L0X.</li>
       <li>Le Wi‑Fi de la fac isole souvent les appareils entre eux : prévoir le <strong>partage de connexion d'un téléphone en 2,4 GHz</strong>.</li>
     </ul>
