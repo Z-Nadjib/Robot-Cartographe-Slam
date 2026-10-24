@@ -5,3 +5,5 @@ sudo do-release-upgrade
 
 sudo sed -i 's/^Prompt=.*/Prompt=normal/' /etc/update-manager/release-upgrades
 grep Prompt /etc/update-manager/release-upgrades
+
+sudo do-release-upgrade
