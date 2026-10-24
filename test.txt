@@ -7,3 +7,6 @@ sudo sed -i 's/^Prompt=.*/Prompt=normal/' /etc/update-manager/release-upgrades
 grep Prompt /etc/update-manager/release-upgrades
 
 sudo do-release-upgrade
+
+sudo apt update
+sudo apt install git build-essential linux-headers-$(uname -r)
