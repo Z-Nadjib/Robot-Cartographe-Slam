@@ -1,0 +1,3 @@
+sudo sed -i 's/^Prompt=.*/Prompt=normal/' /etc/update-manager/release-upgrades
+sudo apt update && sudo apt full-upgrade -y
+sudo do-release-upgrade
