@@ -65,6 +65,7 @@ Le manuel est en ligne : **https://z-nadjib.github.io/Robot-Cartographe-Slam/**.
 Ce qu'il apporte en plus d'un simple document :
 
 - **Avancement mémorisé** : checklists, étapes marquées faites d'un clic sur leur numéro, progression de chaque TP dans la barre latérale et bouton « Reprendre » sur l'accueil.
+- **Une page « Intro ESP32 » pour débutants**, entre le TP0 et le TP1 : schéma interactif de la DevKitC V4 broche par broche, tensions et résistance d'une LED, entrée et sortie (bouton BOOT, rebonds), téléversement animé, `setup()` et `loop()` au ralenti, lexique et quiz.
 - **Six simulations interactives** : filtre médian (TP2), radar (TP3), décodeur de messages (Protocole), réglage du PI (TP7), grille d'occupation (TP10) et A* (TP12).
 - **Recherche** dans tout le manuel avec <kbd>Ctrl</kbd>+<kbd>K</kbd>, sommaire de page, raccourcis clavier, thèmes clair et sombre, version téléphone.
 - **Fiches composants** avec photo, rôle dans le robot et points à connaître.

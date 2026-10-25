@@ -490,6 +490,120 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border-radius: 
 .dec-type { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; margin-bottom: 10px; }
 .dec-err { color: var(--red); font-size: 14px; }
 
+/* ---------- Page « Intro ESP32 » ---------- */
+.node.info { font-family: var(--font-display); font-size: 12px; border-color: var(--ph); color: var(--ph); }
+.ix-board { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 18px; align-items: start; }
+.ix-svg { width: 100%; height: auto; display: block; }
+.ix-svg text { font-family: var(--font-mono); }
+.ix-pin, .ix-part { cursor: pointer; outline: none; }
+.ix-pin circle.p { stroke-width: 2; transition: r .15s; }
+.ix-pin text { font-size: 13px; fill: var(--ink-2); transition: fill .15s; }
+.ix-pin:hover text, .ix-pin.sel text, .ix-pin:focus text { fill: var(--ink); font-weight: 700; }
+.ix-pin:hover circle.p, .ix-pin.sel circle.p { r: 9.5; }
+.ix-pin .ring { fill: none; stroke-width: 2; opacity: 0; transform-box: fill-box; transform-origin: center; }
+.ix-pin.sel .ring { opacity: 1; animation: ix-ping 1.4s ease-out infinite; }
+@keyframes ix-ping { from { transform: scale(1); opacity: .9; } to { transform: scale(2.4); opacity: 0; } }
+.ix-dim .ix-pin:not(.hit) { opacity: .18; }
+.ix-dim .ix-pin.hit circle.p { r: 9.5; }
+.ix-part .hl { fill: none; stroke: var(--teal); stroke-width: 2.5; opacity: 0; transition: opacity .15s; }
+.ix-part:hover .hl, .ix-part.sel .hl, .ix-part:focus .hl { opacity: 1; }
+.ix-wave { fill: none; stroke: var(--teal); stroke-width: 2.5; stroke-linecap: round; opacity: 0; animation: ix-wave 2.4s ease-out infinite; transform-box: fill-box; transform-origin: center bottom; }
+.ix-wave.w2 { animation-delay: .8s; } .ix-wave.w3 { animation-delay: 1.6s; }
+@keyframes ix-wave { 0% { opacity: 0; transform: scale(.6); } 25% { opacity: .9; } 100% { opacity: 0; transform: scale(1.5); } }
+.ix-pled { animation: ix-glow 2.2s ease-in-out infinite; }
+@keyframes ix-glow { 50% { opacity: .55; } }
+.ix-info { position: sticky; top: calc(var(--head-h) + 16px); background: var(--bg-3); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; min-height: 220px; }
+.ix-info h4 { display: flex; align-items: center; gap: 10px; font-size: 18px; margin-bottom: 8px; }
+.ix-info .dot { width: 14px; height: 14px; border-radius: 50%; flex: none; }
+.ix-info .cat { display: inline-block; font-family: var(--font-mono); font-size: 11px; letter-spacing: .05em; padding: 2px 9px; border-radius: 999px; margin-bottom: 10px; border: 1px solid currentColor; }
+.ix-info p { font-size: 14.5px; margin-bottom: 10px; }
+.ix-info .proj { background: var(--bg-2); border-left: 3px solid var(--copper); border-radius: 0 9px 9px 0; padding: 8px 11px; }
+.ix-info .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.ix-info .tags span { font-family: var(--font-mono); font-size: 11px; color: var(--ink-2); background: var(--bg-2); border: 1px solid var(--line); border-radius: 6px; padding: 1px 7px; }
+.ix-hint { color: var(--ink-3); font-size: 14px; }
+.ix-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 12px; font-size: 12.5px; color: var(--ink-2); }
+.ix-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.ix-legend i { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
+.ix-cats td:first-child { white-space: nowrap; }
+.ix-cats .dot { display: inline-block; width: 11px; height: 11px; border-radius: 50%; margin-right: 8px; vertical-align: -1px; }
+
+/* étapes animées (téléversement) */
+.ix-stage { position: relative; }
+.ix-node rect { fill: var(--bg-2); stroke: var(--line-2); stroke-width: 1.5; transition: stroke .25s, fill .25s; }
+.ix-node text { font-family: var(--font-body); fill: var(--ink-2); font-size: 13px; transition: fill .25s; }
+.ix-node text.t { font-weight: 700; font-size: 14px; fill: var(--ink); }
+.ix-node.on rect { stroke: var(--teal); fill: color-mix(in srgb, var(--teal) 10%, var(--bg-2)); }
+.ix-node.on text { fill: var(--ink); }
+.ix-link { fill: none; stroke: var(--line-2); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; transition: stroke .25s; }
+.ix-link.on { stroke: var(--teal); }
+.ix-link.pwr.on { stroke: var(--red); }
+.ix-lbl { font-family: var(--font-mono); font-size: 11px; fill: var(--ink-3); }
+.ix-cap { margin-top: 14px; background: var(--bg-3); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; min-height: 108px; }
+.ix-cap b { display: block; font-family: var(--font-display); font-size: 17px; margin-bottom: 4px; }
+.ix-cap p { margin: 0; font-size: 14.5px; color: var(--ink-2); }
+.ix-steps { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.ix-steps i { width: 26px; height: 6px; border-radius: 3px; background: var(--bg-4); transition: background .25s; cursor: pointer; }
+.ix-steps i.on { background: var(--teal); }
+.ix-steps small { margin-left: 8px; font-family: var(--font-mono); font-size: 12px; color: var(--ink-3); }
+
+/* setup / loop */
+.ix-run { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+.ix-code { font-family: var(--font-mono); font-size: 13px; background: var(--code-bg); border: 1px solid var(--code-line); border-radius: 12px; padding: 12px 0; color: var(--code-ink); }
+.ix-code .fn { padding: 4px 16px; color: #7dd3fc; }
+.ix-code .ln { position: relative; padding: 5px 16px 5px 34px; transition: background .2s; }
+.ix-code .ln::before { content: ""; position: absolute; left: 16px; top: 50%; width: 8px; height: 8px; margin-top: -4px; border-radius: 50%; background: transparent; transition: background .2s; }
+.ix-code .ln.cur { background: rgba(45, 212, 191, .16); }
+.ix-code .ln.cur::before { background: #2dd4bf; box-shadow: 0 0 10px #2dd4bf; }
+.ix-code .ln small { display: block; font-family: var(--font-body); font-size: 12px; color: var(--code-dim); }
+.ix-code .ln.dl { color: #fcd34d; }
+.ix-side { display: grid; gap: 12px; }
+.ix-dev { display: flex; align-items: center; justify-content: space-around; gap: 12px; background: var(--bg-3); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+.ix-led { width: 46px; height: 46px; border-radius: 50%; background: #5a1a14; border: 3px solid var(--line-2); transition: background .1s, box-shadow .1s; }
+.ix-led.on { background: #ff4a32; box-shadow: 0 0 22px 6px rgba(255, 74, 50, .55); }
+.ix-press { width: 76px; height: 76px; border-radius: 50%; border: 3px solid var(--line-2); background: var(--bg-2); color: var(--ink); font-weight: 700; font-size: 12px; cursor: pointer; box-shadow: 0 5px 0 var(--line-2); transition: transform .06s, box-shadow .06s; user-select: none; touch-action: none; }
+.ix-press.down { transform: translateY(4px); box-shadow: 0 1px 0 var(--line-2); background: var(--teal-soft); border-color: var(--teal); }
+.ix-dev small { display: block; text-align: center; font-size: 11.5px; color: var(--ink-3); margin-top: 6px; }
+
+/* entrée / sortie */
+.ix-io { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.ix-io > div { background: var(--bg-3); border: 1px solid var(--line); border-radius: 14px; padding: 14px; }
+.ix-io h4 { margin-bottom: 4px; }
+.ix-io p { font-size: 13.5px; color: var(--ink-2); margin-bottom: 8px; }
+.ix-io .ix-svg text { font-size: 12px; fill: var(--ink-2); }
+.ix-io .ix-svg text.v { font-size: 14px; font-weight: 700; fill: var(--ink); }
+.ix-wire { fill: none; stroke: var(--ink-3); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; transition: stroke .2s; }
+.ix-wire.hot { stroke: var(--copper); }
+.ix-flow { fill: none; stroke: var(--copper); stroke-width: 3; stroke-dasharray: 2 12; stroke-linecap: round; opacity: 0; animation: ix-flow .6s linear infinite; }
+.ix-flow.on { opacity: 1; }
+@keyframes ix-flow { to { stroke-dashoffset: -14; } }
+.ix-readout { font-family: var(--font-mono); font-size: 13px; background: var(--code-bg); color: var(--code-ink); border-radius: 9px; padding: 8px 11px; margin-top: 8px; }
+.ix-readout b { color: #5eead4; }
+.ix-log { font-family: var(--font-mono); font-size: 12px; color: var(--ink-3); min-height: 18px; margin-top: 6px; }
+
+/* quiz */
+.ix-q { border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; background: var(--bg-3); }
+.ix-q > b { display: block; margin-bottom: 10px; font-size: 15px; }
+.ix-q .opts { display: grid; gap: 8px; }
+.ix-q button { text-align: left; font-size: 14px; padding: 9px 12px; border-radius: 10px; border: 1px solid var(--line-2); background: var(--bg-2); color: var(--ink); cursor: pointer; transition: all .15s; }
+.ix-q button:hover:not(:disabled) { border-color: var(--teal); }
+.ix-q button.good { border-color: var(--green); background: var(--green-soft); }
+.ix-q button.bad { border-color: var(--red); background: var(--red-soft); }
+.ix-q button:disabled { cursor: default; }
+.ix-q .why { display: none; margin-top: 10px; font-size: 14px; color: var(--ink-2); }
+.ix-q.done .why { display: block; }
+.ix-score { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-weight: 600; }
+.ix-rules { counter-reset: r; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 18px 0; }
+.ix-rules .card { padding-left: 62px; }
+.ix-rules .card::before { counter-increment: r; content: counter(r); position: absolute; left: 18px; top: 18px; width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; font-family: var(--font-display); font-weight: 700; color: var(--bg); background: var(--teal); }
+.ix-mcu { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 18px 0; }
+.ix-mcu .card { text-align: center; }
+.ix-mcu svg { width: 64px; height: 64px; margin: 4px auto 8px; display: block; }
+@media (max-width: 860px) {
+  .ix-board, .ix-run, .ix-io { grid-template-columns: minmax(0, 1fr); }
+  .ix-info { position: static; min-height: 0; }
+}
+@media (max-width: 640px) { .ix-rules, .ix-mcu { grid-template-columns: minmax(0, 1fr); } }
+
 /* ---------- Palette de recherche ---------- */
 .palette { position: fixed; inset: 0; z-index: 100; display: grid; justify-items: center; align-items: start; padding: 12vh 16px 16px; background: rgba(3, 10, 13, .55); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
 .pal-box { width: min(640px, 100%); background: var(--bg-2); border: 1px solid var(--line-2); border-radius: 18px; box-shadow: var(--shadow-lg); overflow: hidden; animation: pop .16s ease-out; }
@@ -618,6 +732,7 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border-radius: 
     <div class="nav-group tp a">
       <div class="nav-title"><span class="tag-ph"><i style="background:var(--copper)"></i>Phase A · sur table</span><small id="nav-pa"></small></div>
       <a href="#tp0" data-v="tp0"><span class="node">0</span><span>Installer l'environnement</span><span class="pct"></span></a>
+      <a href="#esp32" data-v="esp32"><span class="node info">i</span><span>Intro ESP32 (DevKitC V4)</span><span class="pct"></span></a>
       <a href="#tp1" data-v="tp1"><span class="node">1</span><span>ESP32 : GPIO, PWM, timers</span><span class="pct"></span></a>
       <a href="#tp2" data-v="tp2"><span class="node">2</span><span>Capteur laser et filtrage</span><span class="pct"></span></a>
       <a href="#tp3" data-v="tp3"><span class="node">3</span><span>Radar 2D : servo + laser</span><span class="pct"></span></a>
@@ -709,6 +824,7 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border-radius: 
       <p>Plaque d'essai, câble USB, aucune pièce mobile sauf le servo et les roues en l'air.</p>
       <ol>
         <li><a href="#tp0"><span>TP0</span>Installer l'environnement</a></li>
+        <li><a href="#esp32"><span>INTRO</span>Découvrir l'ESP32‑DevKitC V4</a></li>
         <li><a href="#tp1"><span>TP1</span>ESP32 : GPIO, PWM, interruptions, timers</a></li>
         <li><a href="#tp2"><span>TP2</span>Capteur laser VL53L1X et filtre médian</a></li>
         <li><a href="#tp3"><span>TP3</span>Radar 2D : servo + laser</a></li>
@@ -1489,6 +1605,7 @@ python -c "import cv2, numpy; print('OpenCV', cv2.__version__, '- numpy', numpy.
     <li>Appuyer sur EN relance le programme : le message de bienvenue réapparaît.</li>
     <li>La commande Python affiche la version d'OpenCV sans erreur.</li>
   </ul></div>
+  <div class="callout"><h4>Et ensuite ?</h4><p>Avant le TP1, prenez 30 minutes pour la page <a href="#esp32"><strong>Intro ESP32</strong></a> : elle explique la carte et son fonctionnement pas à pas.</p></div>
   <div class="callout warn"><h4>Pièges fréquents</h4><ul>
     <li><strong>Rien ne clignote sur la carte</strong> : c'est normal, la LED rouge n'est qu'un témoin d'alimentation. Vérifier la LED externe : sens, résistance, broche IO2.</li>
     <li><strong>« Failed to connect to ESP32: Wrong boot mode »</strong> : maintenir le bouton BOOT pendant que l'IDE affiche « Connecting… », le relâcher quand le pourcentage défile.</li>
@@ -1507,6 +1624,95 @@ python -c "import cv2, numpy; print('OpenCV', cv2.__version__, '- numpy', numpy.
   </div>
 </section>
 
+<!-- ===================================================== INTRO ESP32 -->
+<section class="view a-page" id="v-esp32" data-v="esp32" data-title="Intro ESP32 · DevKitC V4" hidden>
+  <p class="eyebrow">Phase A · à lire avant le TP1</p>
+  <h1>Découvrir l'ESP32‑DevKitC V4</h1>
+  <p class="lead">C'est la première fois que vous utilisez un ESP32 ? Cette page explique, sans jargon, ce qu'est la carte, à quoi sert chaque broche et comment votre programme arrive dedans. Tout est interactif : touchez, appuyez, essayez.</p>
+  <div class="meta"><span class="chip">≈ 30 min</span><span class="chip">à la maison</span><span class="chip mp"><b>MP</b>Microprocesseurs</span></div>
+
+  <h2>Un microcontrôleur, c'est quoi ?</h2>
+  <p>Un <strong>microcontrôleur</strong> est un tout petit ordinateur rassemblé dans une seule puce. Il n'a ni écran ni clavier : il exécute <strong>un seul programme</strong>, en boucle, dès qu'on l'alimente. L'ESP32 est le microcontrôleur de notre robot ; la <strong>DevKitC V4</strong> est la carte qui l'entoure de tout ce qu'il faut pour l'utiliser facilement.</p>
+  <div class="ix-mcu">
+    <div class="card"><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="14" y="14" width="36" height="36" rx="6" fill="none" stroke="var(--teal)" stroke-width="3"/><path d="M22 6v8M32 6v8M42 6v8M22 50v8M32 50v8M42 50v8M6 22h8M6 32h8M6 42h8M50 22h8M50 32h8M50 42h8" stroke="var(--teal)" stroke-width="3" stroke-linecap="round"/><text x="32" y="37" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink)">CPU</text></svg><h4>Il calcule</h4><p class="small">Deux cœurs à 240 MHz : des millions d'opérations par seconde, largement assez pour régler les moteurs 50 fois par seconde.</p></div>
+    <div class="card"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="6" fill="var(--copper)"/><path d="M32 26V8M32 38v18M26 32H8M38 32h18" stroke="var(--copper)" stroke-width="3" stroke-linecap="round"/><circle cx="32" cy="8" r="4" fill="none" stroke="var(--copper)" stroke-width="3"/><circle cx="32" cy="56" r="4" fill="none" stroke="var(--copper)" stroke-width="3"/><circle cx="8" cy="32" r="4" fill="none" stroke="var(--copper)" stroke-width="3"/><circle cx="56" cy="32" r="4" fill="none" stroke="var(--copper)" stroke-width="3"/></svg><h4>Il parle au monde par ses broches</h4><p class="small">Chaque broche peut <strong>lire</strong> (un bouton, un capteur) ou <strong>commander</strong> (une LED, un moteur), en 0 V ou 3,3 V.</p></div>
+    <div class="card"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M12 28a28 28 0 0 1 40 0M19 36a18 18 0 0 1 26 0M26 44a8 8 0 0 1 12 0" fill="none" stroke="var(--blue)" stroke-width="3.5" stroke-linecap="round"/><circle cx="32" cy="51" r="3.5" fill="var(--blue)"/></svg><h4>Il a le Wi‑Fi</h4><p class="small">Il peut envoyer ses mesures au PC sans fil (TP4) : c'est ce qui permet au robot de rouler librement.</p></div>
+  </div>
+
+  <h2>La carte, élément par élément</h2>
+  <p>Voici la carte vue de dessus, antenne en haut et port USB en bas. Touchez une broche ou un composant pour savoir ce qu'il fait, si vous pouvez l'utiliser, et à quoi il sert dans le projet. Les boutons au-dessus du schéma montrent les broches d'une même famille.</p>
+  <div class="widget" data-widget="board"></div>
+
+  <h2>Les familles de broches</h2>
+  <p>Toutes les broches ne se valent pas. Avant d'en choisir une, regarder sa famille :</p>
+  <div class="tbl ix-cats"><table>
+    <thead><tr><th>Famille</th><th>Broches</th><th>Ce qu'on peut en faire</th></tr></thead>
+    <tbody>
+      <tr><td><span class="dot" style="background:var(--teal)"></span>GPIO libres</td><td>4, 13, 14, 16 à 19, 21 à 23, 25 à 27, 32, 33</td><td>Entrée ou sortie, PWM, interruptions : ce sont les broches « à tout faire ».</td></tr>
+      <tr><td><span class="dot" style="background:var(--blue)"></span>Entrées seules</td><td>34, 35, 36 (VP), 39 (VN)</td><td>Lire seulement, et sans résistance de tirage intégrée : il faut en ajouter une. Parfaites pour les encodeurs.</td></tr>
+      <tr><td><span class="dot" style="background:var(--yellow)"></span>Broches de démarrage</td><td>0, 2, 5, 12, 15</td><td>Utilisables, mais lues à l'allumage pour choisir le mode de démarrage. À câbler avec précaution.</td></tr>
+      <tr><td><span class="dot" style="background:var(--violet)"></span>Réservées à la flash</td><td>6 à 11 (CLK, D0 à D3, CMD)</td><td><strong>Interdites</strong> : elles relient la puce à sa mémoire. Les toucher bloque la carte.</td></tr>
+      <tr><td><span class="dot" style="background:var(--copper)"></span>Port série</td><td>1 (TX), 3 (RX)</td><td>Réservées au téléversement et au moniteur série.</td></tr>
+      <tr><td><span class="dot" style="background:var(--red)"></span>Alimentation</td><td>3V3, 5V, GND</td><td>Pas des GPIO : elles fournissent ou reçoivent l'énergie.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout info"><h4>Lire une tension : ADC1 ou ADC2 ?</h4><p>Certaines broches savent mesurer une tension (convertisseur analogique‑numérique, ou ADC). Celles de l'<strong>ADC2</strong> ne marchent plus dès que le Wi‑Fi est allumé. Le robot utilise le Wi‑Fi, donc on mesure la batterie sur une broche de l'<strong>ADC1</strong> : GPIO 33.</p></div>
+
+  <h2>Les tensions : 3,3 V, 5 V et GND</h2>
+  <div class="grid-3">
+    <div class="card"><h4>3,3 V : la tension de la puce</h4><p class="small">Une broche à l'état <strong>HIGH</strong> (1) sort 3,3 V ; à l'état <strong>LOW</strong> (0), elle sort 0 V. En entrée, elle accepte au plus 3,3 V.</p></div>
+    <div class="card"><h4>5 V : la tension de l'USB</h4><p class="small">La broche <span class="sig">5V</span> reçoit le 5 V de l'USB (ou de l'abaisseur sur le robot). Un régulateur de la carte le transforme en 3,3 V pour la puce.</p></div>
+    <div class="card"><h4>GND : la référence</h4><p class="small">La masse, c'est le « 0 V ». Toutes les GND du montage doivent être reliées entre elles, sinon les signaux n'ont plus de sens.</p></div>
+  </div>
+  <div class="callout danger"><h4>La règle qui sauve une carte</h4><p><strong>Jamais de 5 V sur une broche GPIO.</strong> Les capteurs et les encodeurs du projet s'alimentent en 3,3 V pour cette raison. Et on n'alimente jamais la carte par l'USB et par la broche 5V en même temps.</p></div>
+  <p>Une LED branchée directement sur une broche laisserait passer trop de courant : il faut une <strong>résistance</strong> en série. Essayez les valeurs :</p>
+  <div class="widget" data-widget="ohm"></div>
+
+  <h2>Une broche en sortie, une broche en entrée</h2>
+  <p>Une broche se règle dans un des deux sens avec <code>pinMode()</code>. En <strong>sortie</strong>, le programme choisit sa tension. En <strong>entrée</strong>, le programme lit la tension qu'on lui impose. Faites les deux expériences :</p>
+  <div class="widget" data-widget="gpio"></div>
+
+  <h2>Du code à la carte : le téléversement</h2>
+  <p>Quand on clique sur « Téléverser » dans l'IDE Arduino, le programme fait tout un voyage avant de tourner sur la carte. Suivez-le étape par étape :</p>
+  <div class="widget" data-widget="upload"></div>
+
+  <h2>setup() et loop() : comment le programme tourne</h2>
+  <p>Tout programme Arduino a deux parties. <code>setup()</code> s'exécute <strong>une seule fois</strong> au démarrage, pour tout préparer. <code>loop()</code> se répète ensuite <strong>sans fin</strong>, des milliers de fois par seconde. Regardez-le tourner au ralenti, puis ajoutez un <code>delay()</code> et appuyez sur le bouton :</p>
+  <div class="widget" data-widget="loop"></div>
+
+  <h2>Les règles d'or</h2>
+  <div class="ix-rules">
+    <div class="card"><h4>Débrancher avant de câbler</h4><p class="small">On modifie le montage carte débranchée, on vérifie, puis on rebranche.</p></div>
+    <div class="card"><h4>Jamais plus de 3,3 V sur une GPIO</h4><p class="small">Un capteur alimenté en 5 V renvoie du 5 V : l'alimenter en 3,3 V.</p></div>
+    <div class="card"><h4>Toujours une résistance avec une LED</h4><p class="small">220 Ω pour une LED rouge sur 3,3 V : environ 6 mA, assez pour bien la voir.</p></div>
+    <div class="card"><h4>Ne pas toucher GPIO 6 à 11</h4><p class="small">Les broches CLK, D0 à D3 et CMD appartiennent à la mémoire de la carte.</p></div>
+    <div class="card"><h4>Une seule alimentation à la fois</h4><p class="small">USB <em>ou</em> broche 5V, jamais les deux ensemble.</p></div>
+    <div class="card"><h4>Une nouveauté à la fois</h4><p class="small">Ajouter un seul élément, tester, puis passer au suivant : en cas de panne, on sait où chercher.</p></div>
+  </div>
+
+  <h2>Petit lexique</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Mot</th><th>En clair</th></tr></thead>
+    <tbody>
+      <tr><td>GPIO</td><td>Broche d'entrée/sortie à usage général : celle qu'on programme. « IO2 » sur la carte = GPIO 2 dans le code.</td></tr>
+      <tr><td>HIGH / LOW</td><td>Les deux états d'une broche : 3,3 V (1) ou 0 V (0).</td></tr>
+      <tr><td>Téléverser</td><td>Envoyer le programme du PC vers la mémoire de la carte.</td></tr>
+      <tr><td>Moniteur série</td><td>Fenêtre de l'IDE qui affiche les messages envoyés par la carte avec <code>Serial.print</code>.</td></tr>
+      <tr><td>Bauds</td><td>Vitesse du moniteur série. Elle doit être la même des deux côtés : 115200 dans tout le projet.</td></tr>
+      <tr><td>Mémoire flash</td><td>Mémoire qui garde le programme même carte débranchée.</td></tr>
+      <tr><td>PWM</td><td>Une broche qui bascule très vite entre 0 et 3,3 V pour régler une luminosité ou une vitesse (TP1).</td></tr>
+      <tr><td>Interruption</td><td>Le programme est prévenu instantanément d'un événement (un appui) au lieu de le surveiller sans arrêt (TP1).</td></tr>
+      <tr><td>Résistance de tirage (pull‑up)</td><td>Résistance qui ramène une entrée à 3,3 V quand rien n'y est branché, pour éviter une lecture au hasard.</td></tr>
+      <tr><td>I2C</td><td>Bus à deux fils (SDA, SCL) qui relie plusieurs capteurs à la carte (TP2, TP6).</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>Testez-vous</h2>
+  <div class="widget" data-widget="quiz"></div>
+
+  <div class="callout ok"><h4>Prêt pour le TP1</h4><p>Vous connaissez la carte, ses broches, ses tensions et la façon dont un programme tourne. Le TP1 met tout ça en pratique : PWM, interruption sur le bouton BOOT et tâches sans <code>delay()</code>.</p><p><a class="btn sm primary" href="#tp1">Passer au TP1 →</a></p></div>
+</section>
+
 <!-- ===================================================== TP1 -->
 <section class="view" id="v-tp1" data-v="tp1" data-title="TP1 · ESP32 : GPIO, PWM, timers" hidden>
   <p class="eyebrow">Phase A · sur table · TP1</p>
@@ -1516,6 +1722,8 @@ python -c "import cv2, numpy; print('OpenCV', cv2.__version__, '- numpy', numpy.
     <div class="card"><h4>Objectif</h4><p>Maîtriser les trois mécanismes utilisés dans tout le projet : la PWM matérielle (LEDC), les interruptions, et l'ordonnancement de plusieurs tâches avec <code>millis()</code> sans jamais bloquer la boucle. Et apprendre à <strong>mesurer</strong> une PWM sans oscilloscope.</p></div>
     <div class="card"><h4>Matériel</h4><ul><li>ESP32‑DevKitC V4 et le montage LED du TP0</li><li>1 fil mâle‑mâle (mesure de la PWM)</li><li>Le bouton BOOT de la carte</li><li>Multimètre</li><li>Pas d'oscilloscope : l'ESP32 et le multimètre le remplacent</li></ul></div>
   </div>
+
+  <div class="callout info"><h4>Première fois avec un ESP32 ?</h4><p>Lisez d'abord la page <a href="#esp32"><strong>Intro ESP32</strong></a> : la carte broche par broche, les tensions, les entrées et sorties, le téléversement et <code>setup()</code> / <code>loop()</code>, avec des schémas interactifs.</p></div>
 
   <h2>Ce qu'il faut comprendre</h2>
   <div class="grid-2">
@@ -5028,6 +5236,468 @@ if __name__ == "__main__":
     }
     [fIn, bIn, dIn].forEach(function (x) { x.addEventListener("input", draw); });
     return { draw: draw, fit: K.fit };
+  };
+
+  /* =========================================================== PAGE INTRO ESP32 */
+  W_ICONS.chip = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></svg>';
+  W_ICONS.bolt = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>';
+  W_ICONS.io = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h9M10 8l4 4-4 4M20 5v14"/></svg>';
+  W_ICONS.up = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5M4 20h16"/></svg>';
+  W_ICONS.loop = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2l3 3-3 3"/><path d="M4 11V9a4 4 0 0 1 4-4h12M7 22l-3-3 3-3"/><path d="M20 13v2a4 4 0 0 1-4 4H4"/></svg>';
+  W_ICONS.quiz = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.7M12 17h.01"/></svg>';
+
+  /* --- La carte, élément par élément --- */
+  builders.board = function (el) {
+    var body = shell(el, "chip", "La carte ESP32‑DevKitC V4 (32E)", "Schéma simplifié, vu de dessus. Survolez ou touchez un élément : son rôle s'affiche à côté.", false);
+    var CAT = {
+      pwr: ["Alimentation", "var(--red)"], gnd: ["Masse (GND)", "var(--ink-3)"], free: ["GPIO libre", "var(--teal)"],
+      inp: ["Entrée seule", "var(--blue)"], strap: ["Broche de démarrage", "var(--yellow)"], flash: ["Réservée à la flash", "var(--violet)"],
+      uart: ["Port série (USB)", "var(--copper)"], ctl: ["Commande", "var(--ink-2)"]
+    };
+    var D = {
+      pwr: "Ce n'est pas une GPIO : elle fournit ou reçoit l'énergie.",
+      gnd: "La masse, le « 0 V » de référence. Toutes les GND du montage doivent être reliées entre elles.",
+      free: "Une broche « à tout faire » : entrée ou sortie, PWM, interruptions. Elle sort 3,3 V à l'état HIGH et 0 V à l'état LOW.",
+      inp: "Cette broche sait seulement lire, et n'a pas de résistance de tirage intégrée : il faut en câbler une (10 kΩ vers 3,3 V).",
+      strap: "La puce lit cette broche à l'allumage pour choisir son mode de démarrage. Utilisable, mais il faut la câbler avec précaution.",
+      flash: "Elle relie la puce à sa mémoire flash, où est rangé le programme. Ne jamais rien y brancher : la carte ne démarrerait plus.",
+      uart: "Elle transporte les messages entre la carte et le PC (téléversement, moniteur série). Ne rien y brancher.",
+      ctl: ""
+    };
+    // [étiquette, famille, GPIO, ADC, rôle dans le projet, précision]
+    var LEFT = [
+      ["3V3", "pwr", null, null, "Alimente les capteurs : laser, gyroscope, encodeurs.", "Sortie 3,3 V produite par le régulateur de la carte, à partir du 5 V de l'USB."],
+      ["EN", "ctl", null, null, "", "Reliée au bouton EN. À 0, la puce s'arrête ; en revenant à 1, elle redémarre. Ce n'est pas une GPIO."],
+      ["VP", "inp", 36, "ADC1", "Encodeur droit, voie A (TP7).", ""],
+      ["VN", "inp", 39, "ADC1", "Encodeur droit, voie B (TP7).", ""],
+      ["IO34", "inp", 34, "ADC1", "Encodeur gauche, voie A (TP7).", ""],
+      ["IO35", "inp", 35, "ADC1", "Encodeur gauche, voie B (TP7).", ""],
+      ["IO32", "free", 32, "ADC1", "", ""],
+      ["IO33", "free", 33, "ADC1", "Mesure de la tension batterie (TP8).", "Elle est sur l'ADC1 : elle mesure même quand le Wi‑Fi est allumé."],
+      ["IO25", "free", 25, "ADC2", "PWMA : vitesse du moteur gauche (TP7).", ""],
+      ["IO26", "free", 26, "ADC2", "AIN1 : sens du moteur gauche (TP7).", ""],
+      ["IO27", "free", 27, "ADC2", "AIN2 : sens du moteur gauche (TP7).", ""],
+      ["IO14", "free", 14, "ADC2", "", ""],
+      ["IO12", "strap", 12, "ADC2", "", "À l'allumage, elle choisit la tension de la mémoire : forcée à 1, la carte ne démarre plus. Le projet ne l'utilise pas."],
+      ["GND", "gnd", null, null, "", ""],
+      ["IO13", "free", 13, "ADC2", "Commande du servo du radar (TP3).", ""],
+      ["D2", "flash", 9, null, "", ""],
+      ["D3", "flash", 10, null, "", ""],
+      ["CMD", "flash", 11, null, "", ""],
+      ["5V", "pwr", null, null, "Sur le robot, reçoit le 5 V de l'abaisseur (TP8).", "Avec l'USB branché, on y trouve le 5 V de l'USB. Jamais l'USB et une alimentation sur cette broche en même temps. Sur d'autres cartes, elle s'appelle VIN."]
+    ];
+    var RIGHT = [
+      ["GND", "gnd", null, null, "", ""],
+      ["IO23", "free", 23, null, "STBY : met le pont en H en marche ou en veille (TP7).", ""],
+      ["IO22", "free", 22, null, "SCL du bus I2C : laser et gyroscope (TP2, TP6).", ""],
+      ["TX", "uart", 1, null, "", "Envoie les messages de la carte vers le PC."],
+      ["RX", "uart", 3, null, "", "Reçoit les messages du PC."],
+      ["IO21", "free", 21, null, "SDA du bus I2C : laser et gyroscope (TP2, TP6).", ""],
+      ["GND", "gnd", null, null, "", ""],
+      ["IO19", "free", 19, null, "", ""],
+      ["IO18", "free", 18, null, "PWMB : vitesse du moteur droit (TP7).", ""],
+      ["IO5", "strap", 5, null, "", "Lue à l'allumage pour régler une liaison interne. Libre dans le projet, mais on l'évite."],
+      ["IO17", "free", 17, null, "BIN2 : sens du moteur droit (TP7).", "Disponible parce que la carte a un module WROOM (sur un module WROVER, elle serait prise)."],
+      ["IO16", "free", 16, null, "BIN1 : sens du moteur droit (TP7).", "Disponible parce que la carte a un module WROOM (sur un module WROVER, elle serait prise)."],
+      ["IO4", "free", 4, "ADC2", "Mesure de la PWM au TP1 : reliée à IO2 par un fil.", ""],
+      ["IO0", "strap", 0, "ADC2", "Bouton BOOT : l'entrée de l'interruption du TP1.", "Reliée au bouton BOOT. À 0 au moment du démarrage (bouton appuyé), la carte attend un téléversement au lieu de lancer le programme."],
+      ["IO2", "strap", 2, "ADC2", "LED externe (TP0, TP1), puis voyant « robot prêt ».", "Doit rester à 0 au démarrage pour pouvoir téléverser : c'est pour ça que la LED va de IO2 vers GND."],
+      ["IO15", "strap", 15, "ADC2", "", "À l'allumage, elle règle l'affichage des messages de démarrage. Libre, mais on l'évite."],
+      ["D1", "flash", 8, null, "", ""],
+      ["D0", "flash", 7, null, "", ""],
+      ["CLK", "flash", 6, null, "", ""]
+    ];
+    var PARTS = {
+      module: ["Module ESP32‑WROOM‑32E", "Le cœur de la carte : la puce ESP32 (deux cœurs à 240 MHz, 520 Ko de mémoire vive), 4 Mo de mémoire flash pour le programme, et le Wi‑Fi et le Bluetooth. Le capot métallique protège des parasites ; le nom gravé dessus permet de vérifier la version."],
+      antenna: ["Antenne Wi‑Fi", "Dessinée directement sur la carte (le zigzag). Ne pas la recouvrir de métal ni de fils : la portée du Wi‑Fi chuterait. C'est la version 32E ; la 32UE n'a pas cette antenne et en demande une externe."],
+      usb: ["Port micro‑USB", "Il fait trois choses : il alimente la carte en 5 V, il reçoit le programme lors du téléversement, et il transporte les messages du moniteur série. Il faut un câble de données, pas un câble de charge seule."],
+      bridge: ["Puce USB‑série", "Elle traduit l'USB du PC en liaison série (TX/RX) que l'ESP32 comprend. Elle sait aussi appuyer toute seule sur EN et BOOT pour lancer un téléversement. Son nom (CP210x, CH340…) dit quel pilote installer."],
+      reg: ["Régulateur 3,3 V", "Il transforme le 5 V de l'USB en 3,3 V stable pour la puce. Le 3,3 V est aussi disponible sur la broche 3V3 pour les capteurs."],
+      en: ["Bouton EN", "Redémarre la carte : le programme repart du début de setup(). Pratique pour revoir les messages de démarrage."],
+      boot: ["Bouton BOOT", "Relié à GPIO 0. Appuyé au moment du démarrage, il met la carte en attente d'un téléversement. Le reste du temps, c'est un bouton utilisable par le programme : on s'en sert au TP1."],
+      pled: ["LED rouge d'alimentation", "Elle indique seulement que la carte reçoit du courant. Elle n'est pas programmable : la DevKitC V4 n'a pas de LED utilisateur, d'où la LED externe sur GPIO 2."]
+    };
+    var html = '<div class="comp-filter" role="group" aria-label="Familles de broches">' +
+      '<button type="button" class="on" data-f="tous">Tout</button><button type="button" data-f="proj">Utilisées dans le projet</button>' +
+      ["free", "inp", "strap", "flash", "uart", "pwr"].map(function (k) { return '<button type="button" data-f="' + k + '">' + CAT[k][0] + "</button>"; }).join("") +
+      '</div><div class="ix-board"><div><svg class="ix-svg" viewBox="0 0 560 770" role="img" aria-label="Schéma de la carte ESP32-DevKitC V4"></svg></div><div class="ix-info" aria-live="polite"></div></div>' +
+      '<div class="ix-legend">' + Object.keys(CAT).filter(function (k) { return k !== "ctl"; }).map(function (k) { return '<span><i style="background:' + CAT[k][1] + '"></i>' + CAT[k][0] + "</span>"; }).join("") + "</div>";
+    body.innerHTML = html;
+    var svg = $("svg", body), info = $(".ix-info", body);
+    var x0 = 150, x1 = 410, y0 = 30, y1 = 740, py = function (i) { return 128 + i * 29; };
+    var s = "";
+    // carte
+    s += '<rect x="' + x0 + '" y="' + y0 + '" width="' + (x1 - x0) + '" height="' + (y1 - y0) + '" rx="16" fill="#1d2b33" stroke="var(--line-2)" stroke-width="2"/>';
+    s += '<g fill="#0e171c">' + [[164, 44], [396, 44], [164, 726], [396, 726]].map(function (p) { return '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="7"/>'; }).join("") + "</g>";
+    // module + antenne
+    s += '<g class="ix-part" data-p="antenna" tabindex="0"><rect x="196" y="40" width="168" height="78" rx="6" fill="#21323b" stroke="#3b5560"/>' +
+      '<path d="M210 104V58h18v40h18V58h18v40h18V58h18v40h18V58h18v46" fill="none" stroke="#c9a24a" stroke-width="3" stroke-linejoin="round"/>' +
+      '<path class="ix-wave" d="M262 34a22 22 0 0 1 36 0"/><path class="ix-wave w2" d="M262 34a22 22 0 0 1 36 0"/><path class="ix-wave w3" d="M262 34a22 22 0 0 1 36 0"/>' +
+      '<rect class="hl" x="193" y="37" width="174" height="84" rx="8"/></g>';
+    s += '<g class="ix-part" data-p="module" tabindex="0"><rect x="196" y="118" width="168" height="210" rx="4" fill="#26363f" stroke="#3b5560"/>' +
+      '<rect x="206" y="130" width="148" height="186" rx="6" fill="#b9c3c8" stroke="#8a979d"/><rect x="206" y="130" width="148" height="186" rx="6" fill="url(#ixmetal)"/>' +
+      '<text x="280" y="210" text-anchor="middle" font-size="13" font-weight="700" fill="#33424a">ESP32</text><text x="280" y="230" text-anchor="middle" font-size="11" fill="#33424a">WROOM-32E</text>' +
+      '<rect class="hl" x="193" y="115" width="174" height="216" rx="6"/></g>';
+    s = '<defs><linearGradient id="ixmetal" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff" stop-opacity=".35"/><stop offset=".5" stop-color="#ffffff" stop-opacity="0"/><stop offset="1" stop-color="#000000" stop-opacity=".12"/></linearGradient></defs>' + s;
+    // régulateur, LED, puce USB, boutons, USB
+    s += '<g class="ix-part" data-p="reg" tabindex="0"><rect x="206" y="470" width="44" height="34" rx="3" fill="#111a1f"/><rect x="214" y="462" width="28" height="8" fill="#9aa5aa"/><text x="228" y="522" text-anchor="middle" font-size="10" fill="#8fa9b8">3,3 V</text><rect class="hl" x="200" y="456" width="56" height="72" rx="6"/></g>';
+    s += '<g class="ix-part" data-p="pled" tabindex="0"><rect x="318" y="478" width="16" height="10" rx="2" fill="#5a1a14"/><circle class="ix-pled" cx="326" cy="483" r="9" fill="#ff3b2b" opacity=".85"/><text x="326" y="512" text-anchor="middle" font-size="10" fill="#8fa9b8">PWR</text><rect class="hl" x="306" y="466" width="40" height="54" rx="6"/></g>';
+    s += '<g class="ix-part" data-p="bridge" tabindex="0"><rect x="246" y="560" width="68" height="54" rx="4" fill="#111a1f"/><text x="280" y="592" text-anchor="middle" font-size="10" fill="#8fa9b8">USB‑série</text><rect class="hl" x="240" y="554" width="80" height="66" rx="6"/></g>';
+    s += '<g class="ix-part" data-p="en" tabindex="0"><rect x="184" y="652" width="38" height="38" rx="5" fill="#cfd7db"/><circle cx="203" cy="671" r="11" fill="#1d2b33"/><text x="203" y="708" text-anchor="middle" font-size="12" font-weight="700" fill="#e6f1f5">EN</text><rect class="hl" x="178" y="646" width="50" height="70" rx="6"/></g>';
+    s += '<g class="ix-part" data-p="boot" tabindex="0"><rect x="338" y="652" width="38" height="38" rx="5" fill="#cfd7db"/><circle cx="357" cy="671" r="11" fill="#1d2b33"/><text x="357" y="708" text-anchor="middle" font-size="12" font-weight="700" fill="#e6f1f5">BOOT</text><rect class="hl" x="332" y="646" width="50" height="70" rx="6"/></g>';
+    s += '<g class="ix-part" data-p="usb" tabindex="0"><rect x="252" y="700" width="56" height="52" rx="4" fill="#b9c3c8" stroke="#8a979d"/><rect x="262" y="718" width="36" height="12" rx="2" fill="#26363f"/><rect class="hl" x="246" y="694" width="68" height="64" rx="6"/></g>';
+    // broches
+    var all = [];
+    function pin(side, i, d) {
+      var x = side === "L" ? x0 + 14 : x1 - 14, y = py(i), c = CAT[d[1]][1];
+      all.push({ id: side + i, d: d });
+      return '<g class="ix-pin" data-k="' + side + i + '" data-c="' + d[1] + '"' + (d[4] ? ' data-proj="1"' : "") + ' tabindex="0" role="button" aria-label="' + d[0] + '">' +
+        '<circle class="ring" cx="' + x + '" cy="' + y + '" r="8" stroke="' + c + '"/>' +
+        '<circle class="p" cx="' + x + '" cy="' + y + '" r="7.5" fill="' + c + '" fill-opacity=".85" stroke="#c9a24a"/>' +
+        '<text x="' + (side === "L" ? x0 - 12 : x1 + 12) + '" y="' + (y + 4.5) + '" text-anchor="' + (side === "L" ? "end" : "start") + '">' + d[0] + (d[2] != null && !/^IO/.test(d[0]) ? " · " + d[2] : "") + "</text></g>";
+    }
+    LEFT.forEach(function (d, i) { s += pin("L", i, d); });
+    RIGHT.forEach(function (d, i) { s += pin("R", i, d); });
+    s += '<text x="' + (x0 + 12) + '" y="' + (py(0) - 16) + '" font-size="10" fill="#8fa9b8">J2</text><text x="' + (x1 - 12) + '" y="' + (py(0) - 16) + '" text-anchor="end" font-size="10" fill="#8fa9b8">J3</text>';
+    svg.innerHTML = s;
+    var byId = {}; all.forEach(function (p) { byId[p.id] = p.d; });
+    function showPin(k) {
+      var d = byId[k], c = CAT[d[1]];
+      var t = d[0] + (d[2] != null ? (/^IO/.test(d[0]) ? "" : " · GPIO " + d[2]) : "");
+      var h = '<h4><span class="dot" style="background:' + c[1] + '"></span>' + t + '</h4><span class="cat" style="color:' + c[1] + '">' + c[0] + "</span>";
+      if (D[d[1]]) h += "<p>" + D[d[1]] + "</p>";
+      if (d[5]) h += "<p>" + d[5] + "</p>";
+      h += '<p class="proj"><b>Dans le projet :</b> ' + (d[4] || (d[1] === "flash" || d[1] === "uart" ? "jamais utilisée." : d[1] === "gnd" ? "toutes les masses du montage s'y relient." : "libre, pas utilisée.")) + "</p>";
+      var tags = [];
+      if (d[2] != null) tags.push("GPIO " + d[2]);
+      if (d[3]) tags.push(d[3] + (d[3] === "ADC2" ? " : pas avec le Wi‑Fi" : " : mesure possible avec le Wi‑Fi"));
+      if (d[1] === "free" || d[1] === "strap") tags.push("PWM possible");
+      if (tags.length) h += '<div class="tags">' + tags.map(function (x) { return "<span>" + x + "</span>"; }).join("") + "</div>";
+      info.innerHTML = h;
+    }
+    function showPart(k) { var p = PARTS[k]; info.innerHTML = "<h4>" + p[0] + "</h4><p>" + p[1] + "</p>"; }
+    function idle() { info.innerHTML = '<h4>Touchez un élément</h4><p class="ix-hint">Une broche dorée sur les bords, ou un composant de la carte : le module, l\'antenne, les boutons EN et BOOT, le port USB, la LED rouge…</p><p class="ix-hint">Les couleurs des broches indiquent leur famille (légende sous le schéma).</p>'; }
+    var locked = null;
+    function select(g) {
+      $$(".sel", svg).forEach(function (x) { x.classList.remove("sel"); });
+      if (!g) { locked = null; idle(); return; }
+      g.classList.add("sel"); locked = g;
+      if (g.classList.contains("ix-pin")) showPin(g.getAttribute("data-k")); else showPart(g.getAttribute("data-p"));
+    }
+    svg.addEventListener("mouseover", function (e) {
+      var g = e.target.closest(".ix-pin, .ix-part"); if (!g) return;
+      if (g.classList.contains("ix-pin")) showPin(g.getAttribute("data-k")); else showPart(g.getAttribute("data-p"));
+    });
+    svg.addEventListener("mouseleave", function () { if (locked) select(locked); else idle(); });
+    svg.addEventListener("click", function (e) { select(e.target.closest(".ix-pin, .ix-part")); });
+    svg.addEventListener("focusin", function (e) { var g = e.target.closest(".ix-pin, .ix-part"); if (g) select(g); });
+    svg.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { var g = e.target.closest(".ix-pin, .ix-part"); if (g) { e.preventDefault(); select(g); } } });
+    $(".comp-filter", body).addEventListener("click", function (e) {
+      var b = e.target.closest("button"); if (!b) return;
+      $$(".comp-filter button", body).forEach(function (x) { x.classList.toggle("on", x === b); });
+      var f = b.getAttribute("data-f");
+      svg.classList.toggle("ix-dim", f !== "tous");
+      $$(".ix-pin", svg).forEach(function (g) {
+        var c = g.getAttribute("data-c"), hit = f === "proj" ? g.hasAttribute("data-proj") : f === "pwr" ? (c === "pwr" || c === "gnd") : c === f;
+        g.classList.toggle("hit", hit);
+      });
+    });
+    idle();
+    return { draw: function () {} };
+  };
+
+  /* --- Choisir la résistance d'une LED --- */
+  builders.ohm = function (el) {
+    var body = shell(el, "bolt", "La résistance d'une LED", "La broche fournit 3,3 V ; la LED en « garde » une partie ; la résistance limite le courant qui reste.", false);
+    var RS = [0, 47, 100, 220, 330, 1000], LEDS = { rouge: [2.0, "#ff3b2b"], jaune: [2.1, "#ffc21a"], verte: [3.0, "#2fe07a"], bleue: [3.0, "#3a8bff"] };
+    body.insertAdjacentHTML("beforeend",
+      '<svg class="ix-svg" viewBox="0 0 640 170" style="max-width:640px;margin:0 auto">' +
+      '<rect x="20" y="55" width="90" height="60" rx="10" fill="var(--bg-2)" stroke="var(--line-2)" stroke-width="2"/><text x="65" y="82" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink)">IO2</text><text x="65" y="101" text-anchor="middle" font-size="12" fill="var(--teal)">3,3 V</text>' +
+      '<path class="ix-wire hot" d="M110 85H200M300 85H390M470 85H560V140H65V115"/>' +
+      '<path class="ix-flow on" d="M110 85H200M300 85H390M470 85H560V140H65V115"/>' +
+      '<g class="ohm-r"><path d="M200 85l8-14 16 28 16-28 16 28 16-28 16 28 12-14" fill="none" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/></g>' +
+      '<text class="ohm-rv" x="250" y="125" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink)">220 Ω</text>' +
+      '<circle class="ohm-glow" cx="430" cy="85" r="34" fill="#ff3b2b" opacity=".4"/>' +
+      '<path d="M410 65v40l36-20z" fill="var(--bg-2)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/><path class="ohm-led" d="M410 65v40l36-20z" fill="#ff3b2b" opacity=".6"/><path d="M448 63v44" stroke="var(--ink)" stroke-width="3"/>' +
+      '<text x="430" y="40" text-anchor="middle" font-size="12" fill="var(--ink-2)">LED</text><text x="65" y="160" font-size="12" fill="var(--ink-3)">GND</text>' +
+      "</svg>");
+    var r1 = row(body);
+    var rIn = slider(r1, "oh-r", "Résistance", 0, RS.length - 1, 1, 3, function (v) { return RS[v] ? RS[v] + " Ω" : "aucune"; });
+    var sel = document.createElement("div"); sel.className = "ctl";
+    sel.innerHTML = '<label><span>Couleur de la LED</span></label><div class="comp-filter" style="margin:4px 0 0">' + Object.keys(LEDS).map(function (k, i) { return '<button type="button" data-l="' + k + '"' + (i === 0 ? ' class="on"' : "") + ">" + k + "</button>"; }).join("") + "</div>";
+    r1.appendChild(sel);
+    var st = stats(body, ["Tension gardée par la LED", "Courant", "Verdict"]);
+    var color = "rouge";
+    function draw() {
+      var R = RS[+rIn.value], L = LEDS[color], vf = L[0], I = R ? Math.max(0, (3.3 - vf) / R * 1000) : 999;
+      $(".ohm-rv", body).textContent = R ? R + " Ω" : "aucune résistance";
+      $(".ohm-r", body).style.opacity = R ? 1 : 0.15;
+      var b = Math.min(1, I / 12);
+      $(".ohm-glow", body).setAttribute("fill", L[1]); $(".ohm-glow", body).setAttribute("opacity", (R ? 0.08 + 0.55 * b : 0.9).toFixed(2));
+      $(".ohm-led", body).setAttribute("fill", L[1]); $(".ohm-led", body).setAttribute("opacity", (R ? 0.2 + 0.8 * b : 1).toFixed(2));
+      $(".ix-flow", body).style.animationDuration = R ? Math.max(0.25, 1.6 - I / 10) + "s" : "0.15s";
+      st[0].textContent = vf.toFixed(1).replace(".", ",") + " V";
+      st[1].textContent = R ? I.toFixed(1).replace(".", ",") + " mA" : "beaucoup trop";
+      var v, cls;
+      if (!R) { v = "Danger : la broche et la LED grillent"; cls = "bad"; }
+      else if (I > 20) { v = "Trop pour une broche (≤ 20 mA)"; cls = "bad"; }
+      else if (I < 1.5) { v = "Très faible, à peine visible"; cls = ""; }
+      else if (R === 220 && color === "rouge") { v = "La valeur du projet"; cls = "good"; }
+      else { v = "Correct"; cls = "good"; }
+      st[2].textContent = v; st[2].className = cls;
+    }
+    rIn.addEventListener("input", draw);
+    sel.addEventListener("click", function (e) { var b = e.target.closest("button"); if (!b) return; color = b.getAttribute("data-l"); $$("button", sel).forEach(function (x) { x.classList.toggle("on", x === b); }); draw(); });
+    body.insertAdjacentHTML("beforeend", '<p class="small muted" style="margin-top:10px">Calcul : courant = (3,3 V − tension de la LED) ÷ résistance. Une LED bleue ou verte « garde » environ 3 V : avec 220 Ω, il ne reste presque plus de courant, elle brille peu.</p>');
+    draw();
+    return { draw: draw };
+  };
+
+  /* --- Une broche en sortie, une broche en entrée --- */
+  builders.gpio = function (el) {
+    var body = shell(el, "io", "Sortie et entrée, en vrai", "À gauche, le programme commande la LED. À droite, il lit le bouton BOOT.", false);
+    body.insertAdjacentHTML("beforeend", '<div class="ix-io">' +
+      '<div><h4>Sortie : GPIO 2 commande la LED</h4><p>Le programme choisit la tension de la broche avec <code>digitalWrite()</code>.</p>' +
+      '<svg class="ix-svg" viewBox="0 0 300 180"><rect x="10" y="50" width="70" height="56" rx="9" fill="var(--bg-2)" stroke="var(--line-2)" stroke-width="2"/><text x="45" y="74" text-anchor="middle" class="v">IO2</text><text class="o-v" x="45" y="94" text-anchor="middle">0 V</text>' +
+      '<path class="ix-wire o-w" d="M80 78H120M180 78H205M240 78H280V150H45V106"/><path class="ix-flow o-f" d="M80 78H120M180 78H205M240 78H280V150H45V106"/>' +
+      '<path d="M120 78l5-10 10 20 10-20 10 20 10-20 10 20 5-10" fill="none" stroke="var(--ink)" stroke-width="2.2" stroke-linejoin="round"/><text x="150" y="108" text-anchor="middle">220 Ω</text>' +
+      '<circle class="o-glow" cx="222" cy="78" r="26" fill="#ff3b2b" opacity="0"/><path d="M205 62v32l30-16z" fill="var(--bg-2)" stroke="var(--ink)" stroke-width="2.2" stroke-linejoin="round"/><path class="o-led" d="M205 62v32l30-16z" fill="#ff3b2b" opacity=".12"/><path d="M237 60v36" stroke="var(--ink)" stroke-width="2.5"/>' +
+      '<text x="150" y="168" text-anchor="middle">GND</text></svg>' +
+      '<div class="wg-btns"><button type="button" class="btn sm o-hi">HIGH (3,3 V)</button><button type="button" class="btn sm o-lo">LOW (0 V)</button></div>' +
+      '<div class="ix-readout o-code">digitalWrite(2, <b>LOW</b>);</div></div>' +
+      '<div><h4>Entrée : GPIO 0 lit le bouton BOOT</h4><p>La résistance de tirage garde la broche à 3,3 V. Appuyer relie la broche à GND : elle passe à 0.</p>' +
+      '<svg class="ix-svg" viewBox="0 0 300 180"><text x="200" y="16" text-anchor="middle" class="v">3,3 V</text><path class="ix-wire" d="M200 22V40"/>' +
+      '<path d="M200 40l-10 5 20 10-20 10 20 10-10 5" fill="none" stroke="var(--ink)" stroke-width="2.2" stroke-linejoin="round"/><text x="222" y="62">tirage</text>' +
+      '<path class="ix-wire i-w" d="M200 80V98H80M200 98V118M200 152V170H260"/><circle cx="200" cy="98" r="4" fill="var(--ink)"/>' +
+      '<path class="ix-flow i-f" d="M200 22V40M200 80V98M200 98V118M200 152V170H260"/>' +
+      '<g class="i-sw"><circle cx="200" cy="118" r="3.5" fill="var(--ink)"/><circle cx="200" cy="152" r="3.5" fill="var(--ink)"/><path class="i-lever" d="M200 118L222 146" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/></g>' +
+      '<text x="240" y="138">BOOT</text><text x="268" y="174">GND</text>' +
+      '<rect x="10" y="70" width="70" height="56" rx="9" fill="var(--bg-2)" stroke="var(--line-2)" stroke-width="2"/><text x="45" y="94" text-anchor="middle" class="v">IO0</text><text class="i-v" x="45" y="114" text-anchor="middle">3,3 V</text></svg>' +
+      '<div class="wg-btns"><button type="button" class="ix-press i-btn" aria-label="Appuyer sur BOOT">BOOT</button><div style="align-self:center"><label class="toggle"><input type="checkbox" class="i-bounce" checked><span>Rebonds du bouton</span></label><br><label class="toggle"><input type="checkbox" class="i-deb"><span>Anti-rebond (50 ms)</span></label></div></div>' +
+      '<div class="ix-readout">digitalRead(0) = <b class="i-read">1 (HIGH)</b> · interruptions : <b class="i-cnt">0</b> · appuis : <b class="i-pr">0</b></div><div class="ix-log i-log">Maintenez le bouton enfoncé, relâchez, recommencez.</div></div>' +
+      "</div>");
+    var oOn = false;
+    function out(v) {
+      oOn = v;
+      $(".o-v", body).textContent = v ? "3,3 V" : "0 V"; $(".o-v", body).setAttribute("fill", v ? "var(--teal)" : "var(--ink-2)");
+      $(".o-w", body).classList.toggle("hot", v); $(".o-f", body).classList.toggle("on", v);
+      $(".o-led", body).setAttribute("opacity", v ? 1 : 0.12); $(".o-glow", body).setAttribute("opacity", v ? 0.45 : 0);
+      $(".o-code", body).innerHTML = "digitalWrite(2, <b>" + (v ? "HIGH" : "LOW") + "</b>);";
+      $(".o-hi", body).classList.toggle("primary", v); $(".o-lo", body).classList.toggle("primary", !v);
+    }
+    $(".o-hi", body).addEventListener("click", function () { out(true); });
+    $(".o-lo", body).addEventListener("click", function () { out(false); });
+    out(false);
+    var btn = $(".i-btn", body), cnt = 0, pr = 0, lastAcc = -1e9, down = false, timers = [];
+    function level(pressed) {
+      $(".i-lever", body).setAttribute("d", pressed ? "M200 118L200 152" : "M200 118L222 146");
+      $(".i-v", body).textContent = pressed ? "0 V" : "3,3 V"; $(".i-v", body).setAttribute("fill", pressed ? "var(--copper)" : "var(--teal)");
+      $(".i-read", body).textContent = pressed ? "0 (LOW)" : "1 (HIGH)";
+      $(".i-f", body).classList.toggle("on", pressed); $(".i-w", body).classList.toggle("hot", pressed);
+    }
+    function fall(t) { // un front descendant arrive dans l'ISR
+      if ($(".i-deb", body).checked && t - lastAcc < 50) return false;
+      lastAcc = t; cnt++; $(".i-cnt", body).textContent = cnt; return true;
+    }
+    function press() {
+      if (down) return; down = true; pr++; $(".i-pr", body).textContent = pr; btn.classList.add("down"); level(true);
+      var t0 = performance.now(), n = 1, acc = fall(t0) ? 1 : 0;
+      if ($(".i-bounce", body).checked) {
+        var k = 1 + Math.floor(Math.random() * 3);
+        for (var i = 1; i <= k; i++) (function (i) { timers.push(setTimeout(function () { n++; if (fall(performance.now())) acc++; log(n, acc); }, i * 4)); })(i);
+      }
+      log(n, acc);
+    }
+    function log(n, acc) {
+      var t = n > 1 ? "1 appui → " + n + " fronts (rebonds) → " + acc + " interruption" + (acc > 1 ? "s" : "") + " comptée" + (acc > 1 ? "s" : "") : "1 appui → 1 front → 1 interruption";
+      $(".i-log", body).textContent = t + ($(".i-deb", body).checked && n > acc ? " : l'anti-rebond a ignoré les fronts trop rapprochés" : "");
+    }
+    function release() { if (!down) return; down = false; btn.classList.remove("down"); level(false); }
+    btn.addEventListener("pointerdown", function (e) { e.preventDefault(); btn.setPointerCapture(e.pointerId); press(); });
+    btn.addEventListener("pointerup", release); btn.addEventListener("pointercancel", release);
+    btn.addEventListener("keydown", function (e) { if (e.key === " " || e.key === "Enter") { e.preventDefault(); press(); } });
+    btn.addEventListener("keyup", function (e) { if (e.key === " " || e.key === "Enter") release(); });
+    level(false);
+    return { draw: function () {} };
+  };
+
+  /* --- Du code à la carte : le téléversement --- */
+  builders.upload = function (el) {
+    var body = shell(el, "up", "Le voyage du programme", "Avancez étape par étape, ou lancez la lecture automatique.", false);
+    var N = [ // [id, x, y, w, h, titre, sous-titre]
+      ["pc", 10, 96, 130, 100, "PC", "Arduino IDE"], ["br", 250, 96, 120, 100, "Puce USB‑série", "USB ↔ TX/RX"],
+      ["mcu", 440, 80, 150, 132, "ESP32", ""], ["fl", 610, 6, 100, 70, "Flash", "4 Mo"], ["rg", 250, 232, 120, 52, "Régulateur", "5 V → 3,3 V"]
+    ];
+    var LK = { usb: [[140, 128], [250, 128]], uart: [[370, 128], [440, 128]], ctl: [[370, 160], [440, 160]], fl: [[590, 96], [640, 72]], back1: [[440, 190], [370, 190]], back2: [[250, 182], [140, 182]],
+      p1: [[195, 128], [195, 258], [250, 258]], p2: [[370, 258], [515, 258], [515, 212]] };
+    var s = '<svg class="ix-svg" viewBox="0 0 720 300" style="overflow:visible">';
+    Object.keys(LK).forEach(function (k) { s += '<path class="ix-link' + (k[0] === "p" ? " pwr" : "") + '" data-l="' + k + '" d="M' + LK[k].map(function (p) { return p.join(" "); }).join("L") + '"/>'; });
+    s += '<text class="ix-lbl" x="195" y="118" text-anchor="middle">câble USB</text><text class="ix-lbl" x="405" y="120" text-anchor="middle">TX/RX</text><text class="ix-lbl" x="405" y="152" text-anchor="middle">EN/BOOT</text><text class="ix-lbl" x="180" y="246" text-anchor="end">5 V</text><text class="ix-lbl" x="525" y="250">3,3 V</text>';
+    N.forEach(function (n) {
+      s += '<g class="ix-node" data-n="' + n[0] + '"><rect x="' + n[1] + '" y="' + n[2] + '" width="' + n[3] + '" height="' + n[4] + '" rx="12"/>' +
+        '<text class="t" x="' + (n[1] + n[3] / 2) + '" y="' + (n[2] + 28) + '" text-anchor="middle">' + n[5] + "</text>" +
+        '<text class="sub" x="' + (n[1] + n[3] / 2) + '" y="' + (n[2] + 48) + '" text-anchor="middle">' + n[6] + "</text></g>";
+    });
+    s += '<rect class="up-bar0" x="624" y="62" width="72" height="5" rx="2.5" fill="var(--bg-4)"/><rect class="up-bar" x="624" y="62" width="0" height="5" rx="2.5" fill="var(--teal)"/>';
+    s += '<text class="up-mcu" x="515" y="150" text-anchor="middle" font-size="12.5" fill="var(--ink-2)"></text><text class="up-mcu2" x="515" y="170" text-anchor="middle" font-size="12.5" fill="var(--ink-2)"></text>';
+    s += '<g class="up-dots"></g></svg>';
+    body.insertAdjacentHTML("beforeend", s + '<div class="ix-cap"><b></b><p></p></div>');
+    var r = row(body);
+    var bPrev = button(r, "◀ Précédent"), bNext = button(r, "Suivant ▶", true), bPlay = button(r, "Lecture auto");
+    var dotsEl = document.createElement("div"); dotsEl.className = "ix-steps"; r.appendChild(dotsEl);
+    var STEPS = [
+      { n: ["pc"], l: [], t: "1. Vous écrivez le programme", p: "Dans l'IDE Arduino, en langage C++ : c'est un simple texte, que l'ESP32 ne sait pas encore lire." },
+      { n: ["pc"], l: [], t: "2. L'IDE le compile", p: "« Compiler », c'est traduire le texte en instructions machine que la puce comprend. Les fautes de frappe sont détectées ici : erreurs en rouge en bas de l'IDE." },
+      { n: ["pc", "br"], l: ["usb"], t: "3. Le programme part par le câble USB", p: "Le PC envoie le programme traduit vers la carte. Il faut un câble de données : un câble de charge seule ne transporte rien." },
+      { n: ["br", "mcu"], l: ["uart", "ctl"], t: "4. La puce USB‑série prend le relais", p: "Elle traduit l'USB en liaison série (TX/RX), et « appuie » toute seule sur BOOT et EN pour mettre l'ESP32 en mode téléversement. Si ça échoue (« Wrong boot mode »), maintenir BOOT à la main pendant « Connecting… »." },
+      { n: ["mcu", "fl"], l: ["uart", "fl"], t: "5. Écriture dans la mémoire flash", p: "L'ESP32 range le programme dans sa mémoire flash. Il y reste même carte débranchée : au prochain branchement, il redémarre tout seul." },
+      { n: ["mcu", "rg", "pc"], l: ["p1", "p2", "back1", "back2"], t: "6. Redémarrage : le programme tourne", p: "La carte redémarre et lance setup() une fois, puis loop() en boucle. Les messages de Serial.print repartent vers le PC : on les lit dans le moniteur série, à 115200 bauds." }
+    ];
+    var cur = 0, auto = null, tStep = 0;
+    STEPS.forEach(function (_, i) { var d = document.createElement("i"); d.title = "Étape " + (i + 1); d.addEventListener("click", function () { go(i); }); dotsEl.appendChild(d); });
+    dotsEl.insertAdjacentHTML("beforeend", "<small></small>");
+    var svg = $("svg", body), dots = [];
+    function poly(pts, t) { // point à la fraction t d'une ligne brisée
+      var L = 0, seg = []; for (var i = 1; i < pts.length; i++) { var l = Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]); seg.push(l); L += l; }
+      var d = t * L; for (i = 1; i < pts.length; i++) { if (d <= seg[i - 1]) { var u = d / seg[i - 1]; return [pts[i - 1][0] + u * (pts[i][0] - pts[i - 1][0]), pts[i - 1][1] + u * (pts[i][1] - pts[i - 1][1])]; } d -= seg[i - 1]; }
+      return pts[pts.length - 1];
+    }
+    function go(i) {
+      cur = Math.max(0, Math.min(STEPS.length - 1, i)); tStep = performance.now();
+      var st = STEPS[cur];
+      $$(".ix-node", svg).forEach(function (g) { g.classList.toggle("on", st.n.indexOf(g.getAttribute("data-n")) >= 0); });
+      $$(".ix-link", svg).forEach(function (p) { p.classList.toggle("on", st.l.indexOf(p.getAttribute("data-l")) >= 0); });
+      $(".ix-cap b", body).textContent = st.t; $(".ix-cap p", body).textContent = st.p;
+      $$("i", dotsEl).forEach(function (d, k) { d.classList.toggle("on", k <= cur); });
+      $("small", dotsEl).textContent = "étape " + (cur + 1) + " / " + STEPS.length;
+      $(".up-mcu", svg).textContent = cur === 5 ? "setup() → loop()" : cur === 4 ? "écriture…" : cur === 3 ? "mode téléversement" : "";
+      $(".up-mcu2", svg).textContent = cur === 5 ? "↻ en boucle" : "";
+      $(".ix-node[data-n=pc] .sub", svg).textContent = cur === 1 ? "compilation…" : cur === 5 ? "moniteur série" : "Arduino IDE";
+      var g = $(".up-dots", svg); g.innerHTML = ""; dots = [];
+      st.l.forEach(function (k) {
+        for (var j = 0; j < 3; j++) {
+          var c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+          c.setAttribute("r", 5); c.setAttribute("fill", k[0] === "p" ? "var(--red)" : "var(--teal)"); g.appendChild(c);
+          dots.push({ c: c, pts: LK[k], o: j / 3 });
+        }
+      });
+      bPrev.disabled = cur === 0; bNext.disabled = cur === STEPS.length - 1;
+    }
+    function tick(t) {
+      requestAnimationFrame(tick);
+      if (!isShown(el)) return;
+      var e = (t - tStep) / 1000;
+      dots.forEach(function (d) { var p = poly(d.pts, (e * 0.7 + d.o) % 1); d.c.setAttribute("cx", p[0]); d.c.setAttribute("cy", p[1]); });
+      var w = cur === 4 ? Math.min(72, e / 2.5 * 72) : cur === 5 ? 72 : 0;
+      $(".up-bar", svg).setAttribute("width", w.toFixed(1));
+    }
+    bPrev.addEventListener("click", function () { stopAuto(); go(cur - 1); });
+    bNext.addEventListener("click", function () { stopAuto(); go(cur + 1); });
+    function stopAuto() { if (auto) { clearInterval(auto); auto = null; bPlay.textContent = "Lecture auto"; } }
+    bPlay.addEventListener("click", function () {
+      if (auto) { stopAuto(); return; }
+      if (cur === STEPS.length - 1) go(0);
+      bPlay.textContent = "Pause";
+      auto = setInterval(function () { if (!isShown(el) || cur === STEPS.length - 1) { stopAuto(); return; } go(cur + 1); }, 4200);
+    });
+    go(0); requestAnimationFrame(tick);
+    return { draw: function () {} };
+  };
+
+  /* --- setup() et loop() --- */
+  builders.loop = function (el) {
+    var body = shell(el, "loop", "Le programme au ralenti", "Chaque ligne s'allume quand la carte l'exécute. En vrai, c'est des milliers de fois plus rapide.", true);
+    body.insertAdjacentHTML("beforeend", '<div class="ix-run"><div class="ix-code"></div><div class="ix-side">' +
+      '<div class="ix-dev"><div><div class="ix-led lp-led"></div><small>LED (GPIO 2)</small></div><div><button type="button" class="ix-press lp-btn">BOOT</button><small>maintenir appuyé</small></div></div>' +
+      '<div class="wg-stats" style="margin:0;grid-template-columns:repeat(2,minmax(0,1fr))"><div class="stat"><small>Tours de loop()</small><b class="lp-n">0</b></div><div class="stat"><small>Réaction de la LED</small><b class="lp-r">–</b></div></div>' +
+      '<label class="toggle"><input type="checkbox" class="lp-dl"><span>Ajouter delay(500) à la fin de loop()</span></label>' +
+      '<button type="button" class="btn sm lp-en">Appuyer sur EN (redémarrer)</button></div></div>');
+    var code = $(".ix-code", body);
+    var SETUP = [["Serial.begin(115200);", "ouvrir le moniteur série"], ["pinMode(2, OUTPUT);", "la broche de la LED devient une sortie"], ["pinMode(0, INPUT_PULLUP);", "la broche du bouton devient une entrée, avec tirage"]];
+    var LOOP = [["int b = digitalRead(0);", "lire le bouton : 0 si appuyé"], ["if (b == LOW) digitalWrite(2, HIGH);", "appuyé : allumer la LED"], ["else digitalWrite(2, LOW);", "sinon : l'éteindre"]];
+    var DL = ["delay(500);", "attendre 500 ms… sans rien faire d'autre"];
+    var lines = [], idx = 0, tLine = 0, n = 0, pressed = false, led = false, pressT = null, booting = true;
+    function render() {
+      var withDl = $(".lp-dl", body).checked, h = '<div class="fn">void setup() {</div>';
+      SETUP.forEach(function (l, i) { h += '<div class="ln" data-i="s' + i + '">' + l[0] + "<small>" + l[1] + "</small></div>"; });
+      h += '<div class="fn">}</div><div class="fn">void loop() {</div>';
+      LOOP.forEach(function (l, i) { h += '<div class="ln" data-i="l' + i + '">' + l[0] + "<small>" + l[1] + "</small></div>"; });
+      if (withDl) h += '<div class="ln dl" data-i="d">' + DL[0] + "<small>" + DL[1] + "</small></div>";
+      h += '<div class="fn">}</div>';
+      code.innerHTML = h;
+      lines = SETUP.map(function (_, i) { return "s" + i; }).concat(LOOP.map(function (_, i) { return "l" + i; })).concat(withDl ? ["d"] : []);
+    }
+    var SLOW = 4; // ralenti : 1 ms réelle = 4 ms à l'écran
+    function dur(id) { return id === "d" ? 500 * SLOW : 420; }
+    function restart() { idx = 0; n = 0; booting = true; tLine = performance.now(); led = false; $(".lp-n", body).textContent = 0; $(".lp-r", body).textContent = "–"; }
+    function exec(id) {
+      if (id === "l0") { var b = pressed; exec.b = b; }
+      if (id === "l1" && exec.b) setLed(true);
+      if (id === "l2" && !exec.b) setLed(false);
+    }
+    function setLed(v) {
+      if (v !== led && pressT !== null) {
+        var ms = (performance.now() - pressT) / SLOW;
+        var r = $(".lp-r", body); r.textContent = ms < 5 ? "immédiate" : Math.round(ms) + " ms de retard"; r.className = ms < 5 ? "good" : ms > 100 ? "bad" : "";
+        pressT = null;
+      }
+      led = v; $(".lp-led", body).classList.toggle("on", v);
+    }
+    function tick(t) {
+      requestAnimationFrame(tick);
+      if (!isShown(el)) { tLine = t; return; }
+      if (t - tLine >= dur(lines[idx])) {
+        tLine = t; exec(lines[idx]); idx++;
+        if (idx >= lines.length) { idx = SETUP.length; n++; $(".lp-n", body).textContent = n; booting = false; }
+      }
+      $$(".ln", code).forEach(function (l) { l.classList.toggle("cur", l.getAttribute("data-i") === lines[idx]); });
+    }
+    var btn = $(".lp-btn", body);
+    function down() { if (pressed) return; pressed = true; pressT = performance.now(); btn.classList.add("down"); }
+    function up() { if (!pressed) return; pressed = false; pressT = performance.now(); btn.classList.remove("down"); }
+    btn.addEventListener("pointerdown", function (e) { e.preventDefault(); btn.setPointerCapture(e.pointerId); down(); });
+    btn.addEventListener("pointerup", up); btn.addEventListener("pointercancel", up);
+    $(".lp-dl", body).addEventListener("change", function () { var keep = lines[idx]; render(); idx = Math.max(SETUP.length, lines.indexOf(keep)); if (idx < 0) idx = SETUP.length; });
+    $(".lp-en", body).addEventListener("click", function () { setLed(false); render(); restart(); });
+    render(); restart(); requestAnimationFrame(tick);
+    body.insertAdjacentHTML("beforeend", '<p class="small muted" style="margin-top:12px">Avec <code>delay(500)</code>, la carte ne lit le bouton qu\'une fois toutes les 500 ms : la LED réagit en retard, et un appui très court peut passer inaperçu. C\'est pour ça que le firmware du robot n\'utilise jamais <code>delay()</code> dans <code>loop()</code> : vous verrez la bonne méthode au TP1.</p>');
+    return { draw: function () {} };
+  };
+
+  /* --- Quiz --- */
+  builders.quiz = function (el) {
+    var body = shell(el, "quiz", "Avez-vous tout compris ?", "Sept questions rapides. La réponse et son explication s'affichent tout de suite.", false);
+    var Q = [
+      ["Quelle tension sort d'une broche GPIO à l'état HIGH ?", ["5 V", "3,3 V", "12 V"], 1, "L'ESP32 fonctionne en 3,3 V. Et aucune de ses broches ne supporte 5 V en entrée."],
+      ["Je veux brancher un capteur sur GPIO 34. Je peux l'utiliser…", ["en entrée seulement", "en sortie seulement", "en entrée et en sortie"], 0, "Les GPIO 34 à 39 sont des entrées seules, sans résistance de tirage intégrée."],
+      ["La LED rouge de la carte est allumée. Ça veut dire…", ["que mon programme fonctionne", "que la carte est alimentée", "que le Wi‑Fi est connecté"], 1, "C'est un simple témoin d'alimentation. La DevKitC V4 n'a pas de LED programmable : d'où la LED externe sur GPIO 2."],
+      ["Pourquoi la LED externe va de GPIO 2 vers GND, et pas vers 3,3 V ?", ["pour qu'elle brille plus", "parce que GPIO 2 doit rester à 0 au démarrage", "aucune raison, c'est pareil"], 1, "GPIO 2 est une broche de démarrage : forcée à 3,3 V, elle peut empêcher le téléversement."],
+      ["Que fait loop() ?", ["elle s'exécute une seule fois", "elle se répète sans fin", "elle s'exécute à chaque appui sur EN"], 1, "setup() s'exécute une fois au démarrage, loop() se répète ensuite sans arrêt."],
+      ["Peut-on brancher un capteur sur les broches CLK, D0 à D3 ou CMD ?", ["oui, ce sont des GPIO comme les autres", "non, elles servent à la mémoire flash"], 1, "Ce sont les GPIO 6 à 11, reliées à la mémoire où est rangé le programme. Y toucher bloque la carte."],
+      ["Le téléversement échoue avec « Wrong boot mode ». Que faire ?", ["maintenir BOOT pendant « Connecting… »", "débrancher la LED rouge", "passer le moniteur série à 9600 bauds"], 0, "BOOT appuyé au démarrage met la carte en mode téléversement. On le relâche quand le pourcentage défile."]
+    ];
+    var ok = 0, done = 0;
+    var h = Q.map(function (q, i) {
+      return '<div class="ix-q" data-q="' + i + '"><b>' + (i + 1) + ". " + q[0] + '</b><div class="opts">' +
+        q[1].map(function (o, j) { return '<button type="button" data-j="' + j + '">' + o + "</button>"; }).join("") + '</div><p class="why"></p></div>';
+    }).join("");
+    body.insertAdjacentHTML("beforeend", h + '<div class="ix-score"><span class="qz-s">Score : 0 / ' + Q.length + '</span><button type="button" class="btn sm qz-r">Recommencer</button></div>');
+    body.addEventListener("click", function (e) {
+      var b = e.target.closest(".ix-q button"); if (!b) return;
+      var box = b.closest(".ix-q"), q = Q[+box.getAttribute("data-q")], j = +b.getAttribute("data-j");
+      if (box.classList.contains("done")) return;
+      box.classList.add("done"); done++;
+      $$("button", box).forEach(function (x, k) { x.disabled = true; if (k === q[2]) x.classList.add("good"); });
+      if (j === q[2]) ok++; else b.classList.add("bad");
+      $(".why", box).textContent = (j === q[2] ? "Bonne réponse. " : "Pas tout à fait. ") + q[3];
+      $(".qz-s", body).textContent = "Score : " + ok + " / " + Q.length + (done === Q.length ? (ok === Q.length ? " · parfait, en route pour le TP1 !" : ok >= 5 ? " · très bien" : " · relisez les parties concernées") : "");
+    });
+    $(".qz-r", body).addEventListener("click", function () {
+      ok = 0; done = 0;
+      $$(".ix-q", body).forEach(function (box) { box.classList.remove("done"); $$("button", box).forEach(function (x) { x.disabled = false; x.classList.remove("good", "bad"); }); });
+      $(".qz-s", body).textContent = "Score : 0 / " + Q.length;
+    });
+    return { draw: function () {} };
   };
 
   // construction paresseuse : une simulation n'est créée que lorsque sa page s'ouvre
