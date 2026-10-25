@@ -178,6 +178,8 @@ python app.py 192.168.43.50 http://192.168.43.51/capture
 
 Le projet avance en deux phases. En **phase A**, chaque brique est validée seule sur une plaque d'essai. En **phase B**, tout est assemblé sur la voiture.
 
+Les TPs se font **à la maison** : ni oscilloscope ni alimentation de labo. Un multimètre, le traceur série de l'IDE Arduino et l'ESP32 lui-même servent d'instruments de mesure, et la batterie 2S protégée par un fusible alimente les essais sur table.
+
 <p align="center">
   <img src="docs/assets/parcours.svg" width="100%" alt="Phase A : TP 0 à 7 sur table. Phase B : TP 8 à 13 sur la voiture."/>
 </p>
@@ -229,7 +231,7 @@ L'ESP32 ne fait que ce qui exige du **temps réel** : régulation des roues, com
 | `23` | STBY | TB6612 |
 | `34` `35` / `36` `39` | Encodeurs A, B | Encodeurs gauche / droit (tirage de 10 kΩ vers 3,3 V) |
 | `33` | ADC1 | Pont diviseur 100 kΩ / 33 kΩ de la batterie |
-| `2` | LED | LED d'état intégrée |
+| `2` | LED | LED d'état externe, 220 Ω vers GND (la DevKitC V4 n'a pas de LED utilisateur) |
 
 <img src="docs/captures/brochage.png" alt="Brochage de l'ESP32 dans le manuel" width="100%"/>
 </details>
@@ -257,7 +259,7 @@ Chaque message est une ligne de texte envoyée dans un seul datagramme UDP. Les 
 
 <table>
   <tr>
-    <td align="center" width="25%"><img src="docs/assets/materiel/esp32.jpg" alt="ESP32 DevKit" width="100%"/><br/><b>ESP32 DevKit V1</b><br/><sub>Cerveau du robot, Wi‑Fi</sub></td>
+    <td align="center" width="25%"><img src="docs/assets/materiel/esp32.jpg" alt="Carte ESP32" width="100%"/><br/><b>ESP32‑DevKitC V4 (32E)</b><br/><sub>Cerveau du robot, Wi‑Fi</sub></td>
     <td align="center" width="25%"><img src="docs/assets/materiel/esp32cam.jpg" alt="ESP32-CAM" width="100%"/><br/><b>ESP32‑CAM</b><br/><sub>Images pour les marqueurs ArUco</sub></td>
     <td align="center" width="25%"><img src="docs/assets/materiel/sg90.jpg" alt="Servo SG90" width="100%"/><br/><b>Servo SG90</b><br/><sub>Balayage du laser sur 180°</sub></td>
     <td align="center" width="25%"><img src="docs/assets/materiel/mpu6050.jpg" alt="MPU6050 GY-521" width="100%"/><br/><b>MPU6050 (GY‑521)</b><br/><sub>Gyroscope, mesure du cap</sub></td>
@@ -278,7 +280,7 @@ Chaque message est une ligne de texte envoyée dans un seul datagramme UDP. Les 
 
 | Composant | Quantité | Rôle |
 |---|:---:|---|
-| ESP32 DevKit V1 | 2 | Cerveau du robot ; la seconde sert de secours |
+| ESP32‑DevKitC V4, version 32E (module WROOM‑32E) | 2 | Cerveau du robot ; la seconde sert de secours |
 | Capteur laser VL53L1X | 1 | Distances jusqu'à 4 m |
 | Servo SG90 ou MG90S | 1 | Balayage sur 180° |
 | ESP32‑CAM AI‑Thinker + carte ESP32‑CAM‑MB | 1 | Images pour les marqueurs ArUco |

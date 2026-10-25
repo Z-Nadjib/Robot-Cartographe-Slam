@@ -770,7 +770,7 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border-radius: 
   <div class="tbl buy"><table id="buy">
     <thead><tr><th></th><th>Composant</th><th class="num">Qté</th><th>À vérifier avant d'acheter</th><th>TP</th><th class="num">≈ €</th></tr></thead>
     <tbody>
-      <tr data-price="12"><td><input type="checkbox" id="buy-esp32" aria-label="acheté"></td><td><strong>ESP32 DevKit V1</strong> (ESP32‑WROOM‑32, 30 ou 38 broches)</td><td class="num">2</td><td>Puce USB CP2102 ou CH340 ; câble micro‑USB ou USB‑C selon la carte. La deuxième sert de secours.</td><td><span class="tag a">A</span> TP0</td><td class="num">12</td></tr>
+      <tr data-price="12"><td><input type="checkbox" id="buy-esp32" aria-label="acheté"></td><td><strong>ESP32‑DevKitC V4</strong>, version <strong>32E</strong> (module ESP32‑WROOM‑32E, 38 broches)</td><td class="num">2</td><td>Prendre la version 32E (antenne sur la carte) : ni 32UE (antenne externe obligatoire), ni VE/VIE (module WROVER : GPIO 16 et 17 réservés à la PSRAM). Pas de LED utilisateur : la LED externe est dans les passifs. Câble micro‑USB de données. La deuxième sert de secours.</td><td><span class="tag a">A</span> TP0</td><td class="num">12</td></tr>
       <tr data-price="9"><td><input type="checkbox" id="buy-vl53" aria-label="acheté"></td><td><strong>Capteur laser VL53L1X</strong> (module I2C)</td><td class="num">1</td><td>Bien <em>L1X</em> (portée 4 m), pas le VL53L0X (2 m). Module avec régulateur, alimentable en 3,3 V.</td><td><span class="tag a">A</span> TP2</td><td class="num">9</td></tr>
       <tr data-price="3"><td><input type="checkbox" id="buy-servo" aria-label="acheté"></td><td><strong>Servomoteur SG90</strong> (ou MG90S à pignons métal)</td><td class="num">1</td><td>Course 180°. Le MG90S a moins de jeu : carte plus nette.</td><td><span class="tag a">A</span> TP3</td><td class="num">3</td></tr>
       <tr data-price="10"><td><input type="checkbox" id="buy-cam" aria-label="acheté"></td><td><strong>ESP32‑CAM AI‑Thinker + caméra OV2640</strong> et sa carte <strong>ESP32‑CAM‑MB</strong></td><td class="num">1</td><td>La carte MB (port USB) sert à la programmer. Souvent vendues ensemble.</td><td><span class="tag a">A</span> TP5</td><td class="num">10</td></tr>
@@ -778,10 +778,10 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border-radius: 
       <tr data-price="3"><td><input type="checkbox" id="buy-tb" aria-label="acheté"></td><td><strong>Driver moteur TB6612FNG</strong> (module)</td><td class="num">1</td><td>2 voies, 1,2 A continu et 3,2 A crête par voie, VM de 4,5 à 13,5 V.</td><td><span class="tag a">A</span> TP7</td><td class="num">3</td></tr>
       <tr data-price="16"><td><input type="checkbox" id="buy-mot" aria-label="acheté"></td><td><strong>Motoréducteurs avec encodeur à effet Hall, au format TT</strong> (ou N20 / JGA25‑370 avec leurs supports et leurs roues)</td><td class="num">2</td><td>Encodeur 2 voies (A et B) obligatoire. Le format TT se fixe directement sur les châssis 2 roues et prend leurs roues. Viser 150 à 300 tr/min en sortie et un courant en charge ≤ 1,2 A.</td><td><span class="tag a">A</span> TP7</td><td class="num">16</td></tr>
       <tr data-price="10"><td><input type="checkbox" id="buy-chassis" aria-label="acheté"></td><td><strong>Kit châssis 2 roues</strong> : plaque, 2 roues ≈ 65 mm, 1 roue folle à bille</td><td class="num">1</td><td>Ces kits sont presque toujours livrés avec 2 moteurs TT jaunes <strong>sans encodeur</strong> : on garde la plaque, les roues et la roue folle, et on remplace les moteurs (ligne au-dessus). Plaque assez large pour la batterie, la tour laser et la caméra (≈ 15 × 20 cm).</td><td><span class="tag b">B</span> TP8</td><td class="num">10</td></tr>
-      <tr data-price="14"><td><input type="checkbox" id="buy-bat" aria-label="acheté"></td><td><strong>2 accus Li‑ion 18650</strong> protégés + support 2S + chargeur</td><td class="num">1 lot</td><td>≥ 2000 mAh chacun. En série : 7,4 V nominal, 8,4 V chargé, 6,0 V à décharge.</td><td><span class="tag b">B</span> TP8</td><td class="num">14</td></tr>
+      <tr data-price="14"><td><input type="checkbox" id="buy-bat" aria-label="acheté"></td><td><strong>2 accus Li‑ion 18650</strong> protégés + support 2S + chargeur</td><td class="num">1 lot</td><td>≥ 2000 mAh chacun. En série : 7,4 V nominal, 8,4 V chargé, 6,0 V à décharge. Nécessaires dès le TP3 : sans alimentation de labo, ce sont elles qui alimentent l'abaisseur et les moteurs sur table.</td><td><span class="tag a">A</span> TP3</td><td class="num">14</td></tr>
       <tr data-price="2"><td><input type="checkbox" id="buy-buck" aria-label="acheté"></td><td><strong>Abaisseur DC‑DC 5 V</strong>, 3 A (LM2596, XL4015 ou MP1584)</td><td class="num">1</td><td>Courant ≥ 3 A. Le régler à 5,0 V au multimètre <em>avant</em> de brancher quoi que ce soit.</td><td><span class="tag a">A</span> TP3</td><td class="num">2</td></tr>
-      <tr data-price="2"><td><input type="checkbox" id="buy-sw" aria-label="acheté"></td><td><strong>Interrupteur à bascule</strong> + <strong>porte-fusible et fusible 3 A</strong></td><td class="num">1</td><td>Le fusible protège contre un court-circuit de la batterie.</td><td><span class="tag b">B</span> TP8</td><td class="num">2</td></tr>
-      <tr data-price="3"><td><input type="checkbox" id="buy-pass" aria-label="acheté"></td><td><strong>Passifs</strong> : 4 × 10 kΩ, 1 × 100 kΩ, 1 × 33 kΩ, 2 × 470 µF/16 V, 5 × 100 nF, 2 LED + 220 Ω</td><td class="num">1 lot</td><td>Résistances de tirage des encodeurs, pont diviseur batterie, découplage.</td><td><span class="tag a">A</span> TP7</td><td class="num">3</td></tr>
+      <tr data-price="2"><td><input type="checkbox" id="buy-sw" aria-label="acheté"></td><td><strong>Interrupteur à bascule</strong> + <strong>porte-fusible et fusible 3 A</strong></td><td class="num">1</td><td>Le fusible protège contre un court-circuit de la batterie. À câbler dès le premier usage de la batterie.</td><td><span class="tag a">A</span> TP3</td><td class="num">2</td></tr>
+      <tr data-price="3"><td><input type="checkbox" id="buy-pass" aria-label="acheté"></td><td><strong>Passifs</strong> : 4 × 10 kΩ, 1 × 100 kΩ, 1 × 33 kΩ, 2 × 470 µF/16 V, 5 × 100 nF, 2 LED + 220 Ω</td><td class="num">1 lot</td><td>LED externe du TP0 (la DevKitC V4 n'en a pas), résistances de tirage des encodeurs, pont diviseur batterie, découplage.</td><td><span class="tag a">A</span> TP0</td><td class="num">3</td></tr>
       <tr data-price="6"><td><input type="checkbox" id="buy-bb" aria-label="acheté"></td><td><strong>Plaque d'essai 830 points</strong> + fils Dupont M‑M, M‑F, F‑F (40 de chaque)</td><td class="num">1</td><td>Toute la phase A se fait dessus.</td><td><span class="tag a">A</span> TP1</td><td class="num">6</td></tr>
       <tr data-price="4"><td><input type="checkbox" id="buy-perf" aria-label="acheté"></td><td><strong>Plaque à pastilles</strong>, borniers à vis, entretoises M3, colliers, gaine thermo</td><td class="num">1 lot</td><td>Pour un câblage fiable sur la voiture.</td><td><span class="tag b">B</span> TP8</td><td class="num">4</td></tr>
       <tr data-price="3"><td><input type="checkbox" id="buy-usb" aria-label="acheté"></td><td><strong>Câbles USB de données</strong></td><td class="num">2</td><td>Beaucoup de câbles ne font que la charge : tester avec la carte.</td><td><span class="tag a">A</span> TP0</td><td class="num">3</td></tr>
@@ -805,16 +805,19 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border-radius: 
   </div>
   <div class="comps">
     <article class="comp" data-cat="calcul">
-      <img src="docs/assets/materiel/esp32.jpg" alt="Carte ESP32 DevKit sur une plaque d'essai" loading="lazy">
+      <img src="docs/assets/materiel/esp32.jpg" alt="Carte ESP32 de développement sur une plaque d'essai" loading="lazy">
       <div class="comp-body">
-        <div class="comp-top"><h3>ESP32 DevKit V1</h3><span class="tag a">TP0</span></div>
+        <div class="comp-top"><h3>ESP32‑DevKitC V4 (WROOM‑32E)</h3><span class="tag a">TP0</span></div>
         <p class="comp-role"><b>Son rôle :</b> c'est le cerveau temps réel du robot. Il lit les capteurs, régule la vitesse des roues 50 fois par seconde, fait tourner le balayage et échange avec le PC par Wi‑Fi. Tout ce qui demande du calcul lourd (carte, vision, Kalman, A*) part sur le PC.</p>
         <ul class="small">
           <li>Double cœur 240 MHz, 520 Ko de RAM, Wi‑Fi 2,4 GHz</li>
           <li>Logique en <strong>3,3 V</strong> : aucune broche ne tolère 5 V</li>
-          <li>Alimentation par USB ou par la broche <span class="sig">VIN</span> (5 V)</li>
+          <li>Alimentation par USB ou par la broche <span class="sig">5V</span>, jamais les deux à la fois</li>
+          <li>Boutons <strong>EN</strong> (redémarrage) et <strong>BOOT</strong> (<span class="pin">GPIO0</span>) ; LED rouge d'alimentation seulement, <strong>pas de LED utilisateur</strong> : LED externe sur <span class="pin">GPIO2</span></li>
+          <li>GPIO 6 à 11 (broches CLK, D0–D3, CMD) reliées à la mémoire flash : ne jamais les utiliser</li>
           <li><span class="pin">GPIO34</span> à <span class="pin">GPIO39</span> : entrées seules, sans résistance de tirage interne</li>
           <li>ADC2 inutilisable quand le Wi‑Fi est actif : on mesure sur l'ADC1 (<span class="pin">GPIO32</span>‑<span class="pin">39</span>)</li>
+          <li>Photo : une carte ESP32 voisine ; la DevKitC V4 a 38 broches et les mêmes GPIO</li>
         </ul>
       </div>
     </article>
@@ -950,8 +953,8 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border-radius: 
       <tr><td>Multimètre</td><td>Vérifier les tensions (5 V, 3,3 V, batterie), la continuité, régler l'abaisseur</td><td>Oui</td></tr>
       <tr><td>Fer à souder 40–60 W, étain, tresse</td><td>Souder les barrettes des modules, le câblage de la phase B</td><td>Oui</td></tr>
       <tr><td>Pince coupante, pince à dénuder, tournevis</td><td>Montage du châssis et des borniers</td><td>Oui</td></tr>
-      <tr><td>Oscilloscope (salle de TP)</td><td>Voir la PWM, les signaux d'encodeur, mesurer des temps</td><td>Fortement conseillé</td></tr>
-      <tr><td>Alimentation de laboratoire avec limitation de courant</td><td>Premiers tests moteurs sans risque (limiter à 1 A)</td><td>Conseillé</td></tr>
+      <tr><td>Téléphone</td><td>Chronomètre, vidéo au ralenti, partage de connexion Wi‑Fi (TP4)</td><td>Oui</td></tr>
+      <tr><td>Bloc secteur 9–12 V, 1 A</td><td>Alimenter l'abaisseur pendant les essais sur table sans user la batterie</td><td>Facultatif</td></tr>
       <tr><td>Mètre ruban, rapporteur</td><td>Valider distances, angles et la carte finale</td><td>Oui</td></tr>
       <tr><td>Pistolet à colle, scotch double face</td><td>Fixer la caméra, la tour laser, les marqueurs</td><td>Pratique</td></tr>
     </tbody>
@@ -977,7 +980,7 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border-radius: 
       <li>Vérifier que les moteurs ont bien un <strong>encodeur</strong> (6 fils : 2 moteur + 4 encodeur).</li>
       <li>Un kit châssis « 2WD » contient presque toujours des <strong>moteurs TT sans encodeur</strong>. Ils ne suffisent pas : prendre à part deux moteurs TT avec encodeur Hall, qui se montent à la place.</li>
       <li>Prendre le <strong>VL53L1X</strong>, pas le VL53L0X.</li>
-      <li>Le Wi‑Fi de la fac isole souvent les appareils entre eux : prévoir le <strong>partage de connexion d'un téléphone en 2,4 GHz</strong>.</li>
+      <li>Le Wi‑Fi de l'université, et parfois celui d'une box, isole les appareils entre eux : prévoir le <strong>partage de connexion d'un téléphone en 2,4 GHz</strong>.</li>
     </ul>
   </div>
 </section>
@@ -1086,7 +1089,7 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border-radius: 
           <text x="382" y="124">GPIO25 · PWMA</text><text x="382" y="154">GPIO26 · AIN1</text><text x="382" y="184">GPIO27 · AIN2</text>
           <text x="382" y="214">GPIO18 · PWMB</text><text x="382" y="244">GPIO16 · BIN1</text><text x="382" y="274">GPIO17 · BIN2</text>
           <text x="382" y="304">GPIO23 · STBY</text><text x="382" y="404">GPIO33 · ADC1</text>
-          <text x="382" y="494">VIN · entrée 5 V</text><text x="382" y="524">3V3 · sortie</text><text x="382" y="554">GND</text>
+          <text x="382" y="494">5V · entrée 5 V</text><text x="382" y="524">3V3 · sortie</text><text x="382" y="554">GND</text>
         </g>
         <!-- broches droite -->
         <g class="s-tm" text-anchor="end">
@@ -1136,7 +1139,7 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border-radius: 
         <g class="s-tm"><text x="708" y="444">A</text><text x="708" y="474">B</text></g>
         <g class="w w-enc"><path d="M570 340H700"/><path d="M570 370H700"/><path d="M570 440H700"/><path d="M570 470H700"/></g>
         <!-- LED -->
-        <rect x="700" y="530" width="180" height="40" rx="8" class="s-sunk"/><text x="790" y="555" text-anchor="middle" class="s-ts">LED bleue intégrée à la carte</text>
+        <rect x="700" y="530" width="180" height="40" rx="8" class="s-sunk"/><text x="790" y="555" text-anchor="middle" class="s-ts">LED externe + 220 Ω → GND</text>
         <path d="M570 550H700" class="w w-gnd" stroke-dasharray="4 4"/>
       </svg>
     </div>
@@ -1162,7 +1165,7 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border-radius: 
       <tr><td><span class="pin">34</span> <span class="pin">35</span></td><td>Encodeur G, A et B</td><td>Encodeur moteur gauche</td><td>Entrées, interruption CHANGE</td><td>Entrées seules : 10 kΩ vers 3,3 V obligatoire</td></tr>
       <tr><td><span class="pin">36</span> <span class="pin">39</span></td><td>Encodeur D, A et B</td><td>Encodeur moteur droit</td><td>Entrées, interruption CHANGE</td><td>Notées VP et VN sur certaines cartes</td></tr>
       <tr><td><span class="pin">33</span></td><td>VBAT</td><td>Point milieu du pont diviseur</td><td>ADC1</td><td>Compatible avec le Wi‑Fi (l'ADC2 ne l'est pas)</td></tr>
-      <tr><td><span class="pin">2</span></td><td>LED</td><td>LED intégrée</td><td>Sortie</td><td>Allumée = robot prêt</td></tr>
+      <tr><td><span class="pin">2</span></td><td>LED</td><td>LED externe, 220 Ω vers GND</td><td>Sortie</td><td>Allumée = robot prêt</td></tr>
       <tr><td><span class="pin">0</span></td><td>Bouton BOOT</td><td>Bouton de la carte</td><td>Entrée</td><td>Utilisé au TP1 ; ne rien brancher dessus</td></tr>
     </tbody>
   </table></div>
@@ -1171,7 +1174,7 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border-radius: 
     <h4>Trois erreurs qui détruisent une carte</h4>
     <ul>
       <li>Envoyer du 5 V sur une broche GPIO : alimenter les encodeurs et les capteurs en <strong>3,3 V</strong>.</li>
-      <li>Brancher la batterie (8,4 V) sur <span class="sig">VIN</span> : toujours passer par l'abaisseur réglé à 5,0 V.</li>
+      <li>Brancher la batterie (8,4 V) sur la broche <span class="sig">5V</span> : toujours passer par l'abaisseur réglé à 5,0 V. Et ne jamais alimenter par l'USB et par la broche 5V en même temps.</li>
       <li>Oublier la masse commune : toutes les GND doivent être reliées, sinon les signaux n'ont pas de référence.</li>
     </ul>
   </div>
@@ -1192,7 +1195,7 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border-radius: 
         <rect x="466" y="234" width="200" height="56" rx="8" class="s-box"/><text x="566" y="258" text-anchor="middle" class="s-tb">Pont 100 kΩ / 33 kΩ</text><text x="566" y="276" text-anchor="middle" class="s-ts">→ GPIO33 (≤ 2,1 V)</text>
         <g class="w w-pwr"><path d="M616 150H650"/><path d="M650 124V244"/><path d="M650 124H686"/><path d="M650 184H686"/><path d="M650 244H686"/></g>
         <circle cx="650" cy="150" r="4" class="dot-pwr"/>
-        <rect x="686" y="100" width="196" height="48" rx="8" class="s-box"/><text x="784" y="129" text-anchor="middle" class="s-tb">ESP32 · broche VIN</text>
+        <rect x="686" y="100" width="196" height="48" rx="8" class="s-box"/><text x="784" y="129" text-anchor="middle" class="s-tb">ESP32 · broche 5V</text>
         <rect x="686" y="160" width="196" height="48" rx="8" class="s-box"/><text x="784" y="189" text-anchor="middle" class="s-tb">ESP32‑CAM · 5V</text>
         <rect x="686" y="220" width="196" height="48" rx="8" class="s-box"/><text x="784" y="249" text-anchor="middle" class="s-tb">Servo SG90 · +</text>
         <rect x="686" y="12" width="196" height="64" rx="8" class="s-sunk"/>
@@ -1203,7 +1206,7 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border-radius: 
         <text x="20" y="306" class="s-ts">Toutes les masses sont reliées : batterie, abaisseur, TB6612, ESP32, ESP32‑CAM, servo, capteurs.</text><text x="20" y="324" class="s-ts">Condensateur de 470 µF sur le 5 V, près du servo et de la caméra.</text>
       </svg>
     </div>
-    <figcaption>Les moteurs prennent la tension batterie directement ; tout le reste passe par l'abaisseur 5 V. Pendant la phase A, l'ESP32 est alimentée par l'USB et le servo par l'abaisseur branché sur une alimentation de labo ou un bloc secteur 9–12 V.</figcaption>
+    <figcaption>Les moteurs prennent la tension batterie directement ; tout le reste passe par l'abaisseur 5 V. Pendant la phase A, l'ESP32 est alimentée par l'USB et le servo par l'abaisseur, branché sur la batterie 2S (avec son fusible) ou sur un bloc secteur 9–12 V.</figcaption>
   </figure>
 
   <h2>Budget de courant</h2>
@@ -1379,21 +1382,58 @@ X                                           PC → robot : arrêt immédiat</cod
 <section class="view" id="v-tp0" data-v="tp0" data-title="TP0 · Installer l'environnement" hidden>
   <p class="eyebrow">Phase A · sur table · TP0</p>
   <h1>Installer l'environnement</h1>
-  <div class="meta"><span class="chip">≈ 1 séance</span><span class="chip mp"><b>MP</b>Microprocesseurs</span></div>
+  <div class="meta"><span class="chip">≈ 1 séance</span><span class="chip">à la maison</span><span class="chip mp"><b>MP</b>Microprocesseurs</span></div>
   <div class="grid-2">
-    <div class="card"><h4>Objectif</h4><p>Un poste de travail prêt : l'IDE Arduino programme l'ESP32, Python et OpenCV fonctionnent, le dossier du projet est organisé.</p></div>
-    <div class="card"><h4>Matériel</h4><ul><li>1 ESP32 DevKit</li><li>1 câble USB de données</li><li>Le PC (Windows, Linux ou macOS)</li></ul></div>
+    <div class="card"><h4>Objectif</h4><p>Un poste de travail prêt : l'IDE Arduino programme l'ESP32, une LED externe clignote, Python et OpenCV fonctionnent, le dossier du projet est organisé.</p></div>
+    <div class="card"><h4>Matériel</h4><ul><li>1 ESP32‑DevKitC V4 (module WROOM‑32E)</li><li>1 câble micro‑USB <strong>de données</strong></li><li>1 plaque d'essai et 2 fils mâle‑mâle</li><li>1 LED 5 mm et 1 résistance de 220 Ω</li><li>Le PC (Windows, Linux ou macOS)</li></ul></div>
   </div>
 
   <div class="callout info"><h4>Les codes sont des squelettes à compléter</h4><p>Chaque bloc de code donne le rôle du fichier, ce qu'il doit faire étape par étape, les formules et les fonctions utiles, puis les signatures à remplir (repérées par « À compléter »). Les mêmes fichiers se trouvent dans <code>firmware/</code> et <code>pc/</code> du dépôt.</p></div>
 
+  <h2>Découvrir la carte</h2>
+  <p>Le projet utilise l'<strong>ESP32‑DevKitC V4</strong> d'Espressif avec le module <strong>WROOM‑32E</strong> (le nom est gravé sur le capot métallique). Avant de brancher quoi que ce soit, repérer sur la carte :</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Élément</th><th>Où / quoi</th><th>À retenir</th></tr></thead>
+    <tbody>
+      <tr><td>Port micro‑USB</td><td>Alimente la carte et sert au téléversement et au moniteur série</td><td>Un câble « charge seule » ne laisse passer aucune donnée</td></tr>
+      <tr><td>Bouton <strong>EN</strong></td><td>Redémarrage (reset)</td><td>Relance le programme depuis le début</td></tr>
+      <tr><td>Bouton <strong>BOOT</strong></td><td>Relié à <span class="pin">GPIO0</span></td><td>Sert de bouton utilisateur au TP1 ; le maintenir en appuyant sur EN fait entrer la carte en mode téléversement</td></tr>
+      <tr><td>LED rouge</td><td>Témoin d'alimentation</td><td><strong>Ce n'est pas une LED programmable</strong> : la carte n'a pas de LED utilisateur, d'où la LED externe</td></tr>
+      <tr><td>Broches <span class="sig">5V</span>, <span class="sig">3V3</span>, <span class="sig">GND</span></td><td>Alimentation</td><td><span class="sig">5V</span> s'appelle <span class="sig">VIN</span> sur d'autres cartes. Ne jamais alimenter par l'USB et par la broche 5V en même temps</td></tr>
+      <tr><td>Broches <span class="sig">IOxx</span></td><td>Les GPIO, numérotées par leur nom (IO2 = GPIO 2)</td><td>Logique en <strong>3,3 V</strong> : aucune broche ne tolère 5 V</td></tr>
+      <tr><td>Broches <span class="sig">VP</span> et <span class="sig">VN</span></td><td><span class="pin">GPIO36</span> et <span class="pin">GPIO39</span></td><td>Entrées seules, comme 34 et 35 ; elles serviront aux encodeurs</td></tr>
+      <tr><td>Broches <span class="sig">CLK</span>, <span class="sig">D0</span>–<span class="sig">D3</span>, <span class="sig">CMD</span></td><td>GPIO 6 à 11, reliées à la mémoire flash</td><td><strong>Ne jamais les utiliser</strong> : la carte ne démarrerait plus</td></tr>
+      <tr><td>Broches <span class="sig">TX</span> et <span class="sig">RX</span></td><td>GPIO 1 et 3, reliées au port USB</td><td>Réservées au moniteur série</td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout warn"><h4>Broches de démarrage</h4><p>GPIO 0, 2, 5, 12 et 15 sont lues par la puce à l'allumage pour choisir son mode de démarrage. Le projet n'utilise que GPIO 0, le bouton BOOT, qui reste à l'état haut tant qu'on n'appuie pas, et GPIO 2, avec la LED vers GND qui la garde à l'état bas. Ne jamais relier GPIO 12 au 3,3 V.</p></div>
+  <p><strong>Sur la plaque d'essai</strong> : la carte est large. Posée sur une seule plaque, elle ne laisse souvent qu'une rangée de trous libre d'un côté. Le plus pratique est de la placer à cheval sur deux plaques côte à côte, ou de câbler avec des fils femelle‑mâle directement sur ses broches.</p>
+
   <h2>Étapes</h2>
   <ol class="steps">
     <li><div><p><strong>Installer l'Arduino IDE 2</strong> depuis le site officiel d'Arduino.</p></div></li>
-    <li><div><p><strong>Ajouter les cartes ESP32.</strong> Fichier → Préférences → « URL de gestionnaire de cartes supplémentaires », coller :</p><div class="code"><div class="code-head"><span class="code-name">URL du gestionnaire de cartes</span><button class="copy" type="button">Copier</button></div><pre><code class="language-plaintext">https://espressif.github.io/arduino-esp32/package_esp32_index.json</code></pre></div><p>Puis Outils → Carte → Gestionnaire de cartes, chercher « esp32 » (par Espressif Systems) et installer une version <strong>3.x</strong>.</p></div></li>
-    <li><div><p><strong>Brancher l'ESP32.</strong> Si aucun port n'apparaît dans Outils → Port, installer le pilote de la puce USB écrite sur la carte : <strong>CP210x</strong> (Silicon Labs) ou <strong>CH340</strong>.</p></div></li>
-    <li><div><p><strong>Choisir la carte</strong> « ESP32 Dev Module » et le port (COM3, /dev/ttyUSB0…). Téléverser le programme ci-dessous, puis ouvrir le moniteur série à <strong>115200 bauds</strong>.</p><div class="code"><div class="code-head"><span class="code-name">tp0_blink.ino</span><button class="copy" type="button">Copier</button></div><pre><code class="language-cpp">/*
+    <li><div><p><strong>Ajouter les cartes ESP32.</strong> Fichier → Préférences → « URL de gestionnaire de cartes supplémentaires », coller :</p><div class="code"><div class="code-head"><span class="code-name">URL du gestionnaire de cartes</span><button class="copy" type="button">Copier</button></div><pre><code class="language-plaintext">https://espressif.github.io/arduino-esp32/package_esp32_index.json</code></pre></div><p>Puis Outils → Carte → Gestionnaire de cartes, chercher « esp32 » (par Espressif Systems) et installer une version <strong>3.x</strong>. Les fonctions PWM du projet (<code>ledcAttachChannel</code>, <code>ledcWrite</code>) n'existent pas dans les versions 2.x.</p></div></li>
+    <li><div><p><strong>Brancher l'ESP32 par l'USB.</strong> La LED rouge s'allume. Si aucun port n'apparaît dans Outils → Port, installer le pilote de la puce USB‑série, dont le nom est écrit sur la petite puce à côté du port : <strong>CP210x</strong> (Silicon Labs) sur la carte d'Espressif, parfois <strong>CH340</strong> ou <strong>CH9102</strong> sur les copies.</p></div></li>
+    <li><div><p><strong>Câbler la LED externe</strong>, carte débranchée :</p>
+      <div class="tbl"><table>
+        <thead><tr><th>De</th><th>Vers</th><th>Remarque</th></tr></thead>
+        <tbody>
+          <tr><td><span class="pin">IO2</span></td><td>Résistance 220 Ω</td><td>Limite le courant à ≈ 6 mA : (3,3 − 2,0) V / 220 Ω</td></tr>
+          <tr><td>Autre patte de la résistance</td><td>Anode de la LED</td><td>Patte la plus longue</td></tr>
+          <tr><td>Cathode de la LED</td><td><span class="pin">GND</span></td><td>Patte courte, côté plat du boîtier</td></tr>
+        </tbody>
+      </table></div>
+      <p>Ce sens (GPIO → LED → GND) est obligatoire : il garde GPIO 2 à l'état bas au démarrage. Une LED montée à l'envers ne s'allume simplement pas ; on la retourne.</p></div></li>
+    <li><div><p><strong>Choisir la carte</strong> « ESP32 Dev Module » et le port (COM3, /dev/ttyUSB0…). Compléter le programme ci-dessous, le téléverser, puis ouvrir le moniteur série à <strong>115200 bauds</strong>.</p><div class="code"><div class="code-head"><span class="code-name">tp0_blink.ino</span><button class="copy" type="button">Copier</button></div><pre><code class="language-cpp">/*
  * TP0 — Premier programme : LED + moniteur série
+ *
+ * Carte : ESP32-DevKitC V4 (module WROOM-32E). Elle n'a PAS de LED utilisateur
+ * (la LED rouge ne fait que signaler l'alimentation) : on branche une LED
+ * externe sur GPIO 2, dans ce sens :
+ *     GPIO 2 -&gt; résistance 220 Ω -&gt; anode de la LED (patte longue)
+ *     cathode (patte courte, côté plat) -&gt; GND
+ * Ne pas relier la LED au 3,3 V : GPIO 2 doit rester à l'état bas au démarrage,
+ * sinon le téléversement peut échouer.
  *
  * But : vérifier que toute la chaîne fonctionne (IDE, pilote USB, carte,
  * téléversement, moniteur série) avant d'écrire du vrai code.
@@ -1401,7 +1441,7 @@ X                                           PC → robot : arrêt immédiat</cod
  * Ce que le programme doit faire :
  *   - au démarrage, ouvrir le port série à 115200 bauds et afficher un message
  *     de bienvenue ;
- *   - faire clignoter la LED intégrée (GPIO 2) : 500 ms allumée, 500 ms éteinte ;
+ *   - faire clignoter la LED (GPIO 2) : 500 ms allumée, 500 ms éteinte ;
  *   - à chaque clignotement, afficher le temps écoulé depuis le démarrage (millis()).
  *
  * Fonctions utiles : Serial.begin, Serial.println, Serial.printf, pinMode,
@@ -1410,7 +1450,7 @@ X                                           PC → robot : arrêt immédiat</cod
  * Validation : la LED clignote à 1 Hz et le moniteur série (115200 bauds)
  * affiche un temps qui augmente d'environ 1000 ms à chaque ligne.
  */
-const int LED = 2;          // LED bleue intégrée à la carte DevKit
+const int LED = 2;          // LED externe + 220 Ω vers GND (pas de LED utilisateur sur la DevKitC V4)
 
 void setup() {
   // À compléter : ouvrir le port série, configurer la LED en sortie, saluer.
@@ -1445,16 +1485,21 @@ python -c "import cv2, numpy; print('OpenCV', cv2.__version__, '- numpy', numpy.
   </ol>
 
   <div class="callout ok"><h4>Validation</h4><ul>
-    <li>La LED bleue clignote et le moniteur série affiche « Bonjour, ESP32 pret ! » puis le temps écoulé.</li>
+    <li>La LED externe clignote à 1 Hz et le moniteur série affiche le message de bienvenue puis le temps écoulé (≈ +1000 ms par ligne).</li>
+    <li>Appuyer sur EN relance le programme : le message de bienvenue réapparaît.</li>
     <li>La commande Python affiche la version d'OpenCV sans erreur.</li>
   </ul></div>
   <div class="callout warn"><h4>Pièges fréquents</h4><ul>
-    <li><strong>« Failed to connect to ESP32: Wrong boot mode »</strong> : maintenir le bouton BOOT pendant que l'IDE affiche « Connecting… ».</li>
+    <li><strong>Rien ne clignote sur la carte</strong> : c'est normal, la LED rouge n'est qu'un témoin d'alimentation. Vérifier la LED externe : sens, résistance, broche IO2.</li>
+    <li><strong>« Failed to connect to ESP32: Wrong boot mode »</strong> : maintenir le bouton BOOT pendant que l'IDE affiche « Connecting… », le relâcher quand le pourcentage défile.</li>
     <li><strong>Aucun port</strong> : câble de charge seule, ou pilote manquant. Essayer un autre câble.</li>
+    <li><strong>Texte illisible dans le moniteur</strong> : vitesse différente de 115200 bauds.</li>
     <li><strong>Linux, « permission denied »</strong> sur /dev/ttyUSB0 : ajouter l'utilisateur au groupe <code>dialout</code> puis se reconnecter.</li>
   </ul></div>
   <div class="checklist" data-tp="tp0"><h4>Checklist <small>TP0</small></h4>
     <label><input type="checkbox" id="tp0-c1"><span>Arduino IDE 2 et cartes ESP32 3.x installés</span></label>
+    <label><input type="checkbox" id="tp0-c6"><span>Carte repérée : EN, BOOT, 5V, 3V3, broches à ne pas utiliser</span></label>
+    <label><input type="checkbox" id="tp0-c7"><span>LED externe câblée sur IO2, vers GND</span></label>
     <label><input type="checkbox" id="tp0-c2"><span>Blink téléversé, LED et moniteur série OK</span></label>
     <label><input type="checkbox" id="tp0-c3"><span>Bibliothèque VL53L1X (Pololu) installée</span></label>
     <label><input type="checkbox" id="tp0-c4"><span>Python, venv et bibliothèques installés</span></label>
@@ -1466,77 +1511,143 @@ python -c "import cv2, numpy; print('OpenCV', cv2.__version__, '- numpy', numpy.
 <section class="view" id="v-tp1" data-v="tp1" data-title="TP1 · ESP32 : GPIO, PWM, timers" hidden>
   <p class="eyebrow">Phase A · sur table · TP1</p>
   <h1>ESP32 : GPIO, PWM, interruptions et tâches non bloquantes</h1>
-  <div class="meta"><span class="chip">≈ 1 séance</span><span class="chip mp"><b>MP</b>Microprocesseurs</span></div>
+  <div class="meta"><span class="chip">≈ 1 à 2 séances</span><span class="chip">à la maison</span><span class="chip mp"><b>MP</b>Microprocesseurs</span></div>
   <div class="grid-2">
-    <div class="card"><h4>Objectif</h4><p>Maîtriser les trois mécanismes utilisés dans tout le projet : la PWM matérielle (LEDC), les interruptions, et l'ordonnancement de plusieurs tâches avec <code>millis()</code> sans jamais bloquer la boucle.</p></div>
-    <div class="card"><h4>Matériel</h4><ul><li>ESP32 DevKit (LED et bouton intégrés)</li><li>Oscilloscope</li><li>Option : LED externe + 220 Ω</li></ul></div>
+    <div class="card"><h4>Objectif</h4><p>Maîtriser les trois mécanismes utilisés dans tout le projet : la PWM matérielle (LEDC), les interruptions, et l'ordonnancement de plusieurs tâches avec <code>millis()</code> sans jamais bloquer la boucle. Et apprendre à <strong>mesurer</strong> une PWM sans oscilloscope.</p></div>
+    <div class="card"><h4>Matériel</h4><ul><li>ESP32‑DevKitC V4 et le montage LED du TP0</li><li>1 fil mâle‑mâle (mesure de la PWM)</li><li>Le bouton BOOT de la carte</li><li>Multimètre</li><li>Pas d'oscilloscope : l'ESP32 et le multimètre le remplacent</li></ul></div>
   </div>
 
   <h2>Ce qu'il faut comprendre</h2>
   <div class="grid-2">
-    <div class="card"><h4>La PWM LEDC</h4><p class="small">Un compteur matériel compare sa valeur au rapport cyclique et bascule la sortie, sans utiliser le processeur. L'ESP32 a 16 canaux et 8 timers ; deux canaux qui partagent un timer ont la même fréquence. D'où notre répartition : moteurs sur les canaux 0 et 1 (timer 0, 20 kHz), servo sur le canal 2 (timer 1, 50 Hz), LED sur le canal 4.</p></div>
-    <div class="card"><h4>La boucle non bloquante</h4><p class="small">Chaque tâche regarde l'heure (<code>millis()</code>) et ne s'exécute que si sa période est écoulée. La boucle tourne des milliers de fois par seconde et aucune tâche n'empêche les autres de s'exécuter. Un <code>delay()</code> bloquerait tout : réception Wi‑Fi, régulation, balayage.</p></div>
+    <div class="card"><h4>La PWM</h4><p class="small">Une sortie qui bascule très vite entre 0 et 3,3 V. Le <strong>rapport cyclique</strong> est la fraction du temps passée à l'état haut. À 5 kHz, l'œil ne voit pas les basculements : il voit la moyenne, donc une luminosité. Un moteur réagit de la même façon : la PWM règle sa vitesse.</p></div>
+    <div class="card"><h4>Le périphérique LEDC</h4><p class="small">Un compteur matériel compare sa valeur au rapport cyclique et bascule la sortie, sans utiliser le processeur. L'ESP32 a 16 canaux et 8 timers ; deux canaux qui partagent un timer ont la même fréquence. D'où notre répartition : moteurs sur les canaux 0 et 1 (timer 0, 20 kHz), servo sur le canal 2 (timer 1, 50 Hz), LED sur le canal 4.</p></div>
+    <div class="card"><h4>Fréquence et résolution</h4><p class="small">Avec <em>n</em> bits, le rapport cyclique va de 0 à 2<sup>n</sup> − 1. Le compteur avance au rythme d'une horloge de 80 MHz, il faut donc <code>f × 2<sup>n</sup> ≤ 80 MHz</code>. À 5 kHz, 8 bits passent largement ; à 20 kHz, 12 bits sont refusés (20 kHz × 4096 = 81,9 MHz).</p></div>
+    <div class="card"><h4>Les interruptions</h4><p class="small">Au lieu de surveiller le bouton en permanence, on demande à la puce d'appeler une fonction (l'<strong>ISR</strong>) au moment exact du front. L'ISR interrompt <code>loop()</code> : elle doit être très courte, marquée <code>IRAM_ATTR</code>, et ne modifier que des variables <code>volatile</code>. Jamais de <code>Serial</code> ni de <code>delay()</code> dedans.</p></div>
+    <div class="card"><h4>Les rebonds</h4><p class="small">Un contact mécanique « rebondit » pendant quelques millisecondes : un seul appui produit plusieurs fronts, donc plusieurs interruptions. L'anti-rebond logiciel ignore les fronts trop proches du précédent (50 ms suffisent pour un bouton).</p></div>
+    <div class="card"><h4>La boucle non bloquante</h4><p class="small">Chaque tâche regarde l'heure (<code>millis()</code>) et ne s'exécute que si sa période est écoulée. La boucle tourne des milliers de fois par seconde et aucune tâche n'empêche les autres. Un <code>delay()</code> bloquerait tout : réception Wi‑Fi, régulation, balayage.</p></div>
   </div>
 
+  <h2>Simulation : la PWM sans oscilloscope</h2>
+  <div class="widget" data-widget="pwm"></div>
+
+  <h2>Montage</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>De</th><th>Vers</th><th>Rôle</th></tr></thead>
+    <tbody>
+      <tr><td><span class="pin">IO2</span> → 220 Ω → LED → <span class="pin">GND</span></td><td>Montage du TP0, inchangé</td><td>Sortie PWM visible</td></tr>
+      <tr><td><span class="pin">IO2</span></td><td><span class="pin">IO4</span>, par un fil</td><td>L'ESP32 relit sa propre PWM pour la mesurer (partie D)</td></tr>
+      <tr><td>Bouton BOOT</td><td>Déjà relié à <span class="pin">GPIO0</span> sur la carte</td><td>Entrée pour l'interruption (partie C)</td></tr>
+    </tbody>
+  </table></div>
+
   <h2>Étapes</h2>
-  <ol class="steps">
-    <li><div><p>Téléverser le programme et observer la LED qui s'allume et s'éteint progressivement.</p><div class="code"><div class="code-head"><span class="code-name">tp1_pwm.ino</span><button class="copy" type="button">Copier</button></div><pre><code class="language-cpp">/*
+  <p>Tout se fait dans un seul croquis, <code>tp1_pwm.ino</code>, complété partie par partie. Téléverser et vérifier après chaque partie : une erreur est bien plus facile à trouver dans 5 lignes nouvelles que dans 50.</p>
+  <div class="code"><div class="code-head"><span class="code-name">tp1_pwm.ino</span><button class="copy" type="button">Copier</button></div><pre><code class="language-cpp">/*
  * TP1 — PWM matériel (LEDC), interruption et tâches non bloquantes
  *
- * But : faire « respirer » la LED avec une PWM matérielle, compter les appuis
- * sur le bouton BOOT par interruption, et faire tourner deux tâches à des
- * rythmes différents SANS jamais appeler delay().
+ * Carte : ESP32-DevKitC V4 (WROOM-32E). Câblage :
+ *   - LED externe : GPIO 2 -&gt; 220 Ω -&gt; anode ; cathode -&gt; GND (comme au TP0) ;
+ *   - fil de mesure : GPIO 2 relié à GPIO 4 (partie D) ;
+ *   - bouton : le bouton BOOT de la carte, déjà relié à GPIO 0.
+ * Aucun oscilloscope n'est nécessaire : l'ESP32 mesure lui-même sa PWM.
  *
- * Ce que le programme doit faire :
- *   1. PWM : attacher la LED à un canal LEDC (5 kHz, 8 bits, donc 0..255) avec
- *      ledcAttachChannel(broche, fréquence, résolution, canal), puis régler le
- *      rapport cyclique avec ledcWrite(broche, valeur).
- *   2. Interruption : le bouton BOOT (GPIO 0) est actif à l'état bas. Le
- *      configurer en INPUT_PULLUP et lui attacher une ISR sur front descendant.
- *      L'ISR (IRAM_ATTR) ne fait qu'incrémenter un compteur « volatile » :
- *      jamais de Serial ni de delay dans une ISR.
- *   3. Ordonnancement non bloquant dans loop() :
- *        - toutes les 20 ms : faire varier le rapport cyclique de ±5 et
- *          inverser le sens aux bornes 0 et 255 ;
+ * Le travail se fait en parties successives (voir le manuel) ; chaque partie
+ * ajoute un morceau à ce même fichier.
+ *
+ *   A. PWM fixe : attacher la LED à un canal LEDC (5 kHz, 8 bits, donc 0..255)
+ *      avec ledcAttachChannel(broche, fréquence, résolution, canal) et afficher
+ *      la valeur renvoyée (true = configuration acceptée). Régler le rapport
+ *      cyclique avec ledcWrite(broche, valeur). Essayer 0, 64, 128, 191, 255.
+ *   B. Tâches non bloquantes dans loop(), SANS delay() :
+ *        - toutes les 20 ms : rapport cyclique ± 5, sens inversé aux bornes 0 et 255 ;
  *        - toutes les 1000 ms : afficher le rapport cyclique et le nombre d'appuis.
- *      Méthode : mémoriser l'instant du dernier passage (millis()) et ne faire
- *      la tâche que si « maintenant - dernier &gt;= période ».
+ *      Méthode : mémoriser l'instant du dernier passage et ne faire la tâche que
+ *      si « maintenant - dernier &gt;= période » (soustraction en uint32_t : elle
+ *      reste juste quand millis() repasse par zéro, au bout de 49 jours).
+ *   C. Interruption : le bouton BOOT (GPIO 0) est actif à l'état bas. Le configurer
+ *      en INPUT_PULLUP et lui attacher une ISR sur front descendant. L'ISR
+ *      (IRAM_ATTR) ne fait qu'incrémenter un compteur « volatile » : jamais de
+ *      Serial ni de delay dans une ISR. Puis anti-rebond : ignorer un front arrivé
+ *      moins de 50 ms après le précédent accepté (millis() est utilisable dans
+ *      une ISR sur l'ESP32).
+ *   D. Mesure de la PWM sans oscilloscope : mesurerPwm() lit sur GPIO 4 la durée
+ *      de l'état haut et celle de l'état bas avec pulseIn(MESURE, HIGH / LOW, délai)
+ *      (en µs ; 0 si rien n'arrive avant le délai), puis en déduit la période, la
+ *      fréquence et le rapport cyclique, et les affiche. Attendu à 5 kHz :
+ *      période 200 µs, temps haut = valeur / 255 × 200 µs.
+ *   E. Pour le traceur série de l'IDE : envoyer une ligne « duty:&lt;valeur&gt; » à
+ *      chaque pas de la tâche des 20 ms pour voir le triangle du rapport cyclique.
  *
- * Validation : la LED s'allume et s'éteint progressivement (~2 s par cycle),
- * chaque appui sur BOOT incrémente le compteur, même pendant la variation.
+ * Validation : la LED s'allume et s'éteint progressivement (≈ 2 s par cycle),
+ * chaque appui sur BOOT compte une fois, la mesure par l'ESP32 et celle du
+ * multimètre concordent avec le calcul.
  */
-const int LED    = 2;
+const int LED    = 2;              // LED externe + 220 Ω vers GND
 const int BOUTON = 0;              // bouton BOOT de la carte (actif à l'état bas)
+const int MESURE = 4;              // relié à GPIO 2 par un fil : mesure de la PWM (partie D)
 const int LED_CH = 4;              // canal LEDC n°4 (timer 2)
 
 volatile uint32_t appuis = 0;
 
 void IRAM_ATTR onBouton() {
-  // À compléter : une seule ligne.
+  // À compléter (partie C) : incrémenter le compteur, puis ajouter l'anti-rebond.
+}
+
+void mesurerPwm() {
+  // À compléter (partie D).
 }
 
 void setup() {
-  // À compléter : port série, bouton + interruption, canal PWM de la LED.
+  // À compléter : port série, canal PWM de la LED (partie A), entrée de mesure,
+  // bouton + interruption (partie C).
 }
 
 void loop() {
-  // À compléter : les deux tâches périodiques décrites plus haut.
-}</code></pre></div></div></li>
-    <li><div><p><strong>Oscilloscope sur <span class="pin">GPIO2</span></strong> : mesurer la période (attendu 200 µs, soit 5 kHz) et vérifier que le rapport cyclique vaut <code>duty / 255</code>.</p></div></li>
-    <li><div><p>Appuyer sur BOOT et regarder le compteur. Un seul appui compte parfois 2 ou 3 fois : ce sont les <strong>rebonds</strong> mécaniques. Ajouter un anti-rebond dans l'ISR : ignorer un front arrivé moins de 50 ms après le précédent.</p></div></li>
-    <li><div><p>Remplacer temporairement la tâche 1 par un <code>delay(20)</code> dans la boucle, ajouter une troisième tâche, et constater le décalage des périodes. Revenir à la version non bloquante.</p></div></li>
-    <li><div><p>Passer à 20 kHz et 10 bits, puis à 20 kHz et 12 bits. Expliquer pourquoi la deuxième configuration est refusée : la fréquence de base de 80 MHz impose <code>f × 2<sup>bits</sup> ≤ 80 MHz</code>.</p></div></li>
+  // À compléter : les tâches périodiques (parties B, D et E).
+}</code></pre></div>
+  <ol class="steps">
+    <li><div><p><strong>Partie A · PWM fixe.</strong> Dans <code>setup()</code>, attacher la LED au canal 4 à 5 kHz et 8 bits, et afficher ce que renvoie <code>ledcAttachChannel</code>. Écrire successivement les valeurs 0, 64, 128, 191 et 255 (une par téléversement, ou toutes les 3 s avec une tâche).</p><p>Observer la luminosité, puis <strong>mesurer au multimètre</strong> en tension continue (calibre 20 V), pointe rouge sur IO2, pointe noire sur GND. Le multimètre ne suit pas les basculements : il affiche la moyenne, ≈ 3,3 V × valeur / 255.</p>
+      <div class="tbl"><table>
+        <thead><tr><th class="num">Valeur</th><th class="num">Rapport cyclique</th><th class="num">Temps haut à 5 kHz</th><th class="num">Multimètre attendu</th><th>Mesuré</th></tr></thead>
+        <tbody>
+          <tr><td class="num">0</td><td class="num">0 %</td><td class="num">0 µs</td><td class="num">0,00 V</td><td></td></tr>
+          <tr><td class="num">64</td><td class="num">25 %</td><td class="num">50 µs</td><td class="num">≈ 0,83 V</td><td></td></tr>
+          <tr><td class="num">128</td><td class="num">50 %</td><td class="num">100 µs</td><td class="num">≈ 1,65 V</td><td></td></tr>
+          <tr><td class="num">191</td><td class="num">75 %</td><td class="num">150 µs</td><td class="num">≈ 2,47 V</td><td></td></tr>
+          <tr><td class="num">255</td><td class="num">100 %</td><td class="num">200 µs</td><td class="num">≈ 3,3 V</td><td></td></tr>
+        </tbody>
+      </table></div>
+      <p class="small muted">La LED consomme un peu de courant : la tension à l'état haut tombe légèrement sous 3,3 V, d'où des mesures un peu plus basses. Si le multimètre a une position « Hz », il affiche directement la fréquence : ≈ 5 000 Hz.</p></div></li>
+    <li><div><p><strong>Partie B · Respiration sans <code>delay()</code>.</strong> Écrire la tâche des 20 ms (rapport cyclique ± 5, sens inversé aux bornes) et celle des 1000 ms (affichage). Avec des pas de 5 toutes les 20 ms, un aller-retour 0 → 255 → 0 dure 2 × 51 × 20 ms ≈ 2 s : le vérifier au chronomètre du téléphone sur 10 cycles (≈ 20 s).</p></div></li>
+    <li><div><p><strong>Partie C · Interruption sur le bouton BOOT.</strong> Configurer GPIO 0 en <code>INPUT_PULLUP</code>, attacher l'ISR sur front descendant, et afficher le compteur dans la tâche des 1000 ms. Appuyer 20 fois en comptant : le compteur dépasse souvent 20, à cause des <strong>rebonds</strong>. Noter le nombre obtenu, ajouter l'anti-rebond de 50 ms dans l'ISR, recommencer : on doit lire exactement 20.</p><p class="small muted">Pendant ce temps, la LED continue de respirer sans à-coup : l'interruption ne bloque rien.</p></div></li>
+    <li><div><p><strong>Partie D · L'ESP32 mesure sa propre PWM.</strong> Relier IO2 à IO4 par un fil. Compléter <code>mesurerPwm()</code> : <code>pulseIn(MESURE, HIGH, délai)</code> donne la durée de l'état haut en µs, <code>pulseIn(MESURE, LOW, délai)</code> celle de l'état bas. En déduire la période (haut + bas), la fréquence (10<sup>6</sup> / période) et le rapport cyclique (haut / période). L'appeler dans la tâche des 1000 ms.</p><p>Comparer au tableau de la partie A et à la simulation plus haut. Attendu : période 200 ± 2 µs. Aux valeurs 0 et 255, un des deux <code>pulseIn</code> renvoie 0 : la sortie ne bascule plus, c'est normal.</p></div></li>
+    <li><div><p><strong>Partie E · Courbe pour le rapport.</strong> Fermer le moniteur série, ouvrir Outils → <strong>Traceur série</strong>. Avec une ligne <code>duty:&lt;valeur&gt;</code> à chaque pas de 20 ms, on voit le triangle du rapport cyclique. Faire une capture d'écran : elle remplace la capture d'oscilloscope dans le rapport.</p></div></li>
+    <li><div><p><strong>Expérience : ce que coûte un <code>delay()</code>.</strong> Ajouter une troisième tâche qui affiche <code>micros()</code> toutes les 100 ms, et calculer l'écart entre deux lignes : ≈ 100 000 µs. Ajouter ensuite un <code>delay(300)</code> dans <code>loop()</code> : les écarts passent à ≈ 300 000 µs, la respiration devient saccadée, et les appuis ne s'affichent plus qu'en retard. Noter les valeurs, puis retirer le <code>delay()</code>.</p></div></li>
+    <li><div><p><strong>Limites de la PWM.</strong> Passer la LED à 20 kHz et 10 bits, puis à 20 kHz et 12 bits, en affichant à chaque fois la valeur renvoyée par <code>ledcAttachChannel</code>. Expliquer le refus avec <code>f × 2<sup>n</sup> ≤ 80 MHz</code>, puis le vérifier dans la simulation. Revenir à 5 kHz et 8 bits.</p></div></li>
   </ol>
+
   <div class="callout ok"><h4>Validation</h4><ul>
-    <li>Fréquence mesurée de 5 kHz à 1 % près, rapport cyclique conforme à la valeur affichée.</li>
-    <li>Un appui sur BOOT = une incrémentation, avec l'anti-rebond.</li>
-    <li>Vous savez expliquer à l'oral pourquoi le firmware final n'utilise jamais <code>delay()</code> dans <code>loop()</code>.</li>
+    <li>Les cinq mesures au multimètre sont à ± 0,15 V des valeurs attendues.</li>
+    <li>La mesure par l'ESP32 donne une période de 200 ± 2 µs et un rapport cyclique conforme à la valeur écrite à ± 1 %.</li>
+    <li>20 appuis sur BOOT = un compteur à 20, avec l'anti-rebond.</li>
+    <li>La respiration dure ≈ 2 s par cycle, sans saccade, pendant qu'on appuie sur le bouton.</li>
+    <li>Vous savez expliquer à l'oral pourquoi le firmware final n'utilise jamais <code>delay()</code> dans <code>loop()</code>, et pourquoi 20 kHz en 12 bits est refusé.</li>
   </ul></div>
-  <div class="callout"><h4>Pour le rapport</h4><p>Une capture d'oscilloscope de la PWM avec fréquence et rapport cyclique mesurés, et un chronogramme montrant deux tâches de périodes différentes.</p></div>
+  <div class="callout warn"><h4>Pièges fréquents</h4><ul>
+    <li><strong><code>ledcAttachChannel</code> « was not declared »</strong> : version 2.x des cartes ESP32 installée. Passer à la 3.x (TP0).</li>
+    <li><strong>La carte redémarre en boucle (« Guru Meditation Error »)</strong> : <code>Serial</code> ou <code>delay()</code> dans l'ISR, ou ISR sans <code>IRAM_ATTR</code>.</li>
+    <li><strong>Le compteur reste à 0</strong> : <code>appuis</code> pas déclaré <code>volatile</code>, mauvais front, ou <code>INPUT_PULLUP</code> oublié.</li>
+    <li><strong>Le téléversement échoue depuis le montage</strong> : LED reliée au 3,3 V au lieu de GND, ce qui force GPIO 2 à l'état haut au démarrage.</li>
+    <li><strong>Appuyer sur BOOT pendant un redémarrage</strong> fait entrer la carte en mode téléversement (« waiting for download ») : appuyer sur EN pour repartir.</li>
+    <li><strong><code>pulseIn</code> renvoie toujours 0</strong> : fil IO2 → IO4 absent, ou <code>pinMode(MESURE, INPUT)</code> oublié.</li>
+  </ul></div>
+  <div class="callout"><h4>Pour le rapport</h4><p>Le tableau des mesures (multimètre et ESP32) comparé au calcul, la capture du traceur série, le nombre d'appuis comptés avec et sans anti-rebond, et les écarts de temps mesurés avec et sans <code>delay()</code>.</p></div>
   <div class="checklist" data-tp="tp1"><h4>Checklist <small>TP1</small></h4>
-    <label><input type="checkbox" id="tp1-c1"><span>PWM observée et mesurée à l'oscilloscope</span></label>
-    <label><input type="checkbox" id="tp1-c2"><span>Interruption sur le bouton avec anti-rebond</span></label>
+    <label><input type="checkbox" id="tp1-c5"><span>Fil de mesure IO2 → IO4 en place</span></label>
+    <label><input type="checkbox" id="tp1-c1"><span>PWM mesurée au multimètre et par l'ESP32</span></label>
     <label><input type="checkbox" id="tp1-c3"><span>Deux tâches périodiques sans delay()</span></label>
+    <label><input type="checkbox" id="tp1-c2"><span>Interruption sur le bouton avec anti-rebond</span></label>
+    <label><input type="checkbox" id="tp1-c6"><span>Courbe du traceur série capturée</span></label>
     <label><input type="checkbox" id="tp1-c4"><span>Relation fréquence / résolution expliquée</span></label>
   </div>
 </section>
@@ -1710,7 +1821,7 @@ if __name__ == "__main__":
   <div class="meta"><span class="chip">≈ 2 séances</span><span class="chip mp"><b>MP</b>Microprocesseurs</span><span class="chip ts"><b>TS</b>Traitement du Signal</span><span class="chip fe"><b>FE</b>Fonctions Électroniques</span></div>
   <div class="grid-2">
     <div class="card"><h4>Objectif</h4><p>Faire tourner le capteur sur 180° et obtenir une « photo » des distances autour de lui. Le code de balayage, écrit ici sous forme de machine d'états, sera réutilisé tel quel sur le robot.</p></div>
-    <div class="card"><h4>Matériel</h4><ul><li>Montage du TP2</li><li>Servo SG90 ou MG90S</li><li>Abaisseur 5 V + alimentation 9–12 V (ou alimentation de labo à 5 V)</li><li>Rapporteur, quelques boîtes en carton</li></ul></div>
+    <div class="card"><h4>Matériel</h4><ul><li>Montage du TP2</li><li>Servo SG90 ou MG90S</li><li>Abaisseur 5 V alimenté par la batterie 2S avec son fusible (ou un bloc secteur 9–12 V)</li><li>Rapporteur, quelques boîtes en carton</li></ul></div>
   </div>
 
   <h2>Montage</h2>
@@ -2062,7 +2173,7 @@ if __name__ == "__main__":
   </ul></div>
   <div class="callout warn"><h4>Pièges fréquents</h4><ul>
     <li>L'ESP32 ne se connecte pas : réseau en 5 GHz, ou mot de passe faux.</li>
-    <li>Rien n'arrive sur le PC : pare-feu Windows, ou PC connecté à un autre réseau (Ethernet, Wi‑Fi de la fac).</li>
+    <li>Rien n'arrive sur le PC : pare-feu Windows, ou PC connecté à un autre réseau (Ethernet, Wi‑Fi de la box ou de l'université).</li>
     <li>Ça marchait hier : l'IP a changé. La relire au moniteur série.</li>
   </ul></div>
   <div class="checklist" data-tp="tp4"><h4>Checklist <small>TP4</small></h4>
@@ -2436,14 +2547,14 @@ void loop() {
   <div class="meta"><span class="chip">≈ 3 séances</span><span class="chip fe"><b>FE</b>Fonctions Électroniques</span><span class="chip mp"><b>MP</b>Microprocesseurs</span><span class="chip ts"><b>TS</b>Traitement du Signal</span></div>
   <div class="grid-2">
     <div class="card"><h4>Objectif</h4><p>Commander les moteurs par le pont en H, compter les ticks des encodeurs, identifier le modèle du moteur et régler un PI qui tient une vitesse en mm/s, même quand on freine la roue avec le doigt.</p></div>
-    <div class="card"><h4>Matériel</h4><ul><li>ESP32 + plaque d'essai</li><li>TB6612FNG, 2 motoréducteurs à encodeur, 2 roues</li><li>4 résistances de 10 kΩ, 2 condensateurs de 100 nF</li><li>Alimentation de labo 7,4 V limitée à 1 A (ou la batterie)</li><li>Oscilloscope</li></ul></div>
+    <div class="card"><h4>Matériel</h4><ul><li>ESP32 + plaque d'essai</li><li>TB6612FNG, 2 motoréducteurs à encodeur, 2 roues</li><li>4 résistances de 10 kΩ, 2 condensateurs de 100 nF</li><li>La batterie 2S avec son interrupteur et son fusible</li><li>Multimètre</li></ul></div>
   </div>
 
   <h2>Montage</h2>
   <div class="tbl"><table>
     <thead><tr><th>TB6612</th><th>Relié à</th><th></th><th>Encodeurs</th><th>Relié à</th></tr></thead>
     <tbody>
-      <tr><td>VM</td><td>+7,4 V (labo ou batterie)</td><td></td><td>VCC (les deux)</td><td><span class="pin">3V3</span></td></tr>
+      <tr><td>VM</td><td>+7,4 V (batterie, après le fusible)</td><td></td><td>VCC (les deux)</td><td><span class="pin">3V3</span></td></tr>
       <tr><td>VCC</td><td><span class="pin">3V3</span></td><td></td><td>GND (les deux)</td><td><span class="pin">GND</span></td></tr>
       <tr><td>GND</td><td>GND commun</td><td></td><td>Gauche A</td><td><span class="pin">GPIO34</span> + 10 kΩ vers 3V3</td></tr>
       <tr><td>PWMA, AIN1, AIN2</td><td><span class="pin">GPIO25</span> <span class="pin">26</span> <span class="pin">27</span></td><td></td><td>Gauche B</td><td><span class="pin">GPIO35</span> + 10 kΩ vers 3V3</td></tr>
@@ -2455,7 +2566,7 @@ void loop() {
   <div class="callout warn"><h4>Avant de mettre sous tension</h4><ul>
     <li>Souder un condensateur de 100 nF directement sur les bornes de chaque moteur : il absorbe les parasites des balais.</li>
     <li>Vérifier sur la fiche du moteur que l'encodeur accepte 3,3 V (c'est le cas de la plupart). Alimenté en 5 V, il enverrait 5 V sur l'ESP32.</li>
-    <li>Roues en l'air, alimentation limitée à 1 A.</li>
+    <li>Roues en l'air, batterie protégée par son fusible ; premiers essais avec de petites valeurs de PWM (p 60 à p 100).</li>
   </ul></div>
 
   <h2>Le code (5 fichiers dans le dossier <code>tp7_banc_moteur</code>)</h2>
@@ -2661,7 +2772,7 @@ void loop() {
   <h2>Étapes</h2>
   <ol class="steps">
     <li><div><p><strong>Sens de rotation.</strong> Envoyer <code>p 100</code> dans le moniteur série. Les deux roues doivent tourner « en avant ». Sinon, passer <code>MOTOR_L_SIGN</code> ou <code>MOTOR_R_SIGN</code> à −1.</p></div></li>
-    <li><div><p><strong>Oscilloscope</strong> sur <span class="pin">GPIO25</span> : PWM à 20 kHz, rapport cyclique 100/255. Puis sur les voies A et B d'un encodeur : deux carrés décalés d'un quart de période. Inverser le sens et observer que l'ordre A/B s'inverse.</p></div></li>
+    <li><div><p><strong>Vérifier sans oscilloscope.</strong> PWM : avec <code>p 100</code>, le multimètre en continu sur <span class="pin">GPIO25</span> affiche ≈ 1,3 V (3,3 V × 100 / 255). Encodeurs : roues arrêtées, tourner une roue très lentement à la main ; le multimètre sur la voie A bascule entre 0 et 3,3 V à chaque cran, et la commande <code>t</code> montre des ticks qui augmentent dans un sens et diminuent dans l'autre. Si une roue compte à l'envers, passer <code>ENC_L_SIGN</code> ou <code>ENC_R_SIGN</code> à −1.</p></div></li>
     <li><div><p><strong>Ticks par tour.</strong> Envoyer <code>s</code>, puis <code>t</code>. Faire 10 tours de roue à la main (repère au scotch), renvoyer <code>t</code>. La différence divisée par 10 donne <code>TICKS_PER_REV</code>. Comparer à la théorie : impulsions par tour moteur × rapport × 4. Si les ticks diminuent en avançant, mettre <code>ENC_x_SIGN</code> à −1.</p></div></li>
     <li><div><p><strong>Réponse indicielle.</strong> Fermer le moniteur série et enregistrer un échelon de PWM 150, puis l'analyser :</p><div class="code"><div class="code-head"><span class="code-name">pc/tools/log_serial.py</span><button class="copy" type="button">Copier</button></div><pre><code class="language-python">"""TP7 — Enregistre les lignes CSV du port série pendant N secondes.
 
@@ -2749,7 +2860,7 @@ if __name__ == "__main__":
     <li>Ticks qui bougent moteur à l'arrêt : parasites ; condensateurs sur les moteurs, fils d'encodeur torsadés et éloignés des fils moteur.</li>
     <li>Le moteur ne démarre pas sous une PWM d'environ 40 : c'est la zone morte (frottements), normale.</li>
   </ul></div>
-  <div class="callout"><h4>Pour le rapport</h4><p>Les signaux A/B à l'oscilloscope, la réponse indicielle avec son modèle, le calcul de KP et KI, la courbe en boucle fermée avec la perturbation (doigt).</p></div>
+  <div class="callout"><h4>Pour le rapport</h4><p>Le comptage des ticks dans les deux sens, la réponse indicielle avec son modèle, le calcul de KP et KI, la courbe en boucle fermée avec la perturbation (doigt).</p></div>
   <div class="checklist" data-tp="tp7"><h4>Checklist <small>TP7</small></h4>
     <label><input type="checkbox" id="tp7-c1"><span>Pont en H câblé, sens des moteurs corrects</span></label>
     <label><input type="checkbox" id="tp7-c2"><span>Signaux PWM et quadrature observés</span></label>
@@ -2853,7 +2964,7 @@ float readVbat() {                                    // en volts, moyenne de 16
   </ul></div>
   <div class="callout warn"><h4>Pièges fréquents</h4><ul>
     <li><strong>« Brownout detector was triggered »</strong> au moniteur série : chute du 5 V. Fils plus gros, condensateur, vérifier l'abaisseur.</li>
-    <li><strong>USB et batterie en même temps</strong> : la plupart des cartes ont une diode entre l'USB et VIN. Vérifier sur la vôtre ; sinon débrancher le fil VIN pour téléverser.</li>
+    <li><strong>USB et batterie en même temps</strong> : ne jamais alimenter la DevKitC par l'USB et par la broche 5V à la fois. Couper l'interrupteur ou débrancher le fil 5V avant de brancher l'USB pour téléverser.</li>
   </ul></div>
   <div class="checklist" data-tp="tp8"><h4>Checklist <small>TP8</small></h4>
     <label><input type="checkbox" id="tp8-c1"><span>Abaisseur réglé à 5,00 V avant branchement</span></label>
@@ -4852,6 +4963,71 @@ if __name__ == "__main__":
     bClr.addEventListener("click", function () { wall.fill(0); recompute(); });
     [inf, tDiag].forEach(function (x) { x.addEventListener("input", recompute); x.addEventListener("change", recompute); });
     return { draw: function () { draw(); }, fit: K.fit };
+  };
+
+  /* --- TP1 : la PWM sans oscilloscope --- */
+  builders.pwm = function (el) {
+    var body = shell(el, "wave", "La PWM vue à l'écran", "Ce que montrerait un oscilloscope sur GPIO 2, et ce qu'affiche un multimètre en tension continue.", false);
+    var K = canvasBox(body, 0.36);
+    var r1 = row(body);
+    var FREQS = [500, 1000, 2000, 5000, 10000, 20000, 40000];
+    var fIn = slider(r1, "pw-f", "Fréquence", 0, FREQS.length - 1, 1, 3, function (v) { var f = FREQS[v]; return f >= 1000 ? (f / 1000) + " kHz" : f + " Hz"; });
+    var bIn = slider(r1, "pw-b", "Résolution", 6, 14, 1, 8, function (v) { return v + " bits (0 à " + (Math.pow(2, v) - 1) + ")"; });
+    var dIn = slider(r1, "pw-d", "Rapport cyclique", 0, 100, 1, 25, function (v) { return v + " %"; });
+    var st = stats(body, ["Valeur pour ledcWrite", "Période", "Temps à l'état haut", "Multimètre (V continu)", "Configuration"]);
+    var C = colors();
+    legend(body, [[C.copper, "tension sur GPIO 2"], [C.teal, "moyenne lue par le multimètre"]]);
+    function us(x) { return x >= 1000 ? (x / 1000).toFixed(2).replace(".", ",") + " ms" : (Math.round(x * 10) / 10).toString().replace(".", ",") + " µs"; }
+    function draw() {
+      C = colors();
+      var ctx = K.ctx, W = K.d.w, H = K.d.h;
+      var f = FREQS[+fIn.value], bits = +bIn.value, max = Math.pow(2, bits) - 1;
+      var val = Math.round(+dIn.value / 100 * max), ratio = val / max, T = 1e6 / f, th = ratio * T;
+      var prod = f * Math.pow(2, bits), ok = prod <= 80e6;
+      ctx.clearRect(0, 0, W, H);
+      var pl = 52, pr = Math.min(120, W * 0.2), pt = 20, pb = 30, x0 = pl, x1 = W - pr, yH = pt + 8, yL = H - pb;
+      axes(ctx, C, x0, yH, x1, yL, 2);
+      ctx.font = "11px " + cssVar("--font-mono"); ctx.fillStyle = C.ink3; ctx.textAlign = "right";
+      ctx.fillText("3,3 V", x0 - 8, yH + 4); ctx.fillText("0 V", x0 - 8, yL + 4);
+      var per = (x1 - x0) / 3;
+      ctx.strokeStyle = ok ? C.copper : C.ink3; ctx.lineWidth = 2.4; ctx.setLineDash(ok ? [] : [6, 5]);
+      ctx.beginPath(); ctx.moveTo(x0, ratio > 0 ? yH : yL);
+      for (var k = 0; k < 3; k++) {
+        var a = x0 + k * per, b = a + ratio * per;
+        if (ratio > 0) { ctx.lineTo(a, yH); ctx.lineTo(b, yH); }
+        if (ratio < 1) { ctx.lineTo(b, yL); ctx.lineTo(a + per, yL); }
+        if (k < 2 && ratio > 0) ctx.lineTo(a + per, yH);
+      }
+      ctx.stroke(); ctx.setLineDash([]);
+      var ym = yL - ratio * (yL - yH);
+      ctx.strokeStyle = C.teal; ctx.lineWidth = 2; ctx.setLineDash([5, 4]);
+      ctx.beginPath(); ctx.moveTo(x0, ym); ctx.lineTo(x1, ym); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = C.teal; ctx.textAlign = "left";
+      ctx.fillText((3.3 * ratio).toFixed(2).replace(".", ",") + " V", x1 + 6, ym + 4);
+      // période
+      ctx.strokeStyle = C.ink2; ctx.fillStyle = C.ink2; ctx.lineWidth = 1;
+      var yA = H - 10;
+      ctx.beginPath(); ctx.moveTo(x0, yA); ctx.lineTo(x0 + per, yA); ctx.moveTo(x0, yA - 5); ctx.lineTo(x0, yA + 5); ctx.moveTo(x0 + per, yA - 5); ctx.lineTo(x0 + per, yA + 5); ctx.stroke();
+      ctx.textAlign = "center"; ctx.fillText("T = " + us(T), x0 + per / 2, yA - 5);
+      // LED
+      var lx = W - pr / 2 + 20, ly = (yH + yL) / 2, r = Math.min(26, pr / 3);
+      var g = ctx.createRadialGradient(lx, ly, 2, lx, ly, r * 2.2);
+      g.addColorStop(0, "rgba(255,90,60," + (0.15 + 0.85 * Math.pow(ratio, 0.6)) + ")"); g.addColorStop(1, "rgba(255,90,60,0)");
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(lx, ly, r * 2.2, 0, 7); ctx.fill();
+      ctx.fillStyle = C.bg2; ctx.strokeStyle = C.ink3; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(lx, ly, r * 0.6, 0, 7); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = "rgba(255,70,40," + (0.2 + 0.8 * Math.pow(ratio, 0.6)) + ")"; ctx.beginPath(); ctx.arc(lx, ly, r * 0.6, 0, 7); ctx.fill();
+      ctx.fillStyle = C.ink3; ctx.font = "11px " + cssVar("--font-body"); ctx.fillText("LED", lx, ly + r * 0.6 + 16);
+      st[0].textContent = val + " / " + max;
+      st[1].textContent = us(T);
+      st[2].textContent = us(th);
+      st[3].textContent = "≈ " + (3.3 * ratio).toFixed(2).replace(".", ",") + " V";
+      st[4].textContent = ok ? "acceptée" : "refusée";
+      st[4].className = ok ? "good" : "bad";
+      st[4].parentNode.title = "f × 2^bits = " + (prod / 1e6).toFixed(1).replace(".", ",") + " MHz (maximum 80 MHz)";
+      st[4].previousElementSibling.textContent = "f × 2ⁿ = " + (prod / 1e6).toFixed(1).replace(".", ",") + " MHz";
+    }
+    [fIn, bIn, dIn].forEach(function (x) { x.addEventListener("input", draw); });
+    return { draw: draw, fit: K.fit };
   };
 
   // construction paresseuse : une simulation n'est créée que lorsque sa page s'ouvre

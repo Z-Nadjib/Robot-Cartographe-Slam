@@ -1,7 +1,7 @@
 // config.h — toutes les constantes du robot au même endroit
 #pragma once
 
-// ---------- Broches ESP32 DevKit (voir la page Architecture) ----------
+// ---------- Broches ESP32-DevKitC V4, module WROOM-32E (voir la page Architecture) ----------
 #define PIN_SDA    21
 #define PIN_SCL    22
 #define PIN_SERVO  13
@@ -17,7 +17,7 @@
 #define PIN_ENC_RA 36
 #define PIN_ENC_RB 39
 #define PIN_VBAT   33   // pont diviseur 100 kΩ / 33 kΩ (ADC1 : compatible Wi-Fi)
-#define PIN_LED     2
+#define PIN_LED     2   // LED externe + 220 Ω vers GND (la DevKitC V4 n'a pas de LED utilisateur)
 
 // ---------- Sens (mettre -1 si une roue tourne ou compte à l'envers) ----------
 const int MOTOR_L_SIGN = +1, MOTOR_R_SIGN = +1;
