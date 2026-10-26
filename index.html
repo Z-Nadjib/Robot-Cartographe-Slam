@@ -633,8 +633,6 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border-radius: 
 .ix-fiche ol { margin: 0; padding-left: 22px; }
 .ix-fiche li { padding: 4px 6px; border-radius: 5px; font-size: 14px; transition: background .2s; margin: 0; }
 .ix-fiche li.cur { background: #ffe08a; font-weight: 600; }
-.em-fan { transform-box: fill-box; transform-origin: center; }
-.em-fan.on { animation: ix-spin .7s linear infinite; }
 @keyframes ix-spin { to { transform: rotate(360deg); } }
 
 /* montage fil par fil */
@@ -707,7 +705,7 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border-radius: 
 /* Animations d'entrée */
 .view { animation: rise .35s cubic-bezier(.2, .8, .2, 1); }
 @keyframes rise { from { opacity: 0; transform: translateY(8px); } }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+@media (prefers-reduced-motion: reduce) { :not(.widget *), :not(.widget *)::before, :not(.widget *)::after { animation: none !important; transition: none !important; } }
 
 /* ---------- Écrans moyens et petits ---------- */
 @media (max-width: 1280px) {
@@ -4983,7 +4981,7 @@ if __name__ == "__main__":
     K.cv.addEventListener("pointerdown", function (e) {
       var p = pick(e);
       boxes.forEach(function (b) { if (p.x >= b.x && p.x <= b.x + b.w && p.y >= b.y && p.y <= b.y + b.h) drag = { b: b, dx: p.x - b.x, dy: p.y - b.y }; });
-      if (drag) { K.cv.setPointerCapture(e.pointerId); K.cv.style.cursor = "grabbing"; }
+      if (drag) { try { K.cv.setPointerCapture(e.pointerId); } catch (_) {} K.cv.style.cursor = "grabbing"; }
     });
     K.cv.addEventListener("pointermove", function (e) {
       var p = pick(e);
@@ -5218,7 +5216,7 @@ if __name__ == "__main__":
     function mix(a, b, t) { return [0, 1, 2].map(function (k) { return Math.round(a[k] + (b[k] - a[k]) * t); }); }
     function toWorld(e) { var r = K.cv.getBoundingClientRect(), s = view().s; return { x: (e.clientX - r.left) / s, y: (K.d.h - (e.clientY - r.top)) / s }; }
     function freeAt(x, y) { if (x < 0.4 || x > 4.4 || y < 0.4 || y > 2.8) return false; for (var a = 0; a < 6.28; a += 0.5) if (cast(x, y, a) < 0.12) return false; return true; }
-    K.cv.addEventListener("pointerdown", function (e) { var p = toWorld(e); if (freeAt(p.x, p.y)) { robot.x = p.x; robot.y = p.y; drag = true; K.cv.setPointerCapture(e.pointerId); draw(); } });
+    K.cv.addEventListener("pointerdown", function (e) { var p = toWorld(e); if (freeAt(p.x, p.y)) { robot.x = p.x; robot.y = p.y; drag = true; try { K.cv.setPointerCapture(e.pointerId); } catch (_) {} draw(); } });
     K.cv.addEventListener("pointermove", function (e) { if (!drag) return; var p = toWorld(e), dx = p.x - robot.x, dy = p.y - robot.y; if (dx * dx + dy * dy > 0.01) { robot.th = Math.atan2(dy, dx); draw(); } });
     K.cv.addEventListener("pointerup", function () { drag = null; });
     bScan.addEventListener("click", scan);
@@ -5312,7 +5310,7 @@ if __name__ == "__main__":
     function cellAt(e) { var r = K.cv.getBoundingClientRect(), cs = K.d.w / NX; return [Math.max(0, Math.min(NX - 1, Math.floor((e.clientX - r.left) / cs))), Math.max(0, Math.min(NY - 1, Math.floor((e.clientY - r.top) / cs)))]; }
     K.cv.addEventListener("contextmenu", function (e) { e.preventDefault(); });
     K.cv.addEventListener("pointerdown", function (e) {
-      var c = cellAt(e); K.cv.setPointerCapture(e.pointerId);
+      var c = cellAt(e); try { K.cv.setPointerCapture(e.pointerId); } catch (_) {}
       if (c[0] === S[0] && c[1] === S[1]) mode = "S"; else if (c[0] === G[0] && c[1] === G[1]) mode = "G";
       else { mode = e.button === 2 || wall[c[1] * NX + c[0]] ? "erase" : "draw"; wall[c[1] * NX + c[0]] = mode === "draw" ? 1 : 0; recompute(); }
     });
@@ -5636,7 +5634,7 @@ if __name__ == "__main__":
       '<div><h4>Entrée : GPIO 0 lit le bouton BOOT</h4><p>La résistance de tirage garde la broche à 3,3 V. Appuyer relie la broche à GND : elle passe à 0.</p>' +
       '<svg class="ix-svg" viewBox="0 0 300 180"><text x="200" y="16" text-anchor="middle" class="v">3,3 V</text><path class="ix-wire" d="M200 22V40"/>' +
       '<path d="M200 40l-10 5 20 10-20 10 20 10-10 5" fill="none" stroke="var(--ink)" stroke-width="2.2" stroke-linejoin="round"/><text x="222" y="62">tirage</text>' +
-      '<path class="ix-wire i-w" d="M200 80V98H80M200 98V118M200 152V170H260"/><circle cx="200" cy="98" r="4" fill="var(--ink)"/>' +
+      '<path class="ix-wire" d="M200 98H80"/><path class="ix-wire i-w" d="M200 80V118M200 152V170H260"/><circle cx="200" cy="98" r="4" fill="var(--ink)"/>' +
       '<path class="ix-flow i-f" d="M200 22V40M200 80V98M200 98V118M200 152V170H260"/>' +
       '<g class="i-sw"><circle cx="200" cy="118" r="3.5" fill="var(--ink)"/><circle cx="200" cy="152" r="3.5" fill="var(--ink)"/><path class="i-lever" d="M200 118L222 146" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/></g>' +
       '<text x="240" y="138">BOOT</text><text x="268" y="174">GND</text>' +
@@ -5681,7 +5679,7 @@ if __name__ == "__main__":
       $(".i-log", body).textContent = t + ($(".i-deb", body).checked && n > acc ? " : l'anti-rebond a ignoré les fronts trop rapprochés" : "");
     }
     function release() { if (!down) return; down = false; btn.classList.remove("down"); level(false); }
-    btn.addEventListener("pointerdown", function (e) { e.preventDefault(); btn.setPointerCapture(e.pointerId); press(); });
+    btn.addEventListener("pointerdown", function (e) { e.preventDefault(); try { btn.setPointerCapture(e.pointerId); } catch (_) {} press(); });
     btn.addEventListener("pointerup", release); btn.addEventListener("pointercancel", release);
     btn.addEventListener("keydown", function (e) { if (e.key === " " || e.key === "Enter") { e.preventDefault(); press(); } });
     btn.addEventListener("keyup", function (e) { if (e.key === " " || e.key === "Enter") release(); });
@@ -5784,7 +5782,7 @@ if __name__ == "__main__":
     var SETUP = [["Serial.begin(115200);", "ouvrir le moniteur série"], ["pinMode(2, OUTPUT);", "la broche de la LED devient une sortie"], ["pinMode(0, INPUT_PULLUP);", "la broche du bouton devient une entrée, avec tirage"]];
     var LOOP = [["int b = digitalRead(0);", "lire le bouton : 0 si appuyé"], ["if (b == LOW) digitalWrite(2, HIGH);", "appuyé : allumer la LED"], ["else digitalWrite(2, LOW);", "sinon : l'éteindre"]];
     var DL = ["delay(500);", "attendre 500 ms… sans rien faire d'autre"];
-    var lines = [], idx = 0, tLine = 0, n = 0, pressed = false, led = false, pressT = null, booting = true;
+    var lines = [], idx = 0, tLine = 0, n = 0, pressed = false, led = false, pressT = null, booting = true, simT = 0;
     function render() {
       var withDl = $(".lp-dl", body).checked, h = '<div class="fn">void setup() {</div>';
       SETUP.forEach(function (l, i) { h += '<div class="ln" data-i="s' + i + '">' + l[0] + "<small>" + l[1] + "</small></div>"; });
@@ -5797,7 +5795,10 @@ if __name__ == "__main__":
     }
     var SLOW = 4; // ralenti : 1 ms réelle = 4 ms à l'écran
     function dur(id) { return id === "d" ? 500 * SLOW : 420; }
-    function restart() { idx = 0; n = 0; booting = true; tLine = performance.now(); led = false; $(".lp-n", body).textContent = 0; $(".lp-r", body).textContent = "–"; }
+    // temps « réel » simulé, en ms : une ligne normale prend quelques microsecondes, delay(500) prend 500 ms
+    function simNow() { return simT + (lines[idx] === "d" ? Math.min(500, (performance.now() - tLine) / SLOW) : 0); }
+    var rEl = $(".lp-r", body), nEl = $(".lp-n", body);
+    function restart() { idx = 0; n = 0; booting = true; tLine = performance.now(); led = false; simT = 0; pressT = null; nEl.textContent = 0; rEl.textContent = "–"; rEl.className = "lp-r"; }
     function exec(id) {
       if (id === "l0") { var b = pressed; exec.b = b; }
       if (id === "l1" && exec.b) setLed(true);
@@ -5805,8 +5806,8 @@ if __name__ == "__main__":
     }
     function setLed(v) {
       if (v !== led && pressT !== null) {
-        var ms = (performance.now() - pressT) / SLOW;
-        var r = $(".lp-r", body); r.textContent = ms < 5 ? "immédiate" : Math.round(ms) + " ms de retard"; r.className = ms < 5 ? "good" : ms > 100 ? "bad" : "";
+        var ms = simNow() - pressT;
+        rEl.textContent = ms < 5 ? "immédiate" : Math.round(ms) + " ms de retard"; rEl.className = "lp-r " + (ms < 5 ? "good" : ms > 100 ? "bad" : "");
         pressT = null;
       }
       led = v; $(".lp-led", body).classList.toggle("on", v);
@@ -5815,15 +5816,16 @@ if __name__ == "__main__":
       requestAnimationFrame(tick);
       if (!isShown(el)) { tLine = t; return; }
       if (t - tLine >= dur(lines[idx])) {
+        simT += lines[idx] === "d" ? 500 : 0.002;
         tLine = t; exec(lines[idx]); idx++;
-        if (idx >= lines.length) { idx = SETUP.length; n++; $(".lp-n", body).textContent = n; booting = false; }
+        if (idx >= lines.length) { idx = SETUP.length; n++; nEl.textContent = n; booting = false; }
       }
       $$(".ln", code).forEach(function (l) { l.classList.toggle("cur", l.getAttribute("data-i") === lines[idx]); });
     }
     var btn = $(".lp-btn", body);
-    function down() { if (pressed) return; pressed = true; pressT = performance.now(); btn.classList.add("down"); }
-    function up() { if (!pressed) return; pressed = false; pressT = performance.now(); btn.classList.remove("down"); }
-    btn.addEventListener("pointerdown", function (e) { e.preventDefault(); btn.setPointerCapture(e.pointerId); down(); });
+    function down() { if (pressed) return; pressed = true; pressT = simNow(); btn.classList.add("down"); }
+    function up() { if (!pressed) return; pressed = false; pressT = simNow(); btn.classList.remove("down"); }
+    btn.addEventListener("pointerdown", function (e) { e.preventDefault(); try { btn.setPointerCapture(e.pointerId); } catch (_) {} down(); });
     btn.addEventListener("pointerup", up); btn.addEventListener("pointercancel", up);
     $(".lp-dl", body).addEventListener("change", function () { var keep = lines[idx]; render(); idx = Math.max(SETUP.length, lines.indexOf(keep)); if (idx < 0) idx = SETUP.length; });
     $(".lp-en", body).addEventListener("click", function () { setLed(false); render(); restart(); });
@@ -5889,14 +5891,13 @@ if __name__ == "__main__":
     var r = row(body);
     var tIn = slider(r, "em-t", "Température de la pièce", 15, 35, 1, 22, function (v) { return v + " °C"; });
     var st = stats(body, ["Tours de la fiche", "Dernière lecture", "Ventilateur"]);
-    var k = 0, tl = 0, lu = null, fan = false, n = 0, items = $$(".ix-fiche li", body);
+    var k = 0, tl = 0, lu = null, fan = false, n = 0, items = $$(".ix-fiche li", body), fanEl = $(".em-fan", body), ang = 0, spd = 0, tPrev = 0;
     function mer() { var t = +tIn.value, h = 150 * (t - 10) / 30; var m = $(".em-mer", body); m.setAttribute("y", (176 - h).toFixed(1)); m.setAttribute("height", (h + 14).toFixed(1)); $(".em-t", body).textContent = t + " °C"; }
     function step() {
       if (k === 0) { lu = +tIn.value; st[1].textContent = lu + " °C"; $(".em-thk", body).textContent = "lu : " + lu + " °C"; }
       if (k === 1 && lu > 25) fan = true;
       if (k === 2 && lu <= 25) fan = false;
       if (k === 3) { n++; st[0].textContent = n; }
-      $(".em-fan", body).classList.toggle("on", fan);
       st[2].textContent = fan ? "allumé" : "éteint"; st[2].className = fan ? "good" : "";
       $(".em-f1", body).classList.toggle("on", k === 0);
       $(".em-f2", body).classList.toggle("on", (k === 1 && lu > 25) || (k === 2 && lu <= 25));
@@ -5905,8 +5906,14 @@ if __name__ == "__main__":
     }
     function tick(t) {
       requestAnimationFrame(tick);
+      var dt = Math.min(0.05, (t - tPrev) / 1000); tPrev = t;
       if (!isShown(el)) { tl = t; return; }
       if (t - tl > 1100) { tl = t; step(); k = (k + 1) % 4; }
+      // le ventilateur accélère et ralentit progressivement (inertie), jusqu'à 1,5 tour par seconde
+      spd += ((fan ? 540 : 0) - spd) * Math.min(1, dt * (fan ? 1.6 : 0.9));
+      if (spd < 2 && !fan) spd = 0;
+      ang = (ang + spd * dt) % 360;
+      fanEl.setAttribute("transform", "rotate(" + ang.toFixed(1) + " 368 100)");
     }
     tIn.addEventListener("input", mer);
     mer(); requestAnimationFrame(tick);
@@ -5939,11 +5946,11 @@ if __name__ == "__main__":
       '<rect x="' + ((cx(3) + cx(8)) / 2 - 24) + '" y="' + (ry(2) + 14) + '" width="48" height="17" rx="4" fill="#efeae0"/><text x="' + ((cx(3) + cx(8)) / 2) + '" y="' + (ry(2) + 26) + '" text-anchor="middle" font-size="11" fill="#5c5446">220 Ω</text></g>';
     // LED : anode (longue) colonne 8 rangée d, cathode colonne 10 rangée d
     s += '<g class="ix-show w3" opacity="0"><path d="M' + cx(8) + ' ' + ry(3) + 'L' + (cx(9) - 7) + ' ' + (ry(0) - 4) + '" stroke="#8a8a8a" stroke-width="2.5"/><path d="M' + cx(10) + ' ' + ry(3) + 'L' + (cx(9) + 7) + ' ' + (ry(0) + 6) + '" stroke="#8a8a8a" stroke-width="2.5"/>' +
-      '<circle class="w-led" cx="' + cx(9) + '" cy="' + (ry(0) - 14) + '" r="15" fill="#c0392b" stroke="#7d1f15" stroke-width="2"/>' +
+      '<circle class="w-led" cx="' + cx(9) + '" cy="' + (ry(0) - 14) + '" r="15" fill="#6b1d15" stroke="#4a130d" stroke-width="2"/>' +
       '<text x="' + (cx(8) - 6) + '" y="' + (ry(4) + 18) + '" text-anchor="end" font-size="11" fill="#5c5446">+ longue</text><text x="' + (cx(10) + 6) + '" y="' + (ry(4) + 18) + '" font-size="11" fill="#5c5446">− courte</text></g>';
     // fil cathode -> GND
     s += '<path class="ix-draw w4" d="M' + cx(10) + ' ' + ry(4) + 'C' + cx(10) + ' 250 260 230 188 230" stroke="#2a2a2a" stroke-width="5"/>';
-    s += '<path class="ix-flow w-flow" d="M188 70C240 70 250 ' + ry(0) + ' ' + cx(3) + ' ' + ry(0) + 'V' + ry(2) + 'H' + cx(8) + 'V' + ry(3) + 'H' + cx(10) + 'V' + ry(4) + 'C' + cx(10) + ' 250 260 230 188 230"/>';
+    s += '<path class="ix-flow w-flow" d="M188 70C240 70 250 ' + ry(0) + ' ' + cx(3) + ' ' + ry(0) + 'V' + ry(2) + 'H' + cx(8) + 'V' + ry(3) + 'L' + (cx(9) - 7) + ' ' + (ry(0) - 4) + 'L' + (cx(9) + 7) + ' ' + (ry(0) + 6) + 'L' + cx(10) + ' ' + ry(3) + 'V' + ry(4) + 'C' + cx(10) + ' 250 260 230 188 230"/>';
     s += "</svg>";
     body.insertAdjacentHTML("beforeend", s + '<div class="ix-cap"><b></b><p></p></div>');
     var r = row(body), bP = button(r, "◀ Précédent"), bN = button(r, "Suivant ▶", true);
@@ -5970,8 +5977,8 @@ if __name__ == "__main__":
       $$("i", dotsEl).forEach(function (d, k) { d.classList.toggle("on", k <= cur); });
       $("small", dotsEl).textContent = "étape " + cur + " / " + (STEPS.length - 1);
       bP.disabled = cur === 0; bN.disabled = cur === STEPS.length - 1;
-      clearInterval(blink); var led = $(".w-led", svg), fl = $(".w-flow", svg); led.setAttribute("fill", "#c0392b"); led.style.filter = ""; fl.classList.remove("on");
-      if (st.run) { var on = false; blink = setInterval(function () { if (!isShown(el)) return; on = !on; led.setAttribute("fill", on ? "#ff4a32" : "#c0392b"); led.style.filter = on ? "drop-shadow(0 0 8px #ff4a32)" : ""; fl.classList.toggle("on", on); }, 500); }
+      clearInterval(blink); var led = $(".w-led", svg), fl = $(".w-flow", svg); led.setAttribute("fill", "#6b1d15"); led.style.filter = ""; fl.classList.remove("on");
+      if (st.run) { var on = false; blink = setInterval(function () { if (!isShown(el)) return; on = !on; led.setAttribute("fill", on ? "#ff4a32" : "#6b1d15"); led.style.filter = on ? "drop-shadow(0 0 8px #ff4a32)" : ""; fl.classList.toggle("on", on); }, 500); }
     }
     bP.addEventListener("click", function () { go(cur - 1); });
     bN.addEventListener("click", function () { go(cur + 1); });
